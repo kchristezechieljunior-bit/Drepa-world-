@@ -4,28 +4,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#102f29">
+<meta name="theme-color" content="#102c35">
 <meta name="description" content="DREPA-WORLD — Une communauté mondiale. Une solidarité sans frontières.">
 <title>Mon espace | DREPA-WORLD</title>
 
 <style>
 :root {
-  --forest: #123c32;
-  --forest-dark: #0b2923;
-  --forest-light: #20594a;
-  --gold: #c9a96e;
-  --gold-soft: #e6d6b5;
-  --cream: #f8f6f0;
-  --white: #ffffff;
-  --text: #25332e;
-  --muted: #78827d;
-  --border: #e9e9e2;
+  --forest: #102c35;
+  --forest-light: #193e47;
+  --gold: #c6a66a;
+  --gold-light: #e5d1a5;
+  --background: #f4f6f5;
   --surface: #ffffff;
-  --soft-green: #eef4ef;
-  --danger: #b74d4d;
-  --success: #397b59;
-  --shadow: 0 12px 40px rgba(20, 49, 39, .055);
-  --radius: 20px;
+  --text: #203238;
+  --muted: #78878a;
+  --border: #e7ecea;
+  --success: #2c8065;
+  --danger: #bd5555;
+  --radius: 18px;
+  --shadow: 0 8px 30px rgba(16,44,53,.055);
 }
 
 * {
@@ -40,37 +37,26 @@ html {
 
 body {
   min-height: 100vh;
-  background: #f5f5ef;
+  background: var(--background);
   color: var(--text);
   font-family: Inter, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+    "Segoe UI", Roboto, sans-serif;
   font-size: 14px;
+  line-height: 1.55;
   overflow-x: hidden;
-  transition: background 1s ease;
+  transition: background .5s ease;
 }
 
 body[data-period="morning"] {
-  background:
-    radial-gradient(ellipse at 15% 0%, rgba(238, 215, 171, .24), transparent 38%),
-    #f7f6f0;
-}
-
-body[data-period="day"] {
-  background:
-    radial-gradient(ellipse at 90% 0%, rgba(173, 204, 180, .16), transparent 40%),
-    #f5f6f1;
+  background: #f5f6f2;
 }
 
 body[data-period="evening"] {
-  background:
-    radial-gradient(ellipse at 10% 0%, rgba(217, 166, 111, .18), transparent 42%),
-    #f4f1e9;
+  background: #f5f0e9;
 }
 
 body[data-period="night"] {
-  background:
-    radial-gradient(ellipse at 90% 0%, rgba(70, 104, 112, .13), transparent 42%),
-    #eff1ef;
+  background: #edf0f1;
 }
 
 button,
@@ -85,6 +71,7 @@ button {
 
 button:disabled {
   cursor: not-allowed;
+  opacity: .55;
 }
 
 a {
@@ -92,14 +79,23 @@ a {
   text-decoration: none;
 }
 
+img,
+video {
+  max-width: 100%;
+}
+
 svg {
   width: 20px;
   height: 20px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.7;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+[hidden] {
+  display: none !important;
 }
 
 .sr-only {
@@ -109,109 +105,92 @@ svg {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip: rect(0,0,0,0);
   white-space: nowrap;
   border: 0;
 }
 
-/* =====================================
-   AMBIANCE
-===================================== */
+/* AMBIANCE */
 
 .ambient-glow {
   position: fixed;
   top: -180px;
-  left: 35%;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: rgba(201, 169, 110, .075);
-  filter: blur(100px);
+  left: 50%;
+  width: 600px;
+  height: 400px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse,
+    rgba(198,166,106,.09),
+    transparent 70%
+  );
   pointer-events: none;
   z-index: -1;
 }
 
-/* =====================================
-   HEADER
-===================================== */
+/* BARRE SUPÉRIEURE */
 
 .topbar {
-  height: 76px;
-  padding: 0 4.5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  background: rgba(255, 255, 255, .88);
-  border-bottom: 1px solid rgba(225, 227, 219, .8);
-  backdrop-filter: blur(18px);
+  height: 70px;
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(16px);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-width: 235px;
+  gap: 11px;
 }
 
 .brand-mark {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
+  width: 39px;
+  height: 39px;
   display: grid;
   place-items: center;
-  background: linear-gradient(145deg, #1d5948, #0d3028);
-  color: white;
-  font-family: Georgia, serif;
-  font-size: 24px;
-  box-shadow: 0 5px 14px rgba(18, 60, 50, .2);
+  background: var(--forest);
+  color: var(--gold-light);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -1px;
 }
 
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.brand-text strong {
+.brand-name {
   color: var(--forest);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 800;
   letter-spacing: 1.5px;
 }
 
-.brand-text small {
-  color: #929a93;
+.brand-subtitle {
+  display: block;
+  color: var(--muted);
   font-size: 10px;
-  letter-spacing: .25px;
-}
-
-.topbar-center {
-  flex: 1;
-  text-align: center;
-}
-
-.topbar-message {
-  color: #8b928b;
-  font-size: 12px;
-  font-style: italic;
-  letter-spacing: .3px;
+  letter-spacing: .5px;
+  font-weight: 500;
 }
 
 .topbar-actions {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
 .icon-button {
   width: 40px;
   height: 40px;
   border: 1px solid var(--border);
-  background: white;
   border-radius: 13px;
+  background: white;
   color: var(--forest);
   display: grid;
   place-items: center;
@@ -219,37 +198,30 @@ svg {
 }
 
 .icon-button:hover {
-  background: var(--soft-green);
-  transform: translateY(-2px);
+  background: #f1f4f2;
+  border-color: #d5dfda;
 }
 
-.icon-button.is-loading svg {
-  animation: rotate 1s linear infinite;
-}
-
-.account-chip {
+.profile-shortcut {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: var(--forest);
-  font-weight: 650;
-  font-size: 13px;
 }
 
 .avatar {
   flex-shrink: 0;
   display: grid;
   place-items: center;
+  background: linear-gradient(145deg, #234d55, #102c35);
+  color: var(--gold-light);
+  font-weight: 700;
   border-radius: 50%;
-  background: linear-gradient(145deg, #d9e8dc, #b8d0bd);
-  color: #174b3c;
-  font-weight: 750;
   letter-spacing: .5px;
 }
 
 .avatar-small {
-  width: 34px;
-  height: 34px;
+  width: 37px;
+  height: 37px;
   font-size: 12px;
 }
 
@@ -260,53 +232,65 @@ svg {
 }
 
 .avatar-large {
-  width: 48px;
-  height: 48px;
-  font-size: 16px;
+  width: 54px;
+  height: 54px;
+  font-size: 17px;
 }
 
-/* =====================================
-   APP LAYOUT
-===================================== */
+.profile-shortcut strong {
+  color: var(--forest);
+  font-size: 13px;
+}
 
-.app-shell {
-  width: min(1440px, 96%);
-  margin: 32px auto 70px;
+/* STRUCTURE PRINCIPALE */
+
+.app-layout {
+  width: min(1400px, 94%);
+  margin: 30px auto 70px;
   display: grid;
-  grid-template-columns: 230px minmax(0, 660px) 255px;
-  gap: 30px;
+  grid-template-columns: 225px minmax(0, 1fr) 270px;
+  gap: 25px;
   align-items: start;
 }
 
-.sidebar {
-  min-width: 0;
-}
-
-.left-sidebar {
-  position: sticky;
-  top: 105px;
-}
-
-.main-content {
-  min-width: 0;
-}
-
+.left-sidebar,
 .right-sidebar {
   position: sticky;
-  top: 105px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
+  top: 95px;
 }
 
-/* =====================================
-   RESPONSIVE BASE
-===================================== */
+.sidebar-card {
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
 
-@media (max-width: 1150px) {
-  .app-shell {
-    grid-template-columns: 210px minmax(0, 1fr);
-    max-width: 960px;
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sidebar-profile strong {
+  display: block;
+  color: var(--forest);
+  font-size: 13px;
+}
+
+.sidebar-profile small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* RESPONSIVE DE BASE */
+
+@media (max-width: 1050px) {
+  .app-layout {
+    grid-template-columns: 200px minmax(0, 1fr);
   }
 
   .right-sidebar {
@@ -314,50 +298,33 @@ svg {
   }
 }
 
-@media (max-width: 760px) {
+@media (max-width: 700px) {
   .topbar {
-    height: 64px;
+    height: 62px;
     padding: 0 16px;
   }
 
-  .brand {
-    min-width: 0;
+  .brand-name {
+    font-size: 14px;
   }
 
-  .brand-mark {
-    width: 37px;
-    height: 37px;
-    border-radius: 12px;
-    font-size: 21px;
+  .brand-subtitle {
+    font-size: 9px;
   }
 
-  .brand-text strong {
-    font-size: 13px;
-  }
-
-  .brand-text small,
-  .topbar-center,
-  .account-chip > span {
+  .profile-shortcut strong {
     display: none;
   }
 
-  .topbar-actions {
-    gap: 10px;
-  }
-
-  .app-shell {
-    display: block;
+  .app-layout {
     width: 100%;
-    margin: 0 auto 90px;
-    padding: 0 14px;
+    margin: 16px auto 90px;
+    padding: 0 13px;
+    display: block;
   }
 
   .left-sidebar {
     display: none;
-  }
-
-  .main-content {
-    width: 100%;
   }
 }
 
@@ -367,563 +334,329 @@ svg {
   *::after {
     scroll-behavior: auto !important;
     animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
 }
 </style>
-</head>
-
+  </head>
+  
 <style>
-/* =====================================
-   NAVIGATION GAUCHE
-===================================== */
+/* NAVIGATION LATÉRALE */
 
-.sidebar-profile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 15px 12px 22px;
-  border-bottom: 1px solid var(--border);
-}
-
-.sidebar-profile-info {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.sidebar-profile-info strong {
-  color: var(--forest);
-  font-size: 13px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.sidebar-profile-info span {
-  color: var(--muted);
-  font-size: 10px;
-}
-
-.sidebar-label {
-  color: #a0a79f;
-  font-size: 10px;
-  font-weight: 750;
-  letter-spacing: 1.5px;
-  margin: 25px 12px 12px;
-}
-
-.main-navigation {
+.sidebar-nav {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  padding-top: 17px;
+}
+
+.nav-label {
+  margin: 5px 0 8px;
+  color: #9aa5a5;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
 }
 
 .nav-item {
   width: 100%;
-  min-height: 46px;
-  padding: 0 12px;
+  min-height: 43px;
   display: flex;
   align-items: center;
   gap: 12px;
+  padding: 0 12px;
   border: 0;
-  border-radius: 13px;
+  border-radius: 11px;
   background: transparent;
-  color: #78847d;
+  color: #657578;
   text-align: left;
-  transition: background .2s ease, color .2s ease;
+  font-size: 13px;
+  font-weight: 600;
+  transition: .2s ease;
 }
 
 .nav-item svg {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
 }
 
-.nav-item span {
-  font-size: 12px;
-  font-weight: 600;
-  flex: 1;
-}
-
-.nav-item:hover:not(:disabled) {
-  background: #edf3ed;
+.nav-item:hover,
+.nav-item.active {
   color: var(--forest);
+  background: #eef3f0;
 }
 
 .nav-item.active {
-  color: var(--forest);
-  background: #e8f0e9;
   font-weight: 750;
 }
 
 .nav-item.active::before {
   content: "";
   position: absolute;
+  left: 0;
   width: 3px;
   height: 25px;
-  margin-left: -12px;
-  border-radius: 5px;
   background: var(--gold);
+  border-radius: 0 4px 4px 0;
 }
 
-.nav-item:disabled {
-  opacity: .65;
-}
-
-.nav-item small {
-  color: #a0a79f;
-  font-size: 9px;
-}
-
-.sidebar-bottom {
-  margin-top: 45px;
-}
-
-.sidebar-note {
-  padding: 17px;
-  background: linear-gradient(145deg, #eaf1e9, #f5f5ed);
-  border: 1px solid #e4eae1;
-  border-radius: 17px;
-}
-
-.note-symbol {
-  width: 28px;
-  height: 28px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 12px;
-  background: var(--forest);
-  color: white;
-  border-radius: 9px;
-  font-family: Georgia, serif;
-  font-size: 16px;
-}
-
-.sidebar-note strong {
-  display: block;
-  color: var(--forest);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.sidebar-note p {
-  margin-top: 7px;
-  color: #77847a;
-  font-size: 10px;
-  line-height: 1.7;
+.sidebar-footer {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid var(--border);
 }
 
 .logout-button {
   width: 100%;
-  margin-top: 17px;
-  padding: 12px;
   display: flex;
   align-items: center;
   gap: 11px;
-  background: transparent;
+  padding: 11px 12px;
   border: 0;
-  border-radius: 12px;
-  color: #8b7774;
+  border-radius: 10px;
+  background: transparent;
+  color: #a65a5a;
+  font-size: 13px;
+  font-weight: 650;
   text-align: left;
-  transition: .2s ease;
 }
 
 .logout-button:hover {
-  background: #f8ecea;
-  color: var(--danger);
+  background: #fff2f1;
 }
 
-.logout-button svg {
-  width: 18px;
-  height: 18px;
-}
+/* INTRODUCTION */
 
-.logout-button span {
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* =====================================
-   ACCUEIL
-===================================== */
-
-.welcome-section {
-  min-height: 205px;
+.community-welcome {
   position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 35px;
-  border-radius: 23px;
-  background:
-    radial-gradient(circle at 85% 20%, rgba(201,169,110,.2), transparent 32%),
-    linear-gradient(125deg, #153f34, #0d2d27);
-  box-shadow: 0 15px 35px rgba(14, 50, 39, .13);
+  padding: 25px;
+  margin-bottom: 20px;
+  background: linear-gradient(120deg, #102c35, #214c52);
   color: white;
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(16,44,53,.12);
 }
 
-.welcome-copy {
-  position: relative;
-  z-index: 2;
-  max-width: 440px;
-}
-
-.eyebrow {
-  display: block;
-  color: #a4b5a9;
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 1.8px;
-}
-
-.welcome-copy .eyebrow {
-  color: #d1bc91;
-}
-
-.welcome-copy h1 {
-  margin-top: 14px;
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(26px, 3vw, 37px);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -.7px;
-}
-
-.welcome-copy h1 span {
-  color: #d7bd8d;
-  font-style: italic;
-}
-
-.welcome-copy p {
-  max-width: 390px;
-  margin-top: 12px;
-  color: rgba(255,255,255,.72);
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-.welcome-decoration {
-  width: 150px;
-  height: 150px;
-  position: relative;
-  flex-shrink: 0;
-  margin-right: 12px;
-  display: grid;
-  place-items: center;
-}
-
-.decoration-ring {
+.community-welcome::after {
+  content: "";
   position: absolute;
-  border: 1px solid rgba(221, 199, 154, .32);
+  width: 210px;
+  height: 210px;
+  right: -65px;
+  top: -100px;
+  border: 1px solid rgba(229,209,165,.22);
   border-radius: 50%;
+  box-shadow:
+    0 0 0 24px rgba(229,209,165,.035),
+    0 0 0 50px rgba(229,209,165,.025);
 }
 
-.ring-one {
-  width: 105px;
-  height: 105px;
+.welcome-eyebrow {
+  color: var(--gold-light);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-.ring-two {
-  width: 145px;
-  height: 145px;
-  border-style: dashed;
-  border-color: rgba(221, 199, 154, .22);
+.community-welcome h1 {
+  max-width: 480px;
+  margin: 9px 0;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.2;
+  font-weight: 750;
 }
 
-.decoration-core {
-  width: 63px;
-  height: 63px;
-  display: grid;
-  place-items: center;
-  border-radius: 21px;
-  background: linear-gradient(145deg, #d8bd8d, #a88a57);
-  color: #183d31;
-  font-family: Georgia, serif;
-  font-size: 35px;
-  box-shadow: 0 8px 25px rgba(0,0,0,.16);
+.community-welcome p {
+  max-width: 470px;
+  color: rgba(255,255,255,.76);
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-/* =====================================
-   INTRODUCTION COMMUNAUTAIRE
-===================================== */
-
-.community-intro {
-  margin: 18px 0 30px;
-  padding: 15px 18px;
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  background: rgba(255,255,255,.67);
-  border: 1px solid rgba(229,232,224,.9);
-  border-radius: 15px;
-}
-
-.intro-indicator {
-  width: 8px;
-  height: 8px;
-  flex-shrink: 0;
-  margin-top: 5px;
-  border-radius: 50%;
-  background: #b79a63;
-  box-shadow: 0 0 0 4px rgba(183,154,99,.12);
-}
-
-.community-intro strong {
-  display: block;
-  color: var(--forest);
-  font-size: 12px;
-}
-
-.community-intro p {
-  margin-top: 5px;
-  color: #858e86;
-  font-size: 11px;
-  line-height: 1.6;
-}
-
-/* =====================================
-   TITRE DU FIL
-===================================== */
+/* EN-TÊTE DU FIL */
 
 .feed-heading {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 17px;
-}
-
-.feed-heading .eyebrow {
-  color: #9c9e8d;
+  gap: 12px;
+  margin: 24px 2px 15px;
 }
 
 .feed-heading h2 {
-  margin-top: 8px;
   color: var(--forest);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 25px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 800;
 }
 
 .feed-heading p {
-  margin-top: 6px;
-  color: #90978f;
-  font-size: 11px;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
-.refresh-text-button {
-  padding: 9px 13px;
+.refresh-button {
+  width: 39px;
+  height: 39px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
   background: white;
-  border: 1px solid var(--border);
-  border-radius: 10px;
   color: var(--forest);
-  font-size: 11px;
-  font-weight: 650;
-  transition: .2s ease;
+  border: 1px solid var(--border);
+  border-radius: 12px;
 }
 
-.refresh-text-button:hover {
-  background: var(--soft-green);
+.refresh-button:hover {
+  background: #f0f4f1;
 }
 
-.refresh-text-button:disabled {
-  opacity: .5;
+.refresh-button.is-loading svg {
+  animation: spin 1s linear infinite;
 }
 
-/* =====================================
-   COMPOSITEUR
-===================================== */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* COMPOSITEUR */
 
 .composer-card {
-  padding: 21px;
-  margin-bottom: 26px;
-  background: rgba(255,255,255,.94);
-  border: 1px solid #e9ebe4;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: border-color .25s ease, box-shadow .25s ease;
-}
-
-.composer-card:focus-within {
-  border-color: #cbd9ca;
-  box-shadow: 0 15px 38px rgba(20, 49, 39, .075);
 }
 
 .composer-top {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.composer-identity {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  margin-bottom: 15px;
 }
 
 .composer-identity strong {
+  display: block;
   color: var(--forest);
-  font-size: 12px;
-}
-
-.composer-identity span {
-  color: #9aa199;
-  font-size: 10px;
-}
-
-#postContent {
-  width: 100%;
-  min-height: 95px;
-  margin-top: 18px;
-  padding: 14px 2px;
-  resize: vertical;
-  border: 0;
-  outline: none;
-  background: transparent;
-  color: var(--text);
   font-size: 13px;
-  line-height: 1.8;
 }
 
-#postContent::placeholder {
-  color: #a6ada5;
+.composer-identity small {
+  color: var(--muted);
+  font-size: 11px;
 }
 
-.composer-divider {
-  height: 1px;
-  margin: 8px 0 13px;
-  background: #eef0ea;
+.composer-card textarea {
+  width: 100%;
+  min-height: 105px;
+  resize: vertical;
+  padding: 15px;
+  background: #f7f9f8;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  outline: none;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  transition: .2s ease;
 }
 
-.composer-footer {
+.composer-card textarea:focus {
+  background: white;
+  border-color: #bdcfc7;
+  box-shadow: 0 0 0 3px rgba(44,128,101,.07);
+}
+
+.composer-card textarea::placeholder {
+  color: #a1acab;
+}
+
+.composer-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-}
-
-.composer-tools {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  margin-top: 13px;
 }
 
 .media-picker {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 11px;
-  color: #718076;
+  padding: 10px 12px;
+  background: #f1f5f2;
+  color: var(--forest);
+  border: 0;
   border-radius: 10px;
-  cursor: pointer;
-  transition: .2s ease;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .media-picker:hover {
-  background: #edf4ee;
-  color: var(--forest);
+  background: #e6eee9;
 }
 
 .media-picker svg {
-  width: 18px;
-  height: 18px;
-}
-
-.media-picker span {
-  font-size: 11px;
-  font-weight: 600;
+  width: 17px;
+  height: 17px;
 }
 
 .publish-button {
-  min-height: 40px;
-  padding: 0 17px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
+  min-width: 110px;
+  padding: 11px 20px;
+  background: var(--forest);
+  color: white;
   border: 0;
   border-radius: 11px;
-  background: linear-gradient(135deg, #1c5948, #103b30);
-  color: white;
-  font-size: 11px;
-  font-weight: 700;
-  box-shadow: 0 5px 13px rgba(18,60,50,.16);
-  transition: transform .2s ease, box-shadow .2s ease;
+  font-size: 12px;
+  font-weight: 750;
+  transition: .2s ease;
 }
 
-.publish-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(18,60,50,.22);
+.publish-button:hover {
+  background: var(--forest-light);
+  transform: translateY(-1px);
 }
 
-.publish-button:disabled {
-  opacity: .6;
-}
-
-.publish-button svg {
-  width: 16px;
-  height: 16px;
+.publish-button.is-loading {
+  opacity: .7;
 }
 
 .media-selection {
-  margin-top: 8px;
-  padding: 10px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  border-radius: 11px;
-  background: #f0f5ef;
-}
-
-.media-selection[hidden] {
-  display: none;
-}
-
-.media-selection-info {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  min-width: 0;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f2f6f3;
+  border: 1px solid #e1eae4;
+  border-radius: 10px;
   color: var(--forest);
+  font-size: 12px;
 }
 
-.media-selection-info svg {
-  width: 17px;
-  height: 17px;
-  flex-shrink: 0;
-}
-
-.media-selection-info span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.remove-media-button {
+  padding: 5px 9px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--danger);
   font-size: 11px;
-}
-
-#removeMediaButton {
-  padding: 6px 9px;
-  border: 0;
-  border-radius: 8px;
-  background: #f8e9e6;
-  color: #a34c43;
-  font-size: 10px;
-  font-weight: 650;
 }
 
 .form-message {
   min-height: 0;
-  margin-top: 0;
-  font-size: 11px;
-  line-height: 1.5;
+  margin-top: 9px;
+  font-size: 12px;
 }
 
-.form-message:not(:empty) {
-  margin-top: 12px;
+.form-message:empty {
+  display: none;
 }
 
 .form-message.success {
@@ -934,24 +667,53 @@ svg {
   color: var(--danger);
 }
 
-/* =====================================
-   PUBLICATIONS
-===================================== */
+/* RESPONSIVE */
 
-.feed-list {
-  display: flex;
-  flex-direction: column;
-  gap: 17px;
+@media (max-width: 700px) {
+  .community-welcome {
+    padding: 21px;
+    border-radius: 16px;
+  }
+
+  .community-welcome h1 {
+    font-size: 23px;
+  }
+
+  .composer-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .composer-card textarea {
+    min-height: 95px;
+  }
 }
+  
+
+    </style>
+  
+<style>
+/* CARTES DE PUBLICATION */
 
 .post-card {
-  min-width: 0;
-  padding: 21px;
-  background: rgba(255,255,255,.96);
-  border: 1px solid #e9ebe5;
+  margin-top: 17px;
+  padding: 19px;
+  background: white;
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: 0 7px 25px rgba(20,49,39,.035);
-  animation: appear .35s ease both;
+  box-shadow: var(--shadow);
+  animation: postAppear .35s ease both;
+}
+
+@keyframes postAppear {
+  from {
+    opacity: 0;
+    transform: translateY(9px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .post-header {
@@ -962,128 +724,121 @@ svg {
 
 .post-author-info {
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+  flex: 1;
 }
 
 .post-author-info strong {
+  display: block;
+  overflow: hidden;
   color: var(--forest);
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 750;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .post-author-info span {
-  color: #a1a79f;
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
   font-size: 10px;
 }
 
 .post-brand-mark {
-  width: 27px;
-  height: 27px;
-  margin-left: auto;
+  width: 28px;
+  height: 28px;
   display: grid;
   place-items: center;
+  background: #f3f5f1;
+  color: var(--gold);
   border-radius: 9px;
-  background: #edf3ed;
-  color: #577663;
-  font-family: Georgia, serif;
-  font-size: 15px;
+  font-weight: 800;
 }
 
 .post-content {
-  margin-top: 17px;
-  color: #414c45;
+  margin: 16px 0;
+  color: #34464a;
   font-size: 13px;
-  line-height: 1.85;
+  line-height: 1.8;
   overflow-wrap: anywhere;
 }
 
+/* MÉDIAS */
+
 .post-media-container {
-  margin-top: 16px;
   overflow: hidden;
-  border-radius: 14px;
-  background: #f0f2ed;
+  margin-top: 14px;
+  background: #f1f4f2;
+  border-radius: 13px;
 }
 
 .post-media {
   display: block;
   width: 100%;
-  max-height: 470px;
+  max-height: 500px;
   object-fit: contain;
-  background: #eef0ec;
+  background: #111;
 }
 
 .media-loading,
 .media-error {
-  min-height: 100px;
+  min-height: 95px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  color: #8b958c;
-  font-size: 11px;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 12px;
 }
+
+.media-error {
+  color: var(--danger);
+}
+
+/* STATISTIQUES */
 
 .post-stats {
-  margin-top: 15px;
-  padding: 0 0 12px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  border-bottom: 1px solid #eff0eb;
-  color: #929a92;
-  font-size: 10px;
+  margin-top: 15px;
+  padding-bottom: 12px;
+  color: var(--muted);
+  font-size: 11px;
+  border-bottom: 1px solid var(--border);
 }
 
+/* ACTIONS */
+
 .post-actions {
-  padding-top: 11px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 5px;
   flex-wrap: wrap;
+  gap: 5px;
+  padding-top: 10px;
 }
 
 .post-action {
-  min-height: 36px;
-  padding: 7px 9px;
+  min-height: 37px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
+  padding: 7px 9px;
+  background: transparent;
   border: 0;
   border-radius: 9px;
-  background: transparent;
-  color: #7f8a80;
-  font-size: 10px;
-  font-weight: 600;
+  color: #718084;
+  font-size: 11px;
+  font-weight: 650;
   transition: .2s ease;
 }
 
-.post-action:hover:not(:disabled) {
-  background: #edf4ed;
+.post-action:hover {
+  background: #f1f5f2;
   color: var(--forest);
-}
-
-.post-action:disabled {
-  opacity: .6;
-}
-
-.post-action.reaction-sent {
-  background: #e8f2e8;
-  color: #245a43;
-}
-
-.action-symbol {
-  width: 19px;
-  height: 19px;
-  display: grid;
-  place-items: center;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  font-size: 9px;
-  font-weight: 750;
 }
 
 .post-action svg {
@@ -1091,24 +846,39 @@ svg {
   height: 16px;
 }
 
-/* =====================================
-   COMMENTAIRES
-===================================== */
-
-.comments-area {
-  margin-top: 15px;
-  padding-top: 14px;
-  border-top: 1px solid #eff0eb;
+.action-symbol {
+  width: 17px;
+  height: 17px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 800;
 }
 
-.comments-area[hidden] {
-  display: none;
+.post-action.reaction-sent {
+  background: #e9f3ed;
+  color: var(--success);
+}
+
+.post-action.is-loading {
+  opacity: .5;
+}
+
+/* COMMENTAIRES */
+
+.comments-area {
+  margin-top: 13px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
 }
 
 .comments-list {
   display: flex;
   flex-direction: column;
   gap: 13px;
+  margin-bottom: 15px;
 }
 
 .comment-item {
@@ -1120,7 +890,14 @@ svg {
 .avatar-comment {
   width: 30px;
   height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #e9efeb;
+  color: var(--forest);
+  border-radius: 50%;
   font-size: 10px;
+  font-weight: 750;
 }
 
 .comment-content {
@@ -1131,29 +908,29 @@ svg {
 .comment-bubble {
   display: inline-block;
   max-width: 100%;
-  padding: 10px 12px;
-  border-radius: 5px 13px 13px 13px;
-  background: #f3f5f0;
+  padding: 9px 12px;
+  background: #f3f6f4;
+  border-radius: 4px 12px 12px 12px;
 }
 
 .comment-bubble strong {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 3px;
   color: var(--forest);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .comment-bubble p {
-  color: #4c5850;
-  font-size: 11px;
+  color: #45565a;
+  font-size: 12px;
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
 .comment-date {
   display: block;
-  margin: 5px 2px 0;
-  color: #a1a79f;
+  margin: 4px 0 0 4px;
+  color: #9ba6a5;
   font-size: 9px;
 }
 
@@ -1161,44 +938,43 @@ svg {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 15px;
 }
 
 .comment-form input {
   min-width: 0;
   flex: 1;
-  height: 39px;
+  height: 40px;
   padding: 0 12px;
-  border: 1px solid #e8ebe5;
+  background: #f7f9f8;
+  border: 1px solid var(--border);
   border-radius: 10px;
   outline: none;
-  background: #fbfcfa;
-  color: var(--text);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .comment-form input:focus {
-  border-color: #a9c1ae;
+  border-color: #bdcfc7;
+  background: white;
 }
 
 .comment-form button {
-  height: 39px;
+  height: 40px;
   padding: 0 13px;
-  border: 0;
-  border-radius: 10px;
   background: var(--forest);
   color: white;
-  font-size: 10px;
-  font-weight: 650;
+  border: 0;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.comment-form button:disabled {
-  opacity: .55;
+.comment-form button:hover {
+  background: var(--forest-light);
 }
 
 .comment-message {
   margin-top: 7px;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .comment-message.success {
@@ -1213,993 +989,594 @@ svg {
 .no-comments,
 .comments-error {
   padding: 10px 0;
-  color: #929b91;
+  color: var(--muted);
   font-size: 11px;
 }
 
-/* =====================================
-   CHARGEMENT ET ÉTATS VIDES
-===================================== */
+/* CHARGEMENT ET ÉTATS VIDES */
+
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border: 2px solid #dfe8e2;
+  border-top-color: var(--forest);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.feed-loading,
+.empty-feed,
+.feed-error {
+  margin-top: 17px;
+  padding: 35px 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+}
 
 .feed-loading {
-  min-height: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 12px;
-  color: #8d988e;
-  font-size: 11px;
-}
-
-.loading-spinner {
-  width: 23px;
-  height: 23px;
-  border: 2px solid #dfe8df;
-  border-top-color: var(--forest-light);
-  border-radius: 50%;
-  animation: rotate .8s linear infinite;
-}
-
-.empty-feed,
-.feed-error {
-  padding: 35px 23px;
-  text-align: center;
-  background: rgba(255,255,255,.8);
-  border: 1px solid var(--border);
-  border-radius: 18px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 .empty-feed-mark {
   width: 48px;
   height: 48px;
-  margin: 0 auto 15px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
-  background: #eaf1e9;
-  color: var(--forest);
-  font-family: Georgia, serif;
-  font-size: 26px;
+  margin: 0 auto 14px;
+  background: var(--forest);
+  color: var(--gold-light);
+  border-radius: 15px;
+  font-size: 22px;
+  font-weight: 800;
 }
 
 .empty-feed h3,
 .feed-error h3 {
+  margin-bottom: 7px;
   color: var(--forest);
-  font-family: Georgia, serif;
-  font-size: 19px;
-  font-weight: 500;
+  font-size: 16px;
 }
 
 .empty-feed p,
 .feed-error p {
-  max-width: 370px;
-  margin: 10px auto 0;
-  color: #8a948b;
-  font-size: 11px;
-  line-height: 1.8;
+  max-width: 380px;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
 }
 
 .retry-feed-button {
   margin-top: 15px;
-  padding: 10px 15px;
-  border: 0;
-  border-radius: 10px;
+  padding: 10px 18px;
   background: var(--forest);
   color: white;
-  font-size: 11px;
+  border: 0;
+  border-radius: 9px;
 }
 
-.feed-bottom {
-  padding: 20px 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
-
-.feed-bottom p {
-  color: #929b92;
-  font-size: 10px;
+.feed-status {
+  padding: 18px 10px;
+  color: var(--muted);
   text-align: center;
+  font-size: 11px;
 }
 
 .load-more-button {
-  padding: 10px 18px;
-  border: 1px solid #dce6dc;
-  border-radius: 11px;
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
   background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
   color: var(--forest);
-  font-size: 11px;
-  font-weight: 650;
+  font-size: 12px;
+  font-weight: 700;
 }
 
-.feed-sentinel {
-  width: 100%;
-  height: 1px;
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .post-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .post-actions {
+    justify-content: space-around;
+  }
+
+  .post-action {
+    padding: 7px 5px;
+    font-size: 10px;
+  }
+
+  .post-media {
+    max-height: 380px;
+  }
+}
+</style>
+  
+<style>
+/* PANNEAU LATÉRAL DROIT */
+
+.right-card {
+  margin-bottom: 15px;
+  padding: 18px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
 }
 
-/* =====================================
-   PANNEAU DROIT
-===================================== */
-
-.side-card {
-  padding: 19px;
-  background: rgba(255,255,255,.84);
-  border: 1px solid #e9ebe5;
-  border-radius: 17px;
-  box-shadow: 0 7px 23px rgba(20,49,39,.025);
-}
-
-.side-card .eyebrow {
-  color: #a39a81;
-  font-size: 9px;
-}
-
-.daily-card {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(145deg, #f0f3e9, #f8f7f0);
-}
-
-.daily-mark {
-  width: 37px;
-  height: 37px;
-  margin: 16px 0 12px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: #174738;
-  color: #e5d1a7;
-  font-family: Georgia, serif;
-  font-size: 21px;
-}
-
-.daily-card h3 {
+.right-card h3 {
+  margin-bottom: 9px;
   color: var(--forest);
-  font-family: Georgia, serif;
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1.35;
-}
-
-.daily-card p {
-  margin-top: 10px;
-  color: #7e897f;
-  font-size: 10px;
-  line-height: 1.8;
-}
-
-.principles-card h3 {
-  margin-top: 12px;
-  margin-bottom: 17px;
-  color: var(--forest);
-  font-family: Georgia, serif;
-  font-size: 17px;
-  font-weight: 500;
-}
-
-.principle-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  padding: 12px 0;
-  border-top: 1px solid #eff0eb;
-}
-
-.principle-number {
-  color: #b59a69;
-  font-family: Georgia, serif;
   font-size: 13px;
 }
 
-.principle-item strong {
-  display: block;
-  color: #415449;
+.right-card p {
+  color: var(--muted);
   font-size: 11px;
-}
-
-.principle-item p {
-  margin-top: 4px;
-  color: #90998f;
-  font-size: 10px;
-  line-height: 1.6;
-}
-
-.privacy-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  background: #f1f5ef;
-}
-
-.privacy-icon {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 10px;
-  background: #e0eadf;
-  color: var(--forest);
-}
-
-.privacy-icon svg {
-  width: 17px;
-  height: 17px;
-}
-
-.privacy-card strong {
-  color: var(--forest);
-  font-size: 11px;
-}
-
-.privacy-card p {
-  margin-top: 6px;
-  color: #849086;
-  font-size: 10px;
   line-height: 1.7;
 }
 
-.side-footer {
-  padding: 5px 4px;
-  color: #a1a79e;
+.right-card-brand {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  background: #f2f5f1;
+  color: var(--gold);
+  border-radius: 11px;
+  font-size: 16px;
+  font-weight: 800;
 }
 
-.side-footer span {
-  color: #768579;
-  font-size: 9px;
-  font-weight: 750;
-  letter-spacing: 1.4px;
+.right-card small {
+  display: block;
+  margin-top: 12px;
+  color: #a0aaa8;
+  font-size: 10px;
 }
 
-.side-footer p {
-  margin-top: 6px;
-  font-size: 9px;
-  line-height: 1.6;
-}
-
-/* =====================================
-   NAVIGATION MOBILE
-===================================== */
+/* NAVIGATION MOBILE */
 
 .mobile-nav {
   display: none;
 }
 
-/* =====================================
-   ANIMATIONS
-===================================== */
-
-@keyframes rotate {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* =====================================
-   RESPONSIVE
-===================================== */
-
-@media (max-width: 760px) {
-  .welcome-section {
-    min-height: 185px;
-    padding: 25px 21px;
-    border-radius: 19px;
-  }
-
-  .welcome-copy {
-    max-width: 75%;
-  }
-
-  .welcome-copy h1 {
-    font-size: 27px;
-  }
-
-  .welcome-copy p {
-    font-size: 11px;
-  }
-
-  .welcome-decoration {
-    width: 85px;
-    height: 85px;
-    margin-right: -5px;
-  }
-
-  .ring-one {
-    width: 65px;
-    height: 65px;
-  }
-
-  .ring-two {
-    width: 90px;
-    height: 90px;
-  }
-
-  .decoration-core {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    font-size: 25px;
-  }
-
-  .community-intro {
-    margin: 15px 0 25px;
-    padding: 13px;
-  }
-
-  .feed-heading {
-    margin-bottom: 13px;
-  }
-
-  .feed-heading h2 {
-    font-size: 23px;
-  }
-
-  .composer-card,
-  .post-card {
-    padding: 16px;
-    border-radius: 17px;
-  }
-
-  .post-actions {
-    justify-content: flex-start;
-  }
-
-  .post-action {
-    flex: 1;
-    min-width: 65px;
-    padding: 7px 4px;
-    font-size: 9px;
-  }
-
+@media (max-width: 700px) {
   .mobile-nav {
     position: fixed;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 200;
-    min-height: 67px;
-    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    z-index: 150;
     display: flex;
     align-items: center;
     justify-content: space-around;
-    gap: 3px;
+    padding: 9px 5px calc(9px + env(safe-area-inset-bottom));
     background: rgba(255,255,255,.96);
-    border-top: 1px solid #e7eae3;
-    backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(15px);
   }
 
-  .mobile-nav-item {
-    flex: 1;
-    min-width: 0;
-    padding: 5px 2px;
+  .mobile-nav .nav-item {
+    width: auto;
+    min-width: 55px;
+    min-height: 47px;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    gap: 4px;
-    border: 0;
-    border-radius: 10px;
-    background: transparent;
-    color: #98a098;
+    gap: 3px;
+    padding: 5px 8px;
+    font-size: 9px;
   }
 
-  .mobile-nav-item svg {
+  .mobile-nav .nav-item svg {
     width: 19px;
     height: 19px;
   }
 
-  .mobile-nav-item span {
-    font-size: 9px;
-    font-weight: 600;
+  .mobile-nav .nav-item.active::before {
+    display: none;
   }
+}
+</style>
 
-  .mobile-nav-item.active {
-    col
-    
+<body data-period="day">
+
+<div class="ambient-glow"></div>
+
 <header class="topbar">
-  <a class="brand" href="espace.html" aria-label="DREPA-WORLD, accueil">
+
+  <a class="brand" href="espace.html" aria-label="DREPA-WORLD accueil">
     <span class="brand-mark">D</span>
-    <span class="brand-text">
-      <strong>DREPA-WORLD</strong>
-      <small>Une communauté sans frontières</small>
+    <span>
+      <span class="brand-name">DREPA-WORLD</span>
+      <span class="brand-subtitle">Une solidarité sans frontières</span>
     </span>
   </a>
 
-  <div class="topbar-center">
-    <span class="topbar-message">Ensemble, nous sommes plus forts.</span>
-  </div>
-
   <div class="topbar-actions">
-    <button class="icon-button" id="refreshFeed" type="button"
-      aria-label="Actualiser le fil" title="Actualiser le fil">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20 7v5h-5M4 17v-5h5"/>
-        <path d="M5.6 9a7 7 0 0 1 12-2L20 12M4 12l2.4 5a7 7 0 0 0 12-2"/>
+
+    <button
+      class="icon-button"
+      id="refreshFeed"
+      type="button"
+      aria-label="Actualiser le fil"
+      title="Actualiser le fil">
+      <svg viewBox="0 0 24 24">
+        <path d="M20 7v5h-5"/>
+        <path d="M4 17v-5h5"/>
+        <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"/>
+        <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"/>
       </svg>
     </button>
 
-    <div class="account-chip">
+    <div class="profile-shortcut">
       <div class="avatar avatar-small" id="myAvatar">D</div>
-      <span id="myUsername">Membre</span>
+      <strong id="myUsername">Membre</strong>
     </div>
+
   </div>
 </header>
 
-<div class="app-shell">
+<div class="app-layout">
 
   <!-- NAVIGATION GAUCHE -->
-  <aside class="sidebar left-sidebar">
 
-    <div class="sidebar-profile">
-      <div class="avatar avatar-large" id="sidebarAvatar">D</div>
+  <aside class="left-sidebar">
 
-      <div class="sidebar-profile-info">
-        <strong id="sidebarUsername">Membre</strong>
-        <span>Membre de DREPA-WORLD</span>
-      </div>
-    </div>
+    <div class="sidebar-card">
 
-    <div class="sidebar-label">MON ESPACE</div>
+      <div class="sidebar-profile">
+        <div class="avatar avatar-large" id="sidebarAvatar">D</div>
 
-    <nav class="main-navigation" aria-label="Navigation principale">
-
-      <button class="nav-item active" type="button" data-nav="feed">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="3" y="3" width="7" height="7" rx="2"/>
-          <rect x="14" y="3" width="7" height="7" rx="2"/>
-          <rect x="3" y="14" width="7" height="7" rx="2"/>
-          <rect x="14" y="14" width="7" height="7" rx="2"/>
-        </svg>
-        <span>Fil communautaire</span>
-      </button>
-
-      <button class="nav-item nav-disabled" type="button"
-        data-nav="messages" disabled
-        title="La messagerie sera disponible prochainement.">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
-        </svg>
-        <span>Messagerie</span>
-        <small>Bientôt</small>
-      </button>
-
-      <button class="nav-item nav-disabled" type="button"
-        data-nav="network" disabled
-        title="Le réseau mondial sera disponible prochainement.">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="12" cy="8" r="3"/>
-          <path d="M5 20a7 7 0 0 1 14 0"/>
-          <path d="M19 8a3 3 0 0 1 0 6M22 20a5 5 0 0 0-3-4.6"/>
-        </svg>
-        <span>Réseau mondial</span>
-        <small>Bientôt</small>
-      </button>
-
-      <button class="nav-item nav-disabled" type="button"
-        data-nav="support" disabled
-        title="Les espaces de solidarité seront disponibles prochainement.">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
-        </svg>
-        <span>Solidarité</span>
-        <small>Bientôt</small>
-      </button>
-
-    </nav>
-
-    <div class="sidebar-bottom">
-
-      <div class="sidebar-note">
-        <span class="note-symbol">D</span>
-        <strong>Un lien. Des milliers de voix.</strong>
-        <p>
-          Chaque membre contribue à faire grandir une communauté plus solidaire.
-        </p>
+        <div>
+          <strong id="sidebarUsername">Membre</strong>
+          <small>Espace membre</small>
+        </div>
       </div>
 
-      <button class="logout-button" id="logoutButton" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M10 17l5-5-5-5M15 12H3"/>
-          <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>
-        </svg>
-        <span>Déconnexion</span>
-      </button>
+      <nav class="sidebar-nav" aria-label="Navigation principale">
+
+        <p class="nav-label">Mon espace</p>
+
+        <button class="nav-item active" type="button" data-nav="feed">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="18" height="18" rx="3"/>
+            <path d="M8 8h8M8 12h8M8 16h5"/>
+          </svg>
+          Fil d'actualité
+        </button>
+
+        <p class="nav-label">Communauté</p>
+
+        <button class="nav-item" type="button" disabled>
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="8" r="3"/>
+            <path d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6M18 14a5 5 0 0 1 3 4v2"/>
+          </svg>
+          Réseau mondial
+        </button>
+
+        <button class="nav-item" type="button" disabled>
+          <svg viewBox="0 0 24 24">
+            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l2-4A8.5 8.5 0 1 1 21 11.5Z"/>
+          </svg>
+          Messagerie
+        </button>
+
+        <button class="nav-item" type="button" disabled>
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"/>
+          </svg>
+          Solidarité
+        </button>
+
+      </nav>
+
+      <div class="sidebar-footer">
+
+        <button
+          class="logout-button"
+          id="logoutButton"
+          type="button">
+
+          <svg viewBox="0 0 24 24">
+            <path d="M10 17l5-5-5-5"/>
+            <path d="M15 12H3"/>
+            <path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/>
+          </svg>
+
+          Se déconnecter
+        </button>
+
+      </div>
 
     </div>
+
   </aside>
 
   <!-- CONTENU CENTRAL -->
+
   <main class="main-content">
 
-    <section class="welcome-section">
-      <div class="welcome-copy">
-        <span class="eyebrow">VOTRE ESPACE COMMUNAUTAIRE</span>
+    <section class="community-welcome">
 
-        <h1>Le monde se rapproche <span>ici.</span></h1>
+      <p class="welcome-eyebrow">Bienvenue dans votre espace</p>
 
-        <p>
-          Des histoires, des expériences et des gestes de solidarité
-          qui nous rapprochent, au-delà des frontières.
-        </p>
-      </div>
+      <h1>Ensemble, nous sommes plus forts.</h1>
 
-      <div class="welcome-decoration" aria-hidden="true">
-        <div class="decoration-ring ring-one"></div>
-        <div class="decoration-ring ring-two"></div>
-        <div class="decoration-core">D</div>
-      </div>
+      <p>
+        Un lieu de rencontre, de partage et de solidarité.
+        Chaque voix compte. Chaque histoire a sa place.
+      </p>
+
     </section>
 
-    <section class="community-intro">
-      <div class="intro-indicator"></div>
+    <div class="feed-heading">
 
       <div>
-        <strong>Un espace pour chacun.</strong>
-        <p>
-          Patients, proches, aidants, professionnels et personnes solidaires :
-          toutes les voix ont leur place.
-        </p>
+        <h2>Communauté mondiale</h2>
+        <p>Les échanges de notre communauté.</p>
       </div>
+
+      <button
+        class="refresh-button"
+        id="refreshFeedText"
+        type="button"
+        aria-label="Actualiser">
+
+        <svg viewBox="0 0 24 24">
+          <path d="M20 7v5h-5"/>
+          <path d="M4 17v-5h5"/>
+          <path d="M5.6 9a7 7 0 0 1 11.6-2L20 12"/>
+          <path d="M4 12l2.8 5a7 7 0 0 0 11.6-2"/>
+        </svg>
+
+      </button>
+
+    </div>
+
+    <!-- FORMULAIRE DE PUBLICATION -->
+
+    <section class="composer-card">
+
+      <div class="composer-top">
+
+        <div class="avatar avatar-medium" id="composerAvatar">D</div>
+
+        <div class="composer-identity">
+          <strong id="composerUsername">Membre</strong>
+          <small>Partager avec la communauté</small>
+        </div>
+
+      </div>
+
+      <form id="postForm">
+
+        <label class="sr-only" for="postContent">
+          Votre publication
+        </label>
+
+        <textarea
+          id="postContent"
+          maxlength="10000"
+          placeholder="Qu'aimeriez-vous partager aujourd'hui ?"
+        ></textarea>
+
+        <div class="media-selection" id="mediaSelection" hidden>
+
+          <span id="selectedMediaName"></span>
+
+          <button
+            class="remove-media-button"
+            id="removeMediaButton"
+            type="button">
+            Retirer
+          </button>
+
+        </div>
+
+        <div class="composer-bottom">
+
+          <div>
+            <label class="media-picker" for="mediaInput">
+
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="3"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="m21 15-5-5L5 21"/>
+              </svg>
+
+              Photo ou vidéo
+
+            </label>
+
+            <input
+              id="mediaInput"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+              hidden
+            />
+          </div>
+
+          <button
+            class="publish-button"
+            id="publishButton"
+            type="submit">
+            <span>Publier</span>
+          </button>
+
+        </div>
+
+        <p
+          class="form-message"
+          id="formMessage"
+          role="status"
+          aria-live="polite">
+        </p>
+
+      </form>
+
     </section>
 
-    <!-- FIL COMMUNAUTAIRE -->
-    <section class="feed-section">
+    <!-- FIL D'ACTUALITÉ -->
 
-      <div class="feed-heading">
-        <div>
-          <span class="eyebrow">LA VIE DE LA COMMUNAUTÉ</span>
-          <h2>Fil communautaire</h2>
-          <p>Découvrez les partages des membres.</p>
-        </div>
+    <section id="feed" aria-label="Publications">
 
-        <button class="refresh-text-button" id="refreshFeedText" type="button">
-          Actualiser
-        </button>
-      </div>
-
-      <!-- COMPOSITEUR -->
-      <section class="composer-card">
-
-        <div class="composer-top">
-          <div class="avatar avatar-medium" id="composerAvatar">D</div>
-
-          <div class="composer-identity">
-            <strong id="composerUsername">Membre</strong>
-            <span>Votre voix compte ici.</span>
-          </div>
-        </div>
-
-        <form id="postForm">
-
-          <label class="sr-only" for="postContent">
-            Écrire une publication
-          </label>
-
-          <textarea
-            id="postContent"
-            name="content"
-            rows="3"
-            maxlength="5000"
-            placeholder="Qu’aimeriez-vous partager avec la communauté ?"
-          ></textarea>
-
-          <div class="media-selection" id="mediaSelection" hidden>
-
-            <div class="media-selection-info">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M4 5h16v14H4z"/>
-                <circle cx="9" cy="10" r="2"/>
-                <path d="m4 16 5-5 4 4 3-3 4 4"/>
-              </svg>
-
-              <span id="selectedMediaName">Fichier sélectionné</span>
-            </div>
-
-            <button id="removeMediaButton" type="button"
-              aria-label="Retirer le fichier sélectionné">
-              Retirer
-            </button>
-
-          </div>
-
-          <div class="composer-divider"></div>
-
-          <div class="composer-footer">
-
-            <div class="composer-tools">
-              <label class="media-picker" for="mediaInput">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="3"/>
-                  <circle cx="8.5" cy="8.5" r="1.5"/>
-                  <path d="m21 15-5-5L5 21"/>
-                </svg>
-
-                <span>Photo ou vidéo</span>
-              </label>
-
-              <input
-                id="mediaInput"
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
-                hidden
-              />
-            </div>
-
-            <button class="publish-button" id="publishButton" type="submit">
-              <span>Publier</span>
-
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="m5 12 14-7-4 14-3-6-7-1z"/>
-                <path d="m12 13 7-8"/>
-              </svg>
-            </button>
-
-          </div>
-
-          <p class="form-message" id="formMessage"
-            role="status" aria-live="polite"></p>
-
-        </form>
-      </section>
-
-      <!-- PUBLICATIONS -->
-      <div class="feed-list" id="feed" aria-live="polite">
-        <div class="feed-loading">
-          <span class="loading-spinner"></span>
-          <p>Chargement des publications...</p>
-        </div>
-      </div>
-
-      <div id="feedSentinel" class="feed-sentinel" aria-hidden="true"></div>
-
-      <div class="feed-bottom">
-        <p id="feedStatus" role="status" aria-live="polite">
-          Chargement du fil...
-        </p>
-
-        <button class="load-more-button" id="loadMoreButton"
-          type="button" hidden>
-          Charger davantage
-        </button>
+      <div class="feed-loading">
+        <span class="loading-spinner"></span>
+        <p>Chargement des publications...</p>
       </div>
 
     </section>
+
+    <div
+      id="feedSentinel"
+      aria-hidden="true">
+    </div>
+
+    <p
+      class="feed-status"
+      id="feedStatus"
+      role="status">
+    </p>
+
+    <button
+      class="load-more-button"
+      id="loadMoreButton"
+      type="button"
+      hidden>
+      Charger davantage
+    </button>
+
   </main>
 
   <!-- PANNEAU DROIT -->
-  <aside class="sidebar right-sidebar">
 
-    <section class="side-card daily-card">
-      <span class="eyebrow">L'ESPRIT DREPA-WORLD</span>
+  <aside class="right-sidebar">
 
-      <div class="daily-mark">D</div>
+    <section class="right-card">
 
-      <h3>La solidarité n'a pas de frontières.</h3>
+      <div class="right-card-brand">D</div>
+
+      <h3>Notre vision</h3>
 
       <p>
-        Un message peut réconforter. Une expérience peut éclairer.
-        Un geste peut changer une vie.
+        Construire une communauté mondiale où l'entraide,
+        la connaissance et la solidarité dépassent les frontières.
       </p>
+
+      <small>DREPA-WORLD · Une communauté mondiale</small>
+
     </section>
 
-    <section class="side-card principles-card">
-      <span class="eyebrow">NOS REPÈRES</span>
+    <section class="right-card">
 
-      <h3>Une communauté de confiance</h3>
+      <h3>Un espace de confiance</h3>
 
-      <div class="principle-item">
-        <span class="principle-number">01</span>
+      <p>
+        Respect, bienveillance et confidentialité sont au cœur
+        de chaque échange.
+      </p>
 
-        <div>
-          <strong>Respect</strong>
-          <p>Chaque personne mérite d'être écoutée.</p>
-        </div>
-      </div>
-
-      <div class="principle-item">
-        <span class="principle-number">02</span>
-
-        <div>
-          <strong>Confidentialité</strong>
-          <p>La vie privée de chacun est importante.</p>
-        </div>
-      </div>
-
-      <div class="principle-item">
-        <span class="principle-number">03</span>
-
-        <div>
-          <strong>Solidarité</strong>
-          <p>Nous avançons ensemble, sans jugement.</p>
-        </div>
-      </div>
     </section>
-
-    <section class="side-card privacy-card">
-      <div class="privacy-icon">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="4" y="10" width="16" height="11" rx="2"/>
-          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-          <circle cx="12" cy="15" r="1"/>
-        </svg>
-      </div>
-
-      <div>
-        <strong>Votre espace privé</strong>
-        <p>
-          Partagez avec respect et protégez vos informations personnelles.
-        </p>
-      </div>
-    </section>
-
-    <footer class="side-footer">
-      <span>DREPA-WORLD</span>
-      <p>Une communauté mondiale. Une solidarité sans frontières.</p>
-    </footer>
 
   </aside>
 
 </div>
 
 <!-- NAVIGATION MOBILE -->
+
 <nav class="mobile-nav" aria-label="Navigation mobile">
 
-  <button class="mobile-nav-item active" type="button" data-nav="feed">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="3" width="7" height="7" rx="2"/>
-      <rect x="14" y="3" width="7" height="7" rx="2"/>
-      <rect x="3" y="14" width="7" height="7" rx="2"/>
-      <rect x="14" y="14" width="7" height="7" rx="2"/>
+  <button class="nav-item active" type="button" data-nav="feed">
+    <svg viewBox="0 0 24 24">
+      <rect x="3" y="3" width="18" height="18" rx="3"/>
+      <path d="M8 8h8M8 12h8M8 16h5"/>
     </svg>
-    <span>Fil</span>
+    Accueil
   </button>
 
-  <button class="mobile-nav-item" type="button"
-    data-nav="messages" disabled>
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
+  <button class="nav-item" type="button" disabled>
+    <svg viewBox="0 0 24 24">
+      <circle cx="9" cy="8" r="3"/>
+      <path d="M3 20v-2a6 6 0 0 1 12 0v2"/>
     </svg>
-    <span>Messages</span>
+    Réseau
   </button>
 
-  <button class="mobile-nav-item" type="button"
-    data-nav="network" disabled>
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="8" r="3"/>
-      <path d="M5 20a7 7 0 0 1 14 0"/>
-      <path d="M19 8a3 3 0 0 1 0 6"/>
+  <button class="nav-item" type="button" disabled>
+    <svg viewBox="0 0 24 24">
+      <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l2-4A8.5 8.5 0 1 1 21 11.5Z"/>
     </svg>
-    <span>Réseau</span>
+    Messages
   </button>
-
-  <button class="mobile-nav-item" type="button"
-    data-nav="support" disabled>
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
-    </svg>
-    <span>Solidarité</span>
-  </button>
-
 </nav>
-  
+
+                    
 <script>
 "use strict";
 
-/* =========================================
-   CONFIGURATION
-========================================= */
-
-const API_URL =
-  "https://drepa-world-api.kchristezechieljunior.workers.dev";
-
+const API_URL = "https://drepa-world-api.kchristezechieljunior.workers.dev";
+const PAGE_SIZE = 10;
 const MAX_IMAGE_SIZE = 8 * 1024 * 1024;
 const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
-const PAGE_SIZE = 10;
 
-const IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/gif"
-];
-
-const VIDEO_TYPES = [
-  "video/mp4",
-  "video/webm",
-  "video/quicktime"
-];
-
-/* =========================================
-   ÉLÉMENTS HTML
-========================================= */
+const $ = (id) => document.getElementById(id);
 
 const elements = {
-  refreshFeed: document.getElementById("refreshFeed"),
-  refreshFeedText: document.getElementById("refreshFeedText"),
-
-  myAvatar: document.getElementById("myAvatar"),
-  myUsername: document.getElementById("myUsername"),
-  sidebarAvatar: document.getElementById("sidebarAvatar"),
-  sidebarUsername: document.getElementById("sidebarUsername"),
-
-  composerAvatar: document.getElementById("composerAvatar"),
-  composerUsername: document.getElementById("composerUsername"),
-
-  postForm: document.getElementById("postForm"),
-  postContent: document.getElementById("postContent"),
-  mediaSelection: document.getElementById("mediaSelection"),
-  selectedMediaName: document.getElementById("selectedMediaName"),
-  removeMediaButton: document.getElementById("removeMediaButton"),
-  mediaInput: document.getElementById("mediaInput"),
-  publishButton: document.getElementById("publishButton"),
-  formMessage: document.getElementById("formMessage"),
-
-  feed: document.getElementById("feed"),
-  feedSentinel: document.getElementById("feedSentinel"),
-  feedStatus: document.getElementById("feedStatus"),
-  loadMoreButton: document.getElementById("loadMoreButton"),
-
-  logoutButton: document.getElementById("logoutButton")
+  refreshFeed: $("refreshFeed"),
+  refreshFeedText: $("refreshFeedText"),
+  myAvatar: $("myAvatar"),
+  myUsername: $("myUsername"),
+  sidebarAvatar: $("sidebarAvatar"),
+  sidebarUsername: $("sidebarUsername"),
+  composerAvatar: $("composerAvatar"),
+  composerUsername: $("composerUsername"),
+  logoutButton: $("logoutButton"),
+  postForm: $("postForm"),
+  postContent: $("postContent"),
+  mediaInput: $("mediaInput"),
+  mediaSelection: $("mediaSelection"),
+  selectedMediaName: $("selectedMediaName"),
+  removeMediaButton: $("removeMediaButton"),
+  publishButton: $("publishButton"),
+  formMessage: $("formMessage"),
+  feed: $("feed"),
+  feedSentinel: $("feedSentinel"),
+  feedStatus: $("feedStatus"),
+  loadMoreButton: $("loadMoreButton")
 };
-
-/* =========================================
-   ÉTAT DE L'APPLICATION
-========================================= */
 
 let currentMember = null;
 let selectedMedia = null;
-
 let nextCursor = null;
 let hasMore = true;
 let isLoadingFeed = false;
 let isPublishing = false;
+let observer = null;
 
-let feedObserver = null;
-
-const mediaObjectUrls = new Map();
-
-/* =========================================
-   AMBIANCE SELON L'HEURE
-========================================= */
-
-function updateAmbientPeriod() {
-  const hour = new Date().getHours();
-
-  let period = "day";
-
-  if (hour >= 5 && hour < 11) {
-    period = "morning";
-  } else if (hour >= 17 && hour < 21) {
-    period = "evening";
-  } else if (hour >= 21 || hour < 5) {
-    period = "night";
-  }
-
-  document.body.dataset.period = period;
-}
-
-updateAmbientPeriod();
-
-/* =========================================
-   OUTILS
-========================================= */
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => {
-    const entities = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    };
-
-    return entities[character];
-  });
-}
-
-function getInitials(username) {
-  const name = String(username || "Membre").trim();
-
-  if (!name) return "D";
-
-  return name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(part => part.charAt(0))
-    .join("")
-    .toUpperCase();
-}
-
-function setMemberIdentity(username) {
-  const name = username || "Membre";
-  const initials = getInitials(name);
-
-  elements.myUsername.textContent = name;
-  elements.sidebarUsername.textContent = name;
-  elements.composerUsername.textContent = name;
-
-  elements.myAvatar.textContent = initials;
-  elements.sidebarAvatar.textContent = initials;
-  elements.composerAvatar.textContent = initials;
-}
-
-function setMessage(message, type = "") {
-  elements.formMessage.textContent = message;
-  elements.formMessage.className = "form-message";
-
-  if (type) {
-    elements.formMessage.classList.add(type);
-  }
-}
-
-function setFeedStatus(message) {
-  elements.feedStatus.textContent = message;
-}
-
-function formatDate(value) {
-  if (!value) return "Date inconnue";
-
-  let date;
-
-  if (typeof value === "string") {
-    const normalized = value.includes("T")
-      ? value
-      : value.replace(" ", "T") + "Z";
-
-    date = new Date(normalized);
-  } else {
-    date = new Date(value);
-  }
-
-  if (Number.isNaN(date.getTime())) {
-    return "Date inconnue";
-  }
-
-  return new Intl.DateTimeFormat("fr-FR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit"
-  }).format(date);
-}
-
-function safePostId(value) {
-  const id = Number(value);
-
-  return Number.isSafeInteger(id) && id > 0
-    ? id
-    : null;
-}
-
-function isFormData(value) {
-  return typeof FormData !== "undefined" &&
-    value instanceof FormData;
-}
-
-/* =========================================
-   COMMUNICATION AVEC L'API
-========================================= */
+const mediaUrls = new Map();
 
 async function apiRequest(path, options = {}) {
   const headers = new Headers(options.headers || {});
+  const isFormData = options.body instanceof FormData;
 
-  if (options.body && !isFormData(options.body)) {
+  if (options.body && !isFormData && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
 
@@ -2209,272 +1586,257 @@ async function apiRequest(path, options = {}) {
     credentials: "include"
   });
 
-  let result = {};
+  let result;
 
   try {
     result = await response.json();
   } catch {
-    result = {};
+    throw new Error("Le serveur a renvoyé une réponse illisible.");
   }
 
   if (!response.ok || result.success === false) {
-    throw new Error(
-      result.message ||
-      result.error ||
-      "Une erreur est survenue. Réessayez."
-    );
+    throw new Error(result.message || "Une erreur est survenue.");
   }
 
   return result;
 }
 
-/* =========================================
-   PROFIL DU MEMBRE
-========================================= */
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[character]);
+}
+
+function getInitials(value) {
+  const words = String(value || "Membre").trim().split(/\s+/);
+  return words.slice(0, 2).map(word => word.charAt(0).toUpperCase()).join("");
+}
+
+function formatDate(value) {
+  if (!value) return "À l'instant";
+
+  const date = new Date(value.includes?.("Z") || value.includes?.("+")
+    ? value
+    : value.replace(" ", "T") + "Z");
+
+  if (Number.isNaN(date.getTime())) return "";
+
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "short",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function showMessage(element, message, type = "info") {
+  if (!element) return;
+
+  element.textContent = message;
+  element.dataset.type = type;
+  element.hidden = !message;
+}
+
+function setIdentity(member) {
+  const username = member.username || "Membre";
+  const initials = getInitials(username);
+
+  [
+    elements.myAvatar,
+    elements.sidebarAvatar,
+    elements.composerAvatar
+  ].forEach(element => {
+    if (element) element.textContent = initials;
+  });
+
+  [
+    elements.myUsername,
+    elements.sidebarUsername,
+    elements.composerUsername
+  ].forEach(element => {
+    if (element) element.textContent = username;
+  });
+}
+
+function updateAmbientPeriod() {
+  const hour = new Date().getHours();
+  const period = hour < 12 ? "morning" : hour < 18 ? "day" : "evening";
+  document.body.dataset.period = period;
+}
 
 async function loadProfile() {
   const result = await apiRequest("/me");
 
   if (!result.member) {
-    throw new Error("Session invalide.");
+    throw new Error("Session introuvable.");
   }
 
   currentMember = result.member;
-
-  setMemberIdentity(currentMember.username || "Membre");
+  setIdentity(currentMember);
 }
 
-/* =========================================
-   GESTION DES MÉDIAS
-========================================= */
-
-function revokeMediaUrl(postId) {
-  const url = mediaObjectUrls.get(postId);
-
-  if (url) {
-    URL.revokeObjectURL(url);
-    mediaObjectUrls.delete(postId);
-  }
-}
-
-function revokeAllMediaUrls() {
-  for (const url of mediaObjectUrls.values()) {
-    URL.revokeObjectURL(url);
-  }
-
-  mediaObjectUrls.clear();
-}
-
-function removeSelectedMedia() {
+function clearSelectedMedia() {
   selectedMedia = null;
 
-  elements.mediaInput.value = "";
-  elements.mediaSelection.hidden = true;
-  elements.selectedMediaName.textContent = "";
-}
+  if (elements.mediaInput) elements.mediaInput.value = "";
 
-function validateMedia(file) {
-  if (!file) return "Aucun fichier sélectionné.";
-
-  if (IMAGE_TYPES.includes(file.type)) {
-    if (file.size > MAX_IMAGE_SIZE) {
-      return "Cette image dépasse la limite de 8 Mo.";
-    }
-
-    return "";
+  if (elements.mediaSelection) {
+    elements.mediaSelection.hidden = true;
   }
 
-  if (VIDEO_TYPES.includes(file.type)) {
-    if (file.size > MAX_VIDEO_SIZE) {
-      return "Cette vidéo dépasse la limite de 50 Mo.";
-    }
-
-    return "";
+  if (elements.selectedMediaName) {
+    elements.selectedMediaName.textContent = "";
   }
-
-  return "Format non accepté. Choisissez une image ou une vidéo.";
 }
 
-elements.mediaInput.addEventListener("change", () => {
-  const file = elements.mediaInput.files[0];
+function handleMediaSelection(file) {
+  if (!file) return;
 
-  if (!file) {
-    removeSelectedMedia();
+  const isImage = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif"
+  ].includes(file.type);
+
+  const isVideo = [
+    "video/mp4",
+    "video/webm",
+    "video/quicktime"
+  ].includes(file.type);
+
+  if (!isImage && !isVideo) {
+    showMessage(elements.formMessage, "Format de fichier non accepté.", "error");
+    clearSelectedMedia();
     return;
   }
 
-  const error = validateMedia(file);
+  const maxSize = isImage ? MAX_IMAGE_SIZE : MAX_VIDEO_SIZE;
 
-  if (error) {
-    removeSelectedMedia();
-    setMessage(error, "error");
+  if (file.size > maxSize) {
+    showMessage(
+      elements.formMessage,
+      isImage
+        ? "L'image ne doit pas dépasser 8 Mo."
+        : "La vidéo ne doit pas dépasser 50 Mo.",
+      "error"
+    );
+    clearSelectedMedia();
     return;
   }
 
   selectedMedia = file;
 
-  elements.selectedMediaName.textContent = file.name;
-  elements.mediaSelection.hidden = false;
+  if (elements.selectedMediaName) {
+    elements.selectedMediaName.textContent = file.name;
+  }
 
-  setMessage("");
-});
+  if (elements.mediaSelection) {
+    elements.mediaSelection.hidden = false;
+  }
 
-elements.removeMediaButton.addEventListener("click", () => {
-  removeSelectedMedia();
-  setMessage("");
-});
+  showMessage(elements.formMessage, "");
+}
 
-/* =========================================
-   AFFICHAGE DES PUBLICATIONS
-========================================= */
+if (elements.mediaInput) {
+  elements.mediaInput.addEventListener("change", () => {
+    handleMediaSelection(elements.mediaInput.files?.[0]);
+  });
+}
+
+if (elements.removeMediaButton) {
+  elements.removeMediaButton.addEventListener("click", clearSelectedMedia);
+}
+
+function revokeMediaUrls() {
+  mediaUrls.forEach(url => URL.revokeObjectURL(url));
+  mediaUrls.clear();
+}
 
 function renderPost(post) {
-  const postId = safePostId(post.id);
+  const id = Number(post.id);
+  const author = escapeHTML(post.author || "Membre");
+  const content = escapeHTML(post.content || "").replace(/\n/g, "<br>");
+  const initials = escapeHTML(getInitials(post.author || "Membre"));
+  const date = escapeHTML(formatDate(post.created_at));
 
-  if (!postId) return "";
-
-  const author = escapeHTML(
-    post.author || post.username || "Membre"
-  );
-
-  const initials = escapeHTML(
-    getInitials(post.author || post.username || "Membre")
-  );
-
-  const content = escapeHTML(post.content || "");
-
-  const date = escapeHTML(
-    formatDate(post.created_at)
-  );
-
-  const reactionsCount = Number(post.reactions_count) || 0;
-  const commentsCount = Number(post.comments_count) || 0;
-
-  const contentHTML = content
-    ? `<div class="post-content">${content.replace(/\n/g, "<br>")}</div>`
-    : "";
+  const commentsCount = Number(post.comments_count || 0);
+  const likesCount = Number(post.likes_count || 0);
 
   const mediaHTML = post.media_url
-    ? `
-      <div class="post-media-container" data-media-post="${postId}">
-        <div class="media-loading">
-          <span class="loading-spinner"></span>
-          <span>Chargement du média...</span>
-        </div>
-      </div>
-    `
+    ? `<div class="post-media" data-post-media="${id}"></div>`
     : "";
 
   return `
-    <article class="post-card" data-post-id="${postId}">
-
+    <article class="post-card" data-post-id="${id}">
       <div class="post-header">
-        <div class="avatar avatar-medium post-avatar">
-          ${initials}
-        </div>
-
+        <div class="avatar">${initials}</div>
         <div class="post-author-info">
           <strong>${author}</strong>
           <span>${date}</span>
         </div>
-
-        <span class="post-brand-mark">D</span>
       </div>
 
-      ${contentHTML}
+      ${content ? `<div class="post-content">${content}</div>` : ""}
+
       ${mediaHTML}
 
       <div class="post-stats">
-        <span class="reaction-total" data-reaction-total="${postId}">
-          ${reactionsCount} réaction${reactionsCount > 1 ? "s" : ""}
-        </span>
-
-        <span>
-          ${commentsCount} commentaire${commentsCount > 1 ? "s" : ""}
-        </span>
+        <span>${likesCount} appréciation(s)</span>
+        <span data-comment-count="${id}">${commentsCount} commentaire(s)</span>
       </div>
 
       <div class="post-actions">
-
-        <button class="post-action reaction-button"
-          type="button"
-          data-reaction="like"
-          data-post-id="${postId}">
-          <span class="action-symbol">+</span>
-          <span>J'aime</span>
+        <button class="reaction-button" type="button"
+          data-post-id="${id}" data-reaction="like">
+          Apprécier
         </button>
 
-        <button class="post-action reaction-button"
-          type="button"
-          data-reaction="support"
-          data-post-id="${postId}">
-          <span class="action-symbol">S</span>
-          <span>Soutenir</span>
+        <button class="reaction-button" type="button"
+          data-post-id="${id}" data-reaction="support">
+          Soutenir
         </button>
 
-        <button class="post-action reaction-button"
-          type="button"
-          data-reaction="courage"
-          data-post-id="${postId}">
-          <span class="action-symbol">C</span>
-          <span>Courage</span>
+        <button class="reaction-button" type="button"
+          data-post-id="${id}" data-reaction="courage">
+          Encourager
         </button>
 
-        <button class="post-action comment-toggle"
-          type="button"
-          data-post-id="${postId}">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
-          </svg>
-          <span>Commenter</span>
+        <button class="comment-toggle" type="button"
+          data-post-id="${id}">
+          Commenter
         </button>
-
       </div>
 
-      <section class="comments-area"
-        data-comments-area="${postId}"
-        hidden>
-
-        <div class="comments-list" data-comments-list="${postId}">
+      <section class="comments-area" data-comments-area="${id}" hidden>
+        <div class="comments-list" data-comments-list="${id}">
           <p class="comments-loading">Chargement des commentaires...</p>
         </div>
 
-        <form class="comment-form" data-comment-form="${postId}">
+        <form class="comment-form" data-comment-form="${id}">
           <input
             type="text"
             name="content"
             maxlength="2000"
             placeholder="Écrire un commentaire..."
-            aria-label="Écrire un commentaire"
             required
-          />
-
+          >
           <button type="submit">Envoyer</button>
         </form>
-
-        <p class="comment-message"
-          data-comment-message="${postId}"
-          role="status"></p>
-
       </section>
-
     </article>
   `;
 }
 
-/* =========================================
-   CHARGEMENT DES MÉDIAS
-========================================= */
-
 async function attachPostMedia(post) {
   if (!post.media_url) return;
 
-  const postId = safePostId(post.id);
-
-  if (!postId) return;
-
-  const container = elements.feed.querySelector(
-    `[data-media-post="${postId}"]`
+  const container = elements.feed?.querySelector(
+    `[data-post-media="${Number(post.id)}"]`
   );
 
   if (!container) return;
@@ -2484,24 +1846,12 @@ async function attachPostMedia(post) {
       credentials: "include"
     });
 
-    if (!response.ok) {
-      throw new Error("Média indisponible.");
-    }
+    if (!response.ok) throw new Error("Média indisponible.");
 
     const blob = await response.blob();
-    const objectUrl = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
 
-    const currentContainer = elements.feed.querySelector(
-      `[data-media-post="${postId}"]`
-    );
-
-    if (!currentContainer) {
-      URL.revokeObjectURL(objectUrl);
-      return;
-    }
-
-    revokeMediaUrl(postId);
-    mediaObjectUrls.set(postId, objectUrl);
+    mediaUrls.set(Number(post.id), url);
 
     let mediaElement;
 
@@ -2509,603 +1859,422 @@ async function attachPostMedia(post) {
       mediaElement = document.createElement("video");
       mediaElement.controls = true;
       mediaElement.preload = "metadata";
-      mediaElement.playsInline = true;
     } else {
       mediaElement = document.createElement("img");
-      mediaElement.alt = "Média partagé par un membre";
+      mediaElement.alt = "Média publié dans DREPA-WORLD";
       mediaElement.loading = "lazy";
     }
 
-    mediaElement.className = "post-media";
-    mediaElement.src = objectUrl;
-
-    currentContainer.replaceChildren(mediaElement);
-
-  } catch (error) {
-    const currentContainer = elements.feed.querySelector(
-      `[data-media-post="${postId}"]`
-    );
-
-    if (currentContainer) {
-      currentContainer.innerHTML = `
-        <div class="media-error">
-          Ce média n'a pas pu être chargé.
-        </div>
-      `;
-    }
+    mediaElement.src = url;
+    container.replaceChildren(mediaElement);
+  } catch {
+    container.textContent = "Ce média est momentanément indisponible.";
   }
 }
 
-/* =========================================
-   CHARGEMENT DU FIL
-========================================= */
-
 async function loadPosts(reset = false) {
   if (isLoadingFeed) return;
-
   if (!reset && !hasMore) return;
 
   isLoadingFeed = true;
 
-  if (reset) {
-    revokeAllMediaUrls();
-
-    elements.feed.innerHTML = `
-      <div class="feed-loading">
-        <span class="loading-spinner"></span>
-        <p>Chargement des publications...</p>
-      </div>
-    `;
-
-    nextCursor = null;
-    hasMore = true;
+  if (elements.loadMoreButton) {
+    elements.loadMoreButton.disabled = true;
   }
 
-  elements.loadMoreButton.hidden = true;
-  setFeedStatus("Chargement des publications...");
+  if (reset) {
+    revokeMediaUrls();
+    nextCursor = null;
+    hasMore = true;
+
+    if (elements.feed) {
+      elements.feed.innerHTML = "";
+    }
+  }
+
+  showMessage(elements.feedStatus, "Chargement des publications...");
 
   try {
     let path = `/posts?limit=${PAGE_SIZE}`;
 
     if (!reset && nextCursor) {
-      path += `&cursor=${encodeURIComponent(nextCursor)}`;
+      path += "&cursor=" + encodeURIComponent(nextCursor);
     }
 
     const result = await apiRequest(path);
+    const posts = Array.isArray(result.posts) ? result.posts : [];
 
-    const posts = Array.isArray(result.posts)
-      ? result.posts
-      : [];
-
-    if (reset) {
-      elements.feed.innerHTML = "";
-    }
-
-    if (posts.length === 0 && reset) {
+    if (posts.length === 0 && reset && elements.feed) {
       elements.feed.innerHTML = `
         <div class="empty-feed">
-          <div class="empty-feed-mark">D</div>
-          <h3>Le début d'une belle histoire.</h3>
-          <p>
-            Il n'y a pas encore de publication.
-            Soyez parmi les premiers à partager quelque chose avec la communauté.
-          </p>
+          <h3>Bienvenue dans DREPA-WORLD</h3>
+          <p>Votre fil est prêt. Soyez le premier à partager une publication avec la communauté.</p>
         </div>
       `;
-    } else {
-      for (const post of posts) {
-        const html = renderPost(post);
-
-        if (!html) continue;
-
-        elements.feed.insertAdjacentHTML("beforeend", html);
+    } else if (elements.feed) {
+      posts.forEach(post => {
+        elements.feed.insertAdjacentHTML("beforeend", renderPost(post));
         attachPostMedia(post);
-      }
+      });
     }
 
     hasMore = Boolean(result.hasMore);
     nextCursor = result.nextCursor || null;
 
-    if (hasMore) {
-      setFeedStatus("Faites défiler pour découvrir la suite.");
-      elements.loadMoreButton.hidden = false;
+    if (!hasMore && posts.length > 0) {
+      showMessage(elements.feedStatus, "Vous êtes à jour.");
     } else {
-      setFeedStatus(
-        posts.length > 0
-          ? "Vous êtes à jour."
-          : "Aucune autre publication pour le moment."
-      );
+      showMessage(elements.feedStatus, "");
     }
 
+    if (elements.loadMoreButton) {
+      elements.loadMoreButton.hidden = !hasMore;
+    }
   } catch (error) {
-    if (reset) {
+    showMessage(
+      elements.feedStatus,
+      error.message || "Impossible de charger les publications.",
+      "error"
+    );
+
+    if (reset && elements.feed) {
       elements.feed.innerHTML = `
-        <div class="feed-error">
-          <h3>Impossible de charger le fil.</h3>
-          <p>${escapeHTML(error.message)}</p>
-          <button type="button" class="retry-feed-button">
-            Réessayer
-          </button>
+        <div class="empty-feed">
+          <h3>Chargement impossible</h3>
+          <p>Vérifiez votre connexion puis actualisez le fil.</p>
+          <button type="button" data-retry-feed>Réessayer</button>
         </div>
       `;
     }
-
-    setFeedStatus("Une erreur est survenue.");
-    elements.loadMoreButton.hidden = false;
-
   } finally {
     isLoadingFeed = false;
+
+    if (elements.loadMoreButton) {
+      elements.loadMoreButton.disabled = false;
+    }
   }
 }
 
-/* =========================================
-   ACTUALISATION
-========================================= */
-
-async function refreshFeed() {
-  if (isLoadingFeed) return;
-
-  elements.refreshFeed.classList.add("is-loading");
-
-  if (elements.refreshFeedText) {
-    elements.refreshFeedText.disabled = true;
-  }
-
-  await loadPosts(true);
-
-  elements.refreshFeed.classList.remove("is-loading");
-
-  if (elements.refreshFeedText) {
-    elements.refreshFeedText.disabled = false;
-  }
+function refreshFeed() {
+  loadPosts(true);
 }
 
-elements.refreshFeed.addEventListener("click", refreshFeed);
+if (elements.refreshFeed) {
+  elements.refreshFeed.addEventListener("click", refreshFeed);
+}
 
 if (elements.refreshFeedText) {
   elements.refreshFeedText.addEventListener("click", refreshFeed);
 }
 
-/* =========================================
-   CHARGEMENT PROGRESSIF
-========================================= */
-
-function setupFeedObserver() {
-  if (!("IntersectionObserver" in window)) return;
-
-  feedObserver = new IntersectionObserver(entries => {
-    for (const entry of entries) {
-      if (entry.isIntersecting && hasMore && !isLoadingFeed) {
-        loadPosts(false);
-      }
-    }
-  }, {
-    root: null,
-    rootMargin: "600px",
-    threshold: 0
-  });
-
-  feedObserver.observe(elements.feedSentinel);
+if (elements.loadMoreButton) {
+  elements.loadMoreButton.addEventListener("click", () => loadPosts(false));
 }
 
-elements.loadMoreButton.addEventListener("click", () => {
-  loadPosts(false);
-});
-
-/* =========================================
-   PUBLICATION
-========================================= */
-
-elements.postForm.addEventListener("submit", async event => {
-  event.preventDefault();
-
-  if (isPublishing) return;
-
-  const content = elements.postContent.value.trim();
-
-  if (!content && !selectedMedia) {
-    setMessage(
-      "Écrivez un message ou ajoutez une photo ou une vidéo.",
-      "error"
-    );
+function setupFeedObserver() {
+  if (!elements.feedSentinel || !("IntersectionObserver" in window)) {
     return;
   }
 
-  if (selectedMedia) {
-    const mediaError = validateMedia(selectedMedia);
+  observer = new IntersectionObserver(entries => {
+    if (entries.some(entry => entry.isIntersecting)) {
+      loadPosts(false);
+    }
+  }, {
+    rootMargin: "600px 0px"
+  });
 
-    if (mediaError) {
-      setMessage(mediaError, "error");
+  observer.observe(elements.feedSentinel);
+}
+
+if (elements.postForm) {
+  elements.postForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (isPublishing) return;
+
+    const content = elements.postContent?.value.trim() || "";
+
+    if (!content && !selectedMedia) {
+      showMessage(
+        elements.formMessage,
+        "Écrivez un message ou ajoutez un média.",
+        "error"
+      );
       return;
     }
-  }
 
-  isPublishing = true;
-  elements.publishButton.disabled = true;
-  elements.publishButton.classList.add("is-loading");
+    isPublishing = true;
 
-  elements.publishButton.querySelector("span").textContent =
-    "Publication...";
+    const buttonText = elements.publishButton?.querySelector("span");
+    const previousText = buttonText?.textContent || "Publier";
 
-  setMessage("Votre publication est en cours d'envoi.");
-
-  try {
-    if (selectedMedia) {
-      const formData = new FormData();
-
-      formData.append("content", content);
-      formData.append("media", selectedMedia);
-
-      await apiRequest("/posts", {
-        method: "POST",
-        body: formData
-      });
-
-    } else {
-      await apiRequest("/posts", {
-        method: "POST",
-        body: JSON.stringify({ content })
-      });
+    if (elements.publishButton) {
+      elements.publishButton.disabled = true;
     }
 
-    elements.postContent.value = "";
-    removeSelectedMedia();
+    if (buttonText) buttonText.textContent = "Publication...";
 
-    setMessage(
-      "Votre publication a bien été partagée.",
-      "success"
-    );
+    showMessage(elements.formMessage, "");
 
-    await loadPosts(true);
+    try {
+      let result;
 
-  } catch (error) {
-    setMessage(error.message, "error");
+      if (selectedMedia) {
+        const formData = new FormData();
+        formData.append("content", content);
+        formData.append("media", selectedMedia);
 
-  } finally {
-    isPublishing = false;
-    elements.publishButton.disabled = false;
-    elements.publishButton.classList.remove("is-loading");
+        result = await apiRequest("/posts", {
+          method: "POST",
+          body: formData
+        });
+      } else {
+        result = await apiRequest("/posts", {
+          method: "POST",
+          body: JSON.stringify({ content })
+        });
+      }
 
-    elements.publishButton.querySelector("span").textContent =
-      "Publier";
-  }
-});
+      elements.postContent.value = "";
+      clearSelectedMedia();
 
-/* =========================================
-   RÉACTIONS
-========================================= */
+      showMessage(
+        elements.formMessage,
+        "Votre publication a bien été envoyée.",
+        "success"
+      );
+
+      await loadPosts(true);
+    } catch (error) {
+      showMessage(
+        elements.formMessage,
+        error.message || "La publication n'a pas pu être envoyée.",
+        "error"
+      );
+    } finally {
+      isPublishing = false;
+
+      if (elements.publishButton) {
+        elements.publishButton.disabled = false;
+      }
+
+      if (buttonText) buttonText.textContent = previousText;
+    }
+  });
+}
 
 async function sendReaction(button) {
-  const postId = safePostId(button.dataset.postId);
+  const postId = Number(button.dataset.postId);
   const reaction = button.dataset.reaction;
 
-  if (
-    !postId ||
-    !["like", "support", "courage"].includes(reaction)
-  ) {
+  if (!Number.isSafeInteger(postId) ||
+      !["like", "support", "courage"].includes(reaction)) {
     return;
   }
 
   if (button.disabled) return;
 
   button.disabled = true;
-  button.classList.add("is-loading");
+  const previousText = button.textContent;
+  button.textContent = "Envoi...";
 
   try {
-    const result = await apiRequest(
-      `/posts/${postId}/reactions`,
-      {
-        method: "POST",
-        body: JSON.stringify({ reaction })
-      }
-    );
+    await apiRequest(`/posts/${postId}/reactions`, {
+      method: "POST",
+      body: JSON.stringify({ reaction })
+    });
 
-    button.classList.add("reaction-sent");
-
-    if (result.reactions_count !== undefined) {
-      const total = elements.feed.querySelector(
-        `[data-reaction-total="${postId}"]`
-      );
-
-      if (total) {
-        const count = Number(result.reactions_count) || 0;
-
-        total.textContent =
-          `${count} réaction${count > 1 ? "s" : ""}`;
-      }
-    }
-
-    if (
-      !window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
-      "vibrate" in navigator
-    ) {
-      navigator.vibrate(10);
-    }
-
-    const originalText = button.innerHTML;
-
-    button.querySelector("span:last-child").textContent = "Envoyé";
+    button.textContent = "Envoyé";
+    button.classList.add("sent");
 
     setTimeout(() => {
-      if (!button.isConnected) return;
-
-      button.classList.remove("reaction-sent");
-      button.innerHTML = originalText;
+      button.textContent = previousText;
+      button.classList.remove("sent");
       button.disabled = false;
     }, 1400);
-
   } catch (error) {
-    button.classList.remove("is-loading");
-    button.disabled = false;
+    button.textContent = previousText;
     button.title = error.message;
-
-  } finally {
-    button.classList.remove("is-loading");
+    button.disabled = false;
   }
 }
 
-/* =========================================
-   COMMENTAIRES
-========================================= */
-
 function renderComment(comment) {
-  const author = escapeHTML(
-    comment.author || 
-    comment.username || "Membre"
-  );
-
-  const initials = escapeHTML(
-    getInitials(comment.author || comment.username || "Membre")
-  );
-
-  const content = escapeHTML(comment.content || "");
-
+  const author = escapeHTML(comment.author || "Membre");
+  const content = escapeHTML(comment.content || "").replace(/\n/g, "<br>");
+  const initials = escapeHTML(getInitials(comment.author || "Membre"));
   const date = escapeHTML(formatDate(comment.created_at));
 
   return `
     <div class="comment-item">
-      <div class="avatar avatar-comment">${initials}</div>
-
-      <div class="comment-content">
-        <div class="comment-bubble">
+      <div class="avatar comment-avatar">${initials}</div>
+      <div class="comment-body">
+        <div class="comment-meta">
           <strong>${author}</strong>
-          <p>${content.replace(/\n/g, "<br>")}</p>
+          <span>${date}</span>
         </div>
-
-        <span class="comment-date">${date}</span>
+        <p>${content}</p>
       </div>
     </div>
   `;
 }
 
 async function loadComments(postId) {
-  const list = elements.feed.querySelector(
+  const list = elements.feed?.querySelector(
     `[data-comments-list="${postId}"]`
   );
 
   if (!list) return;
 
-  list.innerHTML = `
-    <p class="comments-loading">Chargement des commentaires...</p>
-  `;
+  list.innerHTML = `<p class="comments-loading">Chargement...</p>`;
 
   try {
     const result = await apiRequest(`/posts/${postId}/comments`);
-
-    const comments = Array.isArray(result.comments)
-      ? result.comments
-      : [];
+    const comments = Array.isArray(result.comments) ? result.comments : [];
 
     if (comments.length === 0) {
-      list.innerHTML = `
-        <p class="no-comments">
-          Aucun commentaire pour le moment. Lancez la conversation.
-        </p>
-      `;
+      list.innerHTML = `<p class="comments-empty">Aucun commentaire pour le moment.</p>`;
       return;
     }
 
     list.innerHTML = comments.map(renderComment).join("");
-
   } catch (error) {
-    list.innerHTML = `
-      <p class="comments-error">
-        Impossible de charger les commentaires.
-      </p>
-    `;
+    list.textContent = error.message || "Impossible de charger les commentaires.";
   }
 }
 
 async function submitComment(form) {
-  const postId = safePostId(form.dataset.commentForm);
-
-  if (!postId) return;
-
-  const input = form.querySelector('input[name="content"]');
+  const postId = Number(form.dataset.commentForm);
+  const input = form.querySelector('[name="content"]');
   const button = form.querySelector('button[type="submit"]');
+  const content = input?.value.trim();
 
-  const message = elements.feed.querySelector(
-    `[data-comment-message="${postId}"]`
-  );
+  if (!Number.isSafeInteger(postId) || !content || button?.disabled) return;
 
-  const content = input.value.trim();
-
-  if (!content) return;
-
-  button.disabled = true;
-  button.textContent = "Envoi...";
+  if (button) button.disabled = true;
 
   try {
-    await apiRequest(`/posts/${postId}/comments`, {
+    const result = await apiRequest(`/posts/${postId}/comments`, {
       method: "POST",
       body: JSON.stringify({ content })
     });
 
     input.value = "";
 
-    message.textContent = "Commentaire envoyé.";
-    message.className = "comment-message success";
-
-    await loadComments(postId);
-
-    const card = elements.feed.querySelector(
-      `[data-post-id="${postId}"]`
+    const countElement = elements.feed?.querySelector(
+      `[data-comment-count="${postId}"]`
     );
 
-    if (card) {
-      const stats = card.querySelector(".post-stats span:last-child");
-
-      if (stats) {
-        const current = Number(
-          stats.textContent.match(/\d+/)?.[0] || 0
-        );
-
-        const updated = current + 1;
-
-        stats.textContent =
-          `${updated} commentaire${updated > 1 ? "s" : ""}`;
+    if (countElement) {
+      if (Number.isFinite(Number(result.comments_count))) {
+        countElement.textContent = `${Number(result.comments_count)} commentaire(s)`;
+      } else {
+        const current = parseInt(countElement.textContent, 10) || 0;
+        countElement.textContent = `${current + 1} commentaire(s)`;
       }
     }
 
+    await loadComments(postId);
   } catch (error) {
-    message.textContent = error.message;
-    message.className = "comment-message error";
-
+    if (input) input.placeholder = error.message || "Envoi impossible.";
   } finally {
-    button.disabled = false;
-    button.textContent = "Envoyer";
+    if (button) button.disabled = false;
   }
 }
 
-/* =========================================
-   ÉVÉNEMENTS DU FIL
-========================================= */
+if (elements.feed) {
+  elements.feed.addEventListener("click", event => {
+    const reactionButton = event.target.closest(".reaction-button");
 
-elements.feed.addEventListener("click", event => {
-  const retryButton = event.target.closest(".retry-feed-button");
-
-  if (retryButton) {
-    loadPosts(true);
-    return;
-  }
-
-  const reactionButton = event.target.closest(".reaction-button");
-
-  if (reactionButton) {
-    sendReaction(reactionButton);
-    return;
-  }
-
-  const commentButton = event.target.closest(".comment-toggle");
-
-  if (commentButton) {
-    const postId = safePostId(commentButton.dataset.postId);
-
-    if (!postId) return;
-
-    const area = elements.feed.querySelector(
-      `[data-comments-area="${postId}"]`
-    );
-
-    if (!area) return;
-
-    const opening = area.hidden;
-    area.hidden = !opening;
-
-    if (opening) {
-      loadComments(postId);
+    if (reactionButton) {
+      sendReaction(reactionButton);
+      return;
     }
-  }
-});
 
-elements.feed.addEventListener("submit", event => {
-  const form = event.target.closest(".comment-form");
+    const commentButton = event.target.closest(".comment-toggle");
 
-  if (!form) return;
+    if (commentButton) {
+      const postId = Number(commentButton.dataset.postId);
+      const area = elements.feed.querySelector(
+        `[data-comments-area="${postId}"]`
+      );
 
-  event.preventDefault();
-  submitComment(form);
-});
+      if (!area) return;
 
-/* =========================================
-   NAVIGATION
-========================================= */
+      const shouldOpen = area.hidden;
+      area.hidden = !shouldOpen;
+
+      if (shouldOpen) loadComments(postId);
+      return;
+    }
+
+    if (event.target.closest("[data-retry-feed]")) {
+      loadPosts(true);
+    }
+  });
+
+  elements.feed.addEventListener("submit", event => {
+    const form = event.target.closest("[data-comment-form]");
+    if (!form) return;
+
+    event.preventDefault();
+    submitComment(form);
+  });
+}
 
 document.querySelectorAll("[data-nav]").forEach(button => {
   button.addEventListener("click", () => {
     if (button.disabled) return;
 
-    if (button.dataset.nav !== "feed") return;
-
     document.querySelectorAll("[data-nav]").forEach(item => {
-      item.classList.toggle(
-        "active",
-        item.dataset.nav === "feed"
-      );
+      item.classList.toggle("active", item.dataset.nav === button.dataset.nav);
     });
 
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+    if (button.dataset.nav === "feed") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   });
 });
 
-/* =========================================
-   DÉCONNEXION
-========================================= */
+if (elements.logoutButton) {
+  elements.logoutButton.addEventListener("click", async () => {
+    elements.logoutButton.disabled = true;
 
-elements.logoutButton.addEventListener("click", async () => {
-  elements.logoutButton.disabled = true;
-
-  try {
-    await apiRequest("/logout", {
-      method: "POST",
-      body: JSON.stringify({})
-    });
-  } catch (error) {
-    // Retour à l'écran de connexion même si la requête échoue.
-  }
-
-  revokeAllMediaUrls();
-
-  window.location.href = "connexion.html";
-});
-
-/* =========================================
-   INITIALISATION
-========================================= */
-
-async function initializePage() {
-  try {
-    await loadProfile();
-
-    setupFeedObserver();
-
-    await loadPosts(true);
-
-  } catch (error) {
-    revokeAllMediaUrls();
+    try {
+      await apiRequest("/logout", {
+        method: "POST",
+        body: JSON.stringify({})
+      });
+    } catch (error) {
+      console.warn("Déconnexion :", error.message);
+    }
 
     window.location.href = "connexion.html";
-  }
+  });
 }
 
-initializePage();
+async function initializePage() {
+  updateAmbientPeriod();
 
-/* =========================================
-   NETTOYAGE
-========================================= */
-
-window.addEventListener("pagehide", () => {
-  if (feedObserver) {
-    feedObserver.disconnect();
+  try {
+    await loadProfile();
+  } catch {
+    window.location.href = "connexion.html";
+    return;
   }
 
-  revokeAllMediaUrls();
+  setupFeedObserver();
+  await loadPosts(true);
+}
+
+  window.addEventListener("pagehide", () => {
+  if (observer) observer.disconnect();
+  revokeMediaUrls();
 });
+
+initializePage();
 </script>
 
 </body>
 </html>
-  
