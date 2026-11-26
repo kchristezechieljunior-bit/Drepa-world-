@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#102c35">
+<meta name="description" content="Votre espace personnel DREPA-WORLD.">
+
+<title>Mon espace | DREPA-WORLD</title>
+
+<style>
+:root {
+  --dark: #102c35;
+  --green: #176b59;
+  --gold: #d6ad68;
+  --cream: #f7f8f4;
+  --white: #ffffff;
+  --muted: #73817d;
+  --border: #e5eae6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+header {
+  background: var(--dark);
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.brand span {
+  color: var(--gold);
+}
+
+.logout {
+  border: 1px solid rgba(255,255,255,.35);
+  background: transparent;
+  color: white;
+  padding: 10px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+main {
+  width: min(100% - 30px, 850px);
+  margin: 28px auto;
+}
+
+.welcome {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 25px 21px;
+  margin-bottom: 22px;
+}
+
+.eyebrow {
+  color: var(--green);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 25px;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.welcome p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.profile {
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 43px;
+  height: 43px;
+  background: #e8f1ed;
+  color: var(--green);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.profile small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.profile strong {
+  font-size: 14px;
+}
+
+.section-title {
+  font-size: 17px;
+  margin: 25px 0 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.module {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 18px 15px;
+  min-height: 145px;
+}
+
+.module-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #edf4f0;
+  color: var(--green);
+  display: grid;
+  place-items: center;
+  margin-bottom: 13px;
+}
+
+.module-icon svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.module h3 {
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.module p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.status {
+  display: inline-block;
+  margin-top: 11px;
+  font-size: 10px;
+  color: #82652f;
+  background: #f8f0df;
+  padding: 5px 8px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.notice {
+  margin-top: 23px;
+  padding: 17px;
+  border-left: 3px solid var(--gold);
+  background: white;
+  border-radius: 8px;
+}
+
+.notice strong {
+  font-size: 13px;
+}
+
+.notice p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 7px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 15px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+#message {
+  display: none;
+  padding: 13px;
+  margin: 15px 0;
+  border-radius: 8px;
+  background: #fff0ed;
+  color: #a43c2d;
+  font-size: 13px;
+}
+
+@media (max-width: 420px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">DREPA<span>-WORLD</span></div>
+  <button class="logout" id="logoutButton">Déconnexion</button>
+</header>
+
+<main>
+
+  <div id="message"></div>
+
+  <section class="welcome">
+    <div class="eyebrow">VOTRE ESPACE PERSONNEL</div>
+
+    <h1>Bienvenue dans votre espace.</h1>
+
+    <p>
+      Ici, chaque membre compte. Retrouvez progressivement
+      les services et les espaces de solidarité de
+      la communauté DREPA-WORLD.
+    </p>
+
+    <div class="profile">
+      <div class="avatar" id="avatar">M</div>
+      <div>
+        <small>Votre pseudonyme</small>
+        <strong id="username">Chargement...</strong>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-title">Votre communauté</h2>
+
+  <section class="grid">
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M20 8v6M23 11h-6"/>
+        </svg>
+      </div>
+      <h3>Communauté</h3>
+      <p>Un espace pour échanger et renforcer les liens entre membres.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+          <path d="M12 8v8M8 12h8"/>
+        </svg>
+      </div>
+      <h3>Bouclier Vital</h3>
+      <p>Votre futur espace dédié aux informations essentielles en cas d'urgence.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
+        </svg>
+      </div>
+      <h3>Donneur Ange</h3>
+      <p>Un espace consacré à la solidarité et à l'entraide entre donneurs et bénéficiaires.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 6v6l4 2"/>
+        </svg>
+      </div>
+      <h3>Météo Intérieure</h3>
+      <p>Un espace personnel pour exprimer votre ressenti au quotidien.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        </svg>
+      </div>
+      <h3>Journal de suivi</h3>
+      <p>Un futur espace pour conserver vos observations personnelles.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+    <article class="module">
+      <div class="module-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+          <path d="M8 10h8M8 14h5"/>
+        </svg>
+      </div>
+      <h3>Messagerie</h3>
+      <p>Un futur espace privé pour communiquer avec les autres membres.</p>
+      <span class="status">Bientôt disponible</span>
+    </article>
+
+  </section>
+
+  <div class="notice">
+    <strong>Un espace construit avec vous.</strong>
+    <p>
+      DREPA-WORLD avance progressivement.
+      Les fonctionnalités seront ouvertes au fur et à mesure
+      de leur développement et de leurs vérifications.
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  DREPA-WORLD — Une communauté, une force, un avenir.
+</footer>
+
+<script>
+const API_URL = "https://drepa-world-api.kchristezechieljunior.workers.dev";
+
+const message = document.getElementById("message");
+
+function showMessage(text) {
+  message.textContent = text;
+  message.style.display = "block";
+}
+
+async function loadMember() {
+  try {
+    const response = await fetch(API_URL + "/me", {
+      method: "GET",
+      credentials: "include"
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success || !result.member) {
+      window.location.replace("connexion.html");
+      return;
+    }
+
+    const username = result.member.username || "Membre DREPA-WORLD";
+
+    document.getElementById("username").textContent = username;
+    document.getElementById("avatar").textContent =
+      username.charAt(0).toUpperCase();
+
+  } catch (error) {
+    showMessage(
+      "Impossible de vérifier votre session. Vérifiez votre connexion Internet puis rechargez la page."
+    );
+  }
+}
+
+document.getElementById("logoutButton").addEventListener("click", async function() {
+  this.disabled = true;
+  this.textContent = "Déconnexion...";
+
+  try {
+    await fetch(API_URL + "/logout", {
+      method: "POST",
+      credentials: "include"
+    });
+  } catch (error) {
+    // La redirection vers la connexion reste possible.
+  }
+
+  window.location.replace("connexion.html");
+});
+
+loadMember();
+</script>
+
+</body>
+    </html>
+    
