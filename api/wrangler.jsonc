@@ -1,0 +1,14 @@
+
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "drepa-world-api",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-26",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "Drepa-world-db",
+      "database_id": "ebf631ac-9fd4-4218-8fda-2c65e4dc8a9f"
+    }
+  ]
+}
