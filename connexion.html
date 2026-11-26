@@ -16,9 +16,7 @@
   --muted:#82908d;
   --border:#e5ebe7;
 }
-
 * {box-sizing:border-box;margin:0;padding:0}
-
 body {
   min-height:100vh;
   background:var(--cream);
@@ -29,12 +27,7 @@ body {
   align-items:center;
   padding:24px 18px;
 }
-
-.container {
-  width:100%;
-  max-width:430px;
-}
-
+.container {width:100%;max-width:430px}
 .logo {
   text-align:center;
   font-size:25px;
@@ -42,9 +35,7 @@ body {
   letter-spacing:2px;
   color:var(--deep);
 }
-
 .logo span {color:var(--gold)}
-
 .subtitle {
   text-align:center;
   color:var(--muted);
@@ -52,7 +43,6 @@ body {
   margin-top:12px;
   line-height:1.6;
 }
-
 .card {
   margin-top:30px;
   background:white;
@@ -61,26 +51,19 @@ body {
   border-radius:22px;
   box-shadow:0 12px 35px #102c350a;
 }
-
-h1 {
-  font-size:23px;
-  margin-bottom:9px;
-}
-
+h1 {font-size:23px;margin-bottom:9px}
 .description {
   color:var(--muted);
   font-size:13px;
   line-height:1.6;
   margin-bottom:24px;
 }
-
 label {
   display:block;
   font-size:12px;
   font-weight:bold;
   margin:17px 0 8px;
 }
-
 input {
   width:100%;
   padding:15px;
@@ -90,11 +73,7 @@ input {
   font-size:14px;
   outline:none;
 }
-
-input:focus {
-  border-color:var(--green);
-}
-
+input:focus {border-color:var(--green)}
 .submit {
   width:100%;
   margin-top:23px;
@@ -106,7 +85,7 @@ input:focus {
   font-size:14px;
   font-weight:bold;
 }
-
+.submit:disabled {opacity:.6}
 .switch {
   display:block;
   width:100%;
@@ -118,7 +97,6 @@ input:focus {
   font-size:13px;
   padding:8px;
 }
-
 .security {
   text-align:center;
   margin-top:20px;
@@ -126,7 +104,6 @@ input:focus {
   line-height:1.7;
   color:var(--muted);
 }
-
 .back {
   display:block;
   text-align:center;
@@ -135,7 +112,6 @@ input:focus {
   font-size:13px;
   text-decoration:none;
 }
-
 .message {
   display:none;
   margin-top:15px;
@@ -146,9 +122,7 @@ input:focus {
   font-size:12px;
   line-height:1.6;
 }
-
 .message.show {display:block}
-
 .form {display:none}
 .form.active {display:block}
 </style>
@@ -172,7 +146,7 @@ input:focus {
         Connectez-vous à votre espace personnel DREPA-WORLD.
       </p>
 
-      <form onsubmit="demo(event,'connexion')">
+      <form id="loginFormElement">
         <label for="email">Adresse e-mail</label>
         <input id="email" type="email"
           placeholder="exemple@email.com" required>
@@ -186,7 +160,8 @@ input:focus {
         </button>
       </form>
 
-      <button class="switch" onclick="changeForm('register')">
+      <button class="switch" type="button"
+        onclick="changeForm('register')">
         Vous avez une invitation ? Créer un compte
       </button>
     </section>
@@ -198,35 +173,40 @@ input:focus {
         uniquement. Saisissez votre code personnel.
       </p>
 
-      <form onsubmit="demo(event,'inscription')">
+      <form id="registerFormElement">
         <label for="code">Code d'invitation</label>
         <input id="code" type="text"
-          placeholder="Ex. DREPA-XXXXXX" required>
+          placeholder="Votre code d'invitation" required>
 
         <label for="name">Nom complet (privé)</label>
         <input id="name" type="text"
           placeholder="Votre nom complet" required>
 
-        <label for="newEmail">Adresse e-mail</label>
         <label for="username">Choisir un pseudonyme public</label>
-<input id="username" type="text"
-  placeholder="Ex. Espoir_2026"
-  minlength="3"
-  maxlength="20"
-  pattern="[A-Za-z0-9_]+"
-  title="Lettres, chiffres et tiret bas uniquement"
-  required>
+        <input id="username" type="text"
+          placeholder="Ex. Espoir_2026"
+          minlength="3"
+          maxlength="20"
+          pattern="[A-Za-z0-9_]+"
+          title="Lettres, chiffres et tiret bas uniquement"
+          required>
+
+        <label for="newEmail">Adresse e-mail</label>
+        <input id="newEmail" type="email"
+          placeholder="exemple@email.com" required>
 
         <label for="newPassword">Créer un mot de passe</label>
         <input id="newPassword" type="password"
-          minlength="10" placeholder="10 caractères minimum" required>
+          minlength="10" maxlength="128"
+          placeholder="10 caractères minimum" required>
 
         <button class="submit" type="submit">
-          Continuer
+          Créer mon compte
         </button>
       </form>
 
-      <button class="switch" onclick="changeForm('login')">
+      <button class="switch" type="button"
+        onclick="changeForm('login')">
         Déjà membre ? Se connecter
       </button>
     </section>
@@ -246,6 +226,8 @@ input:focus {
 </div>
 
 <script>
+const API = "https://drepa-world-api.kchristezechieljunior.workers.dev";
+
 function changeForm(type) {
   document.getElementById('loginForm').classList.toggle(
     'active', type === 'login'
@@ -255,21 +237,87 @@ function changeForm(type) {
     'active', type === 'register'
   );
 
+  hideMessage();
+}
+
+function showMessage(text) {
+  const message = document.getElementById('message');
+  message.textContent = text;
+  message.classList.add('show');
+}
+
+function hideMessage() {
   document.getElementById('message').classList.remove('show');
 }
 
-function demo(event, action) {
-  event.preventDefault();
+async function sendRequest(path, data) {
+  const response = await fetch(API + path, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
 
-  const message = document.getElementById('message');
+  const result = await response.json();
 
-  message.textContent =
-    "Interface de démonstration : le service sécurisé " +
-    "de " + action +
-    " n'est pas encore connecté. Aucune donnée n'a été envoyée.";
+  if (!response.ok || !result.success) {
+    throw new Error(result.error || "Une erreur est survenue.");
+  }
 
-  message.classList.add('show');
+  return result;
 }
+
+document.getElementById('loginFormElement')
+.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Connexion en cours...";
+
+  try {
+    const result = await sendRequest('/login', {
+      email: document.getElementById('email').value,
+      password: document.getElementById('password').value
+    });
+
+    showMessage(result.message + " Votre session est ouverte.");
+  } catch (error) {
+    showMessage(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Se connecter";
+  }
+});
+
+document.getElementById('registerFormElement')
+.addEventListener('submit', async function(event) {
+  event.preventDefault();
+  const button = this.querySelector('button[type="submit"]');
+  button.disabled = true;
+  button.textContent = "Création en cours...";
+
+  try {
+    const result = await sendRequest('/register', {
+      invitation: document.getElementById('code').value.trim(),
+      name: document.getElementById('name').value.trim(),
+      username: document.getElementById('username').value.trim(),
+      email: document.getElementById('newEmail').value.trim(),
+      password: document.getElementById('newPassword').value
+    });
+
+    showMessage(result.message + " Vous pouvez maintenant vous connecter.");
+    this.reset();
+    changeForm('login');
+    showMessage(result.message + " Vous pouvez maintenant vous connecter.");
+  } catch (error) {
+    showMessage(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Créer mon compte";
+  }
+});
 </script>
 
 </body>
