@@ -299,7 +299,7 @@ document.getElementById('loginFormElement')
       password: document.getElementById('password').value
     });
 
-    showMessage(result.message + " Votre session est ouverte.");
+    window.location.href = "espace.html";
   } catch (error) {
     showMessage(error.message);
   } finally {
@@ -340,4 +340,5 @@ document.getElementById('registerFormElement')
 </script>
 
 </body>
-</html>
+  </html>
+  
