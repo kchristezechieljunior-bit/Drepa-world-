@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -251,16 +252,30 @@ function hideMessage() {
 }
 
 async function sendRequest(path, data) {
-  const response = await fetch(API + path, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
+  let response;
 
-  const result = await response.json();
+  try {
+    response = await fetch(API + path, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    });
+  } catch (error) {
+    throw new Error(
+      "Impossible de contacter le serveur. Vérifiez la connexion et l'adresse autorisée."
+    );
+  }
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("Le serveur a envoyé une réponse invalide.");
+  }
 
   if (!response.ok || !result.success) {
     throw new Error(result.error || "Une erreur est survenue.");
@@ -269,16 +284,18 @@ async function sendRequest(path, data) {
   return result;
 }
 
+// Connexion
 document.getElementById('loginFormElement')
 .addEventListener('submit', async function(event) {
   event.preventDefault();
+
   const button = this.querySelector('button[type="submit"]');
   button.disabled = true;
   button.textContent = "Connexion en cours...";
 
   try {
     const result = await sendRequest('/login', {
-      email: document.getElementById('email').value,
+      email: document.getElementById('email').value.trim(),
       password: document.getElementById('password').value
     });
 
@@ -291,26 +308,28 @@ document.getElementById('loginFormElement')
   }
 });
 
+// Inscription
 document.getElementById('registerFormElement')
 .addEventListener('submit', async function(event) {
   event.preventDefault();
+
   const button = this.querySelector('button[type="submit"]');
   button.disabled = true;
   button.textContent = "Création en cours...";
 
   try {
     const result = await sendRequest('/register', {
-      invitation: document.getElementById('code').value.trim(),
+      invitationCode: document.getElementById('code').value.trim(),
       name: document.getElementById('name').value.trim(),
       username: document.getElementById('username').value.trim(),
       email: document.getElementById('newEmail').value.trim(),
       password: document.getElementById('newPassword').value
     });
 
-    showMessage(result.message + " Vous pouvez maintenant vous connecter.");
     this.reset();
     changeForm('login');
     showMessage(result.message + " Vous pouvez maintenant vous connecter.");
+
   } catch (error) {
     showMessage(error.message);
   } finally {
