@@ -10,5 +10,11 @@
       "database_name": "Drepa-world-db",
       "database_id": "ebf631ac-9fd4-4218-8fda-2c65e4dc8a9f"
     }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "drepa-world-media"
+    }
   ]
 }
