@@ -3,21 +3,24 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#102c35">
-<meta name="description" content="Votre espace personnel DREPA-WORLD.">
-
-<title>Mon espace | DREPA-WORLD</title>
+<meta name="description" content="DREPA-WORLD — Une communauté mondiale. Une solidarité sans frontières.">
+<title>Communauté | DREPA-WORLD</title>
 
 <style>
 :root {
-  --dark: #102c35;
+  --navy: #102c35;
   --green: #176b59;
-  --gold: #d6ad68;
-  --cream: #f7f8f4;
+  --green-dark: #104d41;
+  --green-light: #eaf3ef;
+  --gold: #c9a56a;
+  --background: #f3f6f4;
   --white: #ffffff;
-  --muted: #73817d;
-  --border: #e5eae6;
+  --text: #203b3a;
+  --muted: #87948f;
+  --border: #e5ece8;
+  --shadow: 0 8px 30px rgba(16,44,53,.07);
 }
 
 * {
@@ -26,396 +29,1412 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: var(--cream);
-  color: var(--dark);
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
   min-height: 100vh;
 }
 
-header {
-  background: var(--dark);
+button, input, textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.topbar {
+  height: 66px;
+  background: var(--navy);
   color: white;
-  padding: 18px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  padding: 0 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 3px 18px rgba(0,0,0,.13);
 }
 
 .brand {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.3px;
 }
 
 .brand span {
   color: var(--gold);
 }
 
-.logout {
-  border: 1px solid rgba(255,255,255,.35);
-  background: transparent;
-  color: white;
-  padding: 10px 13px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-main {
-  width: min(100% - 30px, 850px);
-  margin: 28px auto;
-}
-
-.welcome {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 25px 21px;
-  margin-bottom: 22px;
-}
-
-.eyebrow {
-  color: var(--green);
-  font-size: 11px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  margin-bottom: 12px;
-}
-
-h1 {
-  font-size: 25px;
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-.welcome p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.profile {
-  margin-top: 20px;
-  padding-top: 17px;
-  border-top: 1px solid var(--border);
+.topbar-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 
-.avatar {
-  width: 43px;
-  height: 43px;
-  background: #e8f1ed;
-  color: var(--green);
-  border-radius: 50%;
+.member-label {
+  color: #d5e3dc;
+  font-size: 12px;
+}
+
+.logout {
+  color: white;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  padding: 9px 14px;
+  font-size: 11px;
+}
+
+.layout {
+  max-width: 1440px;
+  margin: 66px auto 0;
+  min-height: calc(100vh - 66px);
   display: grid;
-  place-items: center;
-  font-size: 19px;
+  grid-template-columns: 230px minmax(0, 650px) 260px;
+  justify-content: center;
+  gap: 28px;
+  padding: 24px;
+}
+
+.left-sidebar,
+.right-sidebar {
+  position: sticky;
+  top: 90px;
+  height: fit-content;
+}
+
+.sidebar-title {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 12px 0 14px;
+}
+
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 14px;
+  color: #62736d;
+  text-decoration: none;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 12px;
+  transition: .2s;
+}
+
+.nav-item svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.nav-item.active,
+.nav-item:hover {
+  background: var(--green-light);
+  color: var(--green);
   font-weight: bold;
 }
 
-.profile small {
-  display: block;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
-
-.profile strong {
-  font-size: 14px;
-}
-
-.section-title {
-  font-size: 17px;
-  margin: 25px 0 14px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 13px;
-}
-
-.module {
+.sidebar-card {
+  margin-top: 24px;
   background: white;
   border: 1px solid var(--border);
   border-radius: 13px;
-  padding: 18px 15px;
-  min-height: 145px;
+  padding: 17px;
+  box-shadow: var(--shadow);
 }
 
-.module-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: #edf4f0;
-  color: var(--green);
+.sidebar-card h3 {
+  color: var(--navy);
+  font-size: 13px;
+  margin-bottom: 9px;
+}
+
+.sidebar-card p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.main-content {
+  min-width: 0;
+}
+
+.mobile-heading {
+  display: none;
+}
+
+.message-box {
+  display: none;
+  margin-bottom: 15px;
+  padding: 13px 15px;
+  border-radius: 9px;
+  background: #fff0ed;
+  color: #a43c2d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.message-box.success {
+  background: #e8f4ed;
+  color: #176b43;
+}
+
+.composer {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  padding: 17px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+}
+
+.composer-top {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 14px;
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 50%;
   display: grid;
   place-items: center;
-  margin-bottom: 13px;
-}
-
-.module-icon svg {
-  width: 21px;
-  height: 21px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.module h3 {
-  font-size: 14px;
-  margin-bottom: 7px;
-}
-
-.module p {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.5;
-}
-
-.status {
-  display: inline-block;
-  margin-top: 11px;
-  font-size: 10px;
-  color: #82652f;
-  background: #f8f0df;
-  padding: 5px 8px;
-  border-radius: 20px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 15px;
   font-weight: bold;
 }
 
-.notice {
-  margin-top: 23px;
-  padding: 17px;
-  border-left: 3px solid var(--gold);
-  background: white;
-  border-radius: 8px;
-}
-
-.notice strong {
+.composer-identity strong {
+  display: block;
+  color: var(--navy);
   font-size: 13px;
 }
 
-.notice p {
+.composer-identity small {
+  display: block;
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.6;
-  margin-top: 7px;
+  font-size: 10px;
+  margin-top: 4px;
 }
 
-footer {
-  text-align: center;
-  padding: 30px 15px;
+#postContent {
+  display: block;
+  width: 100%;
+  min-height: 85px;
+  resize: vertical;
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  background: #fafcfb;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+#postContent:focus {
+  border-color: var(--green);
+  background: white;
+}
+
+.composer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.composer-bottom small {
   color: var(--muted);
+  font-size: 10px;
+}
+
+.publish-button {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 19px;
+  background: var(--green);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.feed-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 22px 2px 13px;
+}
+
+.feed-heading h1 {
+  color: var(--navy);
+  font-size: 17px;
+}
+
+.feed-heading span {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.post {
+  position: relative;
+  min-height: 390px;
+  padding: 22px;
+  border-radius: 17px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.post::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--gold), var(--green));
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  position: relative;
+}
+
+.post-author {
+  flex: 1;
+  min-width: 0;
+}
+
+.post-author strong {
+  display: block;
+  font-size: 13px;
+  color: var(--navy);
+  overflow-wrap: anywhere;
+}
+
+.post-author small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.post-label {
+  color: var(--green);
+  background: var(--green-light);
+  padding: 6px 9px;
+  border-radius: 20px;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.post-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 38px 5px;
+  color: var(--text);
+  font-size: 19px;
+  line-height: 1.75;
+  font-weight: 500;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.post-actions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  border: 0;
+  border-radius: 9px;
+  background: #f4f7f5;
+  color: #65766e;
+  font-size: 10px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.action-button.active {
+  background: var(--green-light);
+  color: var(--green);
+}
+
+.action-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+
+.comments-area {
+  display: none;
+  margin-top: 15px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.comments-area.open {
+  display: block;
+}
+
+.comment {
+  display: flex;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.comment .avatar {
+  width: 33px;
+  height: 33px;
+  flex-basis: 33px;
+  font-size: 12px;
+}
+
+.comment-bubble {
+  flex: 1;
+  min-width: 0;
+  background: #f3f6f4;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.comment-bubble strong {
+  display: block;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.comment-bubble p {
+  font-size: 11px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-form {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.comment-form input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 10px 13px;
+  outline: none;
   font-size: 11px;
 }
 
-#message {
-  display: none;
-  padding: 13px;
-  margin: 15px 0;
-  border-radius: 8px;
-  background: #fff0ed;
-  color: #a43c2d;
-  font-size: 13px;
+.comment-form button {
+  border: 0;
+  border-radius: 22px;
+  padding: 0 15px;
+  background: var(--green);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
 }
 
-@media (max-width: 420px) {
-  .grid {
-    grid-template-columns: 1fr;
+.comment-toggle {
+  align-self: flex-end;
+  margin-top: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 35px 15px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+}
+
+.right-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 17px;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow);
+}
+
+.right-card h3 {
+  color: var(--navy);
+  font-size: 13px;
+  margin-bottom: 13px;
+}
+
+.right-item {
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.right-item strong {
+  display: block;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.right-item span {
+  display: block;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+.refresh-button {
+  display: block;
+  margin: 15px auto;
+  padding: 11px 17px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+footer {
+  padding: 20px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 10px;
+}
+
+@media (max-width: 1050px) {
+  .layout {
+    grid-template-columns: 190px minmax(0, 650px);
+    gap: 20px;
   }
 
-  h1 {
-    font-size: 22px;
+  .right-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  body {
+    background: #f5f7f5;
+  }
+
+  .topbar {
+    height: 58px;
+    padding: 0 15px;
+  }
+
+  .brand {
+    font-size: 17px;
+  }
+
+  .member-label {
+    display: none;
+  }
+
+  .topbar-right {
+    gap: 8px;
+  }
+
+  .logout {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+
+  .layout {
+    display: block;
+    margin-top: 58px;
+    min-height: calc(100vh - 58px);
+    padding: 15px 12px 95px;
+  }
+
+  .left-sidebar,
+  .right-sidebar {
+    display: none;
+  }
+
+  .mobile-heading {
+    display: block;
+    margin: 3px 2px 16px;
+  }
+
+  .mobile-heading h1 {
+    font-size: 20px;
+    color: var(--navy);
+  }
+
+  .mobile-heading p {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 5px;
+  }
+
+  .composer {
+    padding: 13px;
+    margin-bottom: 18px;
+    border-radius: 13px;
+  }
+
+  #postContent {
+    min-height: 68px;
+  }
+
+  .feed-heading {
+    margin-top: 18px;
+  }
+
+  .feed {
+    gap: 13px;
+  }
+
+  .post {
+    min-height: min(650px, calc(100svh - 155px));
+    padding: 17px;
+    border-radius: 15px;
+    scroll-snap-align: start;
+  }
+
+  .post-content {
+    font-size: 20px;
+    line-height: 1.8;
+    padding: 35px 3px;
+  }
+
+  .post-actions {
+    gap: 5px;
+  }
+
+  .action-button {
+    min-height: 43px;
+    font-size: 9px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: calc(66px + env(safe-area-inset-bottom));
+    padding: 7px 5px env(safe-area-inset-bottom);
+    background: rgba(255,255,255,.97);
+    border-top: 1px solid var(--border);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 110;
+    backdrop-filter: blur(12px);
+  }
+
+  .bottom-nav button {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    color: #7d8a84;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 9px;
+  }
+
+  .bottom-nav button.active {
+    color: var(--green);
+    font-weight: bold;
+  }
+
+  .bottom-nav svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.8;
+  }
+
+  footer {
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 380px) {
+  .post {
+    padding: 14px;
+  }
+
+  .post-content {
+    font-size: 18px;
+  }
+
+  .action-button {
+    font-size: 8px;
   }
 }
 </style>
 </head>
-
+  
 <body>
 
-<header>
+<header class="topbar">
   <div class="brand">DREPA<span>-WORLD</span></div>
-  <button class="logout" id="logoutButton">Déconnexion</button>
+
+  <div class="topbar-right">
+    <span class="member-label" id="headerUsername">Membre</span>
+    <button class="logout" id="logoutButton" type="button">
+      Déconnexion
+    </button>
+  </div>
 </header>
 
-<main>
+<div class="layout">
 
-  <div id="message"></div>
+  <aside class="left-sidebar">
+    <div class="sidebar-title">Navigation</div>
 
-  <section class="welcome">
-    <div class="eyebrow">VOTRE ESPACE PERSONNEL</div>
-
-    <h1>Bienvenue dans votre espace.</h1>
-
-    <p>
-      Ici, chaque membre compte. Retrouvez progressivement
-      les services et les espaces de solidarité de
-      la communauté DREPA-WORLD.
-    </p>
-
-    <div class="profile">
-      <div class="avatar" id="avatar">M</div>
-      <div>
-        <small>Votre pseudonyme</small>
-        <strong id="username">Chargement...</strong>
-      </div>
-    </div>
-  </section>
-
-  <h2 class="section-title">Votre communauté</h2>
-
-  <section class="grid">
-
-    <article class="module">
-      <div class="module-icon">
+    <nav class="nav-list">
+      <button class="nav-item active" type="button" data-nav="home">
         <svg viewBox="0 0 24 24">
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M20 8v6M23 11h-6"/>
+          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/>
         </svg>
-      </div>
-      <h3>Communauté</h3>
-      <p>Un espace pour échanger et renforcer les liens entre membres.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
+        Communauté
+      </button>
 
-    <article class="module">
-      <div class="module-icon">
+      <button class="nav-item" type="button" data-nav="donneur">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z"/>
+        </svg>
+        Donneur Ange
+      </button>
+
+      <button class="nav-item" type="button" data-nav="bouclier">
         <svg viewBox="0 0 24 24">
           <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
-          <path d="M12 8v8M8 12h8"/>
+          <path d="m9 12 2 2 4-4"/>
         </svg>
-      </div>
-      <h3>Bouclier Vital</h3>
-      <p>Votre futur espace dédié aux informations essentielles en cas d'urgence.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
+        Bouclier Vital
+      </button>
 
-    <article class="module">
-      <div class="module-icon">
+      <button class="nav-item" type="button" data-nav="meteo">
         <svg viewBox="0 0 24 24">
           <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>
         </svg>
-      </div>
-      <h3>Donneur Ange</h3>
-      <p>Un espace consacré à la solidarité et à l'entraide entre donneurs et bénéficiaires.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
+        Météo Intérieure
+      </button>
 
-    <article class="module">
-      <div class="module-icon">
+      <button class="nav-item" type="button" data-nav="journal">
         <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 6v6l4 2"/>
+          <path d="M4 4h16v16H4z"/>
+          <path d="M8 8h8M8 12h8M8 16h5"/>
         </svg>
-      </div>
-      <h3>Météo Intérieure</h3>
-      <p>Un espace personnel pour exprimer votre ressenti au quotidien.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
+        Journal de suivi
+      </button>
 
-    <article class="module">
-      <div class="module-icon">
+      <button class="nav-item" type="button" data-nav="messages">
         <svg viewBox="0 0 24 24">
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
         </svg>
+        Messagerie
+      </button>
+    </nav>
+
+    <div class="sidebar-card">
+      <h3>Une communauté mondiale</h3>
+      <p>
+        Des personnes différentes, des histoires uniques,
+        une même volonté : se soutenir et avancer ensemble.
+      </p>
+    </div>
+  </aside>
+
+  <main class="main-content">
+
+    <div class="mobile-heading">
+      <h1>DREPA-WORLD</h1>
+      <p>Une communauté mondiale. Une solidarité sans frontières.</p>
+    </div>
+
+    <div id="message" class="message-box" role="alert"></div>
+
+    <section class="composer">
+      <div class="composer-top">
+        <div class="avatar" id="myAvatar">M</div>
+
+        <div class="composer-identity">
+          <strong id="myUsername">Chargement...</strong>
+          <small>Votre voix compte dans cette communauté</small>
+        </div>
       </div>
-      <h3>Journal de suivi</h3>
-      <p>Un futur espace pour conserver vos observations personnelles.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
 
-    <article class="module">
-      <div class="module-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M21 15a4 4 0 0 1-4 4H7l-4 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
-          <path d="M8 10h8M8 14h5"/>
-        </svg>
+      <form id="postForm">
+        <textarea
+          id="postContent"
+          maxlength="2000"
+          placeholder="Que souhaitez-vous partager avec la communauté ?"
+          required
+        ></textarea>
+
+        <div class="composer-bottom">
+          <small>Maximum 2 000 caractères</small>
+          <button class="publish-button" id="publishButton" type="submit">
+            Publier
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <div class="feed-heading">
+      <h1>Fil de la communauté</h1>
+      <span>ESPACE MONDIAL</span>
+    </div>
+
+    <section class="feed" id="feed">
+      <div class="loading">Chargement des publications...</div>
+    </section>
+
+    <button class="refresh-button" id="refreshButton" type="button">
+      Actualiser le fil
+    </button>
+
+  </main>
+
+  <aside class="right-sidebar">
+    <section class="right-card">
+      <h3>Les espaces de solidarité</h3>
+
+      <div class="right-item">
+        <strong>Donneur Ange</strong>
+        <span>La solidarité autour du don de sang.</span>
       </div>
-      <h3>Messagerie</h3>
-      <p>Un futur espace privé pour communiquer avec les autres membres.</p>
-      <span class="status">Bientôt disponible</span>
-    </article>
 
-  </section>
+      <div class="right-item">
+        <strong>Bouclier Vital</strong>
+        <span>Prévention et informations essentielles.</span>
+      </div>
 
-  <div class="notice">
-    <strong>Un espace construit avec vous.</strong>
-    <p>
-      DREPA-WORLD avance progressivement.
-      Les fonctionnalités seront ouvertes au fur et à mesure
-      de leur développement et de leurs vérifications.
-    </p>
-  </div>
+      <div class="right-item">
+        <strong>Météo Intérieure</strong>
+        <span>Écoute et soutien émotionnel.</span>
+      </div>
 
-</main>
+      <div class="right-item">
+        <strong>Journal de suivi</strong>
+        <span>Un espace personnel et confidentiel.</span>
+      </div>
+
+      <div class="right-item">
+        <strong>Messagerie</strong>
+        <span>Des échanges privés entre membres.</span>
+      </div>
+    </section>
+
+    <section class="right-card">
+      <h3>Notre engagement</h3>
+      <p style="font-size:11px;line-height:1.8;color:#87948f;">
+        Respect, confidentialité, écoute et solidarité.
+        Chaque membre mérite une place et une voix.
+      </p>
+    </section>
+  </aside>
+
+</div>
+
+<nav class="bottom-nav" aria-label="Navigation principale">
+
+  <button class="active" type="button" data-nav="home">
+    <svg viewBox="0 0 24 24">
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"/>
+    </svg>
+    Accueil
+  </button>
+
+  <button type="button" data-nav="donneur">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11z"/>
+    </svg>
+    Donneur
+  </button>
+
+  <button type="button" data-nav="messages">
+    <svg viewBox="0 0 24 24">
+      <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.5 8.5 0 0 1 8.7 3.9a8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/>
+    </svg>
+    Messages
+  </button>
+
+  <button type="button" data-nav="journal">
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4h16v16H4z"/>
+      <path d="M8 8h8M8 12h8M8 16h5"/>
+    </svg>
+    Journal
+  </button>
+
+  <button type="button" data-nav="bouclier">
+    <svg viewBox="0 0 24 24">
+      <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/>
+    </svg>
+    Vital
+  </button>
+
+</nav>
 
 <footer>
-  DREPA-WORLD — Une communauté, une force, un avenir.
+  DREPA-WORLD — Une communauté mondiale. Une solidarité sans frontières.
 </footer>
 
 <script>
+  
 const API_URL = "https://drepa-world-api.kchristezechieljunior.workers.dev";
 
-const message = document.getElementById("message");
+const feed = document.getElementById("feed");
+const messageBox = document.getElementById("message");
+const postForm = document.getElementById("postForm");
+const postContent = document.getElementById("postContent");
+const publishButton = document.getElementById("publishButton");
+const refreshButton = document.getElementById("refreshButton");
+const logoutButton = document.getElementById("logoutButton");
 
-function showMessage(text) {
-  message.textContent = text;
-  message.style.display = "block";
+let currentUsername = "";
+let loadingPosts = false;
+
+async function apiRequest(path, options = {}) {
+  const response = await fetch(API_URL + path, {
+    ...options,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(options.headers || {})
+    }
+  });
+
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("Réponse invalide du serveur.");
+  }
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.message || "Une erreur est survenue.");
+  }
+
+  return result;
 }
 
-async function loadMember() {
+function showMessage(message, type = "info") {
+  messageBox.textContent = message;
+  messageBox.className = "message-box " + type;
+  messageBox.style.display = "block";
+
+  window.clearTimeout(showMessage.timer);
+
+  showMessage.timer = window.setTimeout(() => {
+    messageBox.style.display = "none";
+  }, 5000);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, character => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    };
+
+    return entities[character];
+  });
+}
+
+function getInitial(username) {
+  const name = String(username || "M").trim();
+  return escapeHTML(name.charAt(0).toUpperCase());
+}
+
+function formatDate(dateValue) {
+  if (!dateValue) return "Date inconnue";
+
+  let date = new Date(dateValue);
+
+  if (Number.isNaN(date.getTime())) {
+    date = new Date(String(dateValue).replace(" ", "T") + "Z");
+  }
+
+  if (Number.isNaN(date.getTime())) {
+    return "Date inconnue";
+  }
+
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit"
+  }).format(date);
+}
+
+function reactionLabel(reaction) {
+  const labels = {
+    like: "J'aime",
+    support: "Soutien",
+    courage: "Courage"
+  };
+
+  return labels[reaction] || "Réagir";
+}
+
+function renderPost(post) {
+  const username = escapeHTML(post.username || "Membre");
+  const content = escapeHTML(post.content || "");
+  const date = escapeHTML(formatDate(post.created_at));
+  const postId = Number(post.id);
+
+  const reactionsCount = Number(post.reactions_count || 0);
+  const commentsCount = Number(post.comments_count || 0);
+
+  const myReaction = post.my_reaction || "";
+
+  const reactionButtons = [
+    { value: "like", label: "J'aime" },
+    { value: "support", label: "Soutien" },
+    { value: "courage", label: "Courage" }
+  ].map(item => {
+    const active = myReaction === item.value;
+
+    return `
+      <button
+        type="button"
+        class="reaction-btn ${active ? "active" : ""}"
+        data-action="react"
+        data-post-id="${postId}"
+        data-reaction="${item.value}"
+        aria-pressed="${active}"
+      >
+        ${item.label}
+      </button>
+    `;
+  }).join("");
+
+  return `
+    <article class="post" data-post-id="${postId}">
+
+      <div class="post-header">
+        <div class="avatar">${getInitial(post.username)}</div>
+
+        <div class="post-author">
+          <strong>${username}</strong>
+          <small>${date}</small>
+        </div>
+      </div>
+
+      <div class="post-content">${content}</div>
+
+      <div class="post-stats">
+        <span class="reaction-count">${reactionsCount} réaction(s)</span>
+        <span>${commentsCount} commentaire(s)</span>
+      </div>
+
+      <div class="post-actions">
+        ${reactionButtons}
+
+        <button
+          type="button"
+          class="comment-toggle"
+          data-action="toggle-comments"
+          data-post-id="${postId}"
+        >
+          Commenter
+        </button>
+      </div>
+
+      <div
+        class="comments-area"
+        id="comments-${postId}"
+        hidden
+      >
+        <div class="comments-list">
+          <p class="comments-loading">Chargement des commentaires...</p>
+        </div>
+
+        <form class="comment-form" data-post-id="${postId}">
+          <input
+            type="text"
+            name="content"
+            maxlength="1000"
+            placeholder="Écrire un commentaire..."
+            required
+          >
+
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+
+    </article>
+  `;
+}
+
+async function loadProfile() {
+  const result = await apiRequest("/me");
+
+  if (!result.member || !result.member.username) {
+    throw new Error("Session invalide. Veuillez vous reconnecter.");
+  }
+
+  currentUsername = result.member.username;
+
+  document.getElementById("headerUsername").textContent = currentUsername;
+  document.getElementById("myUsername").textContent = currentUsername;
+  document.getElementById("myAvatar").textContent = getInitial(currentUsername);
+}
+
+async function loadPosts() {
+  if (loadingPosts) return;
+
+  loadingPosts = true;
+  feed.innerHTML = '<div class="loading">Chargement des publications...</div>';
+
   try {
-    const response = await fetch(API_URL + "/me", {
-      method: "GET",
-      credentials: "include"
-    });
+    const result = await apiRequest("/posts");
+    const posts = Array.isArray(result.posts) ? result.posts : [];
 
-    const result = await response.json();
-
-    if (!response.ok || !result.success || !result.member) {
-      window.location.replace("connexion.html");
+    if (posts.length === 0) {
+      feed.innerHTML = `
+        <div class="empty-feed">
+          <h3>Bienvenue dans la communauté</h3>
+          <p>
+            Le fil est encore vide. Soyez parmi les premiers
+            à partager un message avec DREPA-WORLD.
+          </p>
+        </div>
+      `;
       return;
     }
 
-    const username = result.member.username || "Membre DREPA-WORLD";
-
-    document.getElementById("username").textContent = username;
-    document.getElementById("avatar").textContent =
-      username.charAt(0).toUpperCase();
+    feed.innerHTML = posts.map(renderPost).join("");
 
   } catch (error) {
-    showMessage(
-      "Impossible de vérifier votre session. Vérifiez votre connexion Internet puis rechargez la page."
-    );
+    feed.innerHTML = `
+      <div class="empty-feed">
+        <p>Impossible de charger les publications.</p>
+        <button type="button" data-action="retry">Réessayer</button>
+      </div>
+    `;
+
+    showMessage(error.message, "error");
+
+  } finally {
+    loadingPosts = false;
   }
 }
 
-document.getElementById("logoutButton").addEventListener("click", async function() {
-  this.disabled = true;
-  this.textContent = "Déconnexion...";
+postForm.addEventListener("submit", async event => {
+  event.preventDefault();
 
-  try {
-    await fetch(API_URL + "/logout", {
-      method: "POST",
-      credentials: "include"
-    });
-  } catch (error) {
-    // La redirection vers la connexion reste possible.
+  const content = postContent.value.trim();
+
+  if (!content) {
+    showMessage("Écrivez un message avant de publier.", "error");
+    return;
   }
 
-  window.location.replace("connexion.html");
+  publishButton.disabled = true;
+  publishButton.textContent = "Publication...";
+
+  try {
+    await apiRequest("/posts", {
+      method: "POST",
+      body: JSON.stringify({ content })
+    });
+
+    postContent.value = "";
+
+    showMessage("Votre publication a été publiée.", "success");
+
+    await loadPosts();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+
+  } finally {
+    publishButton.disabled = false;
+    publishButton.textContent = "Publier";
+  }
 });
 
-loadMember();
+async function loadComments(postId) {
+  const area = document.getElementById("comments-" + postId);
+
+  if (!area) return;
+
+  const list = area.querySelector(".comments-list");
+
+  list.innerHTML = '<p class="comments-loading">Chargement...</p>';
+
+  try {
+    const result = await apiRequest(
+      "/posts/" + encodeURIComponent(postId) + "/comments"
+    );
+
+    const comments = Array.isArray(result.comments)
+      ? result.comments
+      : [];
+
+    if (comments.length === 0) {
+      list.innerHTML = "<p>Aucun commentaire pour le moment.</p>";
+      return;
+    }
+
+    list.innerHTML = comments.map(comment => `
+      <div class="comment">
+        <strong>${escapeHTML(comment.username || "Membre")}</strong>
+        <p>${escapeHTML(comment.content || "")}</p>
+      </div>
+    `).join("");
+
+  } catch (error) {
+    list.innerHTML = "<p>Impossible de charger les commentaires.</p>";
+    showMessage(error.message, "error");
+  }
+}
+
+async function sendReaction(postId, reaction) {
+  try {
+    await apiRequest(
+      "/posts/" + encodeURIComponent(postId) + "/reactions",
+      {
+        method: "POST",
+        body: JSON.stringify({ reaction })
+      }
+    );
+
+    await loadPosts();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+  }
+}
+
+feed.addEventListener("click", async event => {
+  const button = event.target.closest("button[data-action]");
+
+  if (!button) return;
+
+  const action = button.dataset.action;
+  const postId = button.dataset.postId;
+
+  if (action === "retry") {
+    loadPosts();
+    return;
+  }
+
+  if (action === "react") {
+    await sendReaction(postId, button.dataset.reaction);
+    return;
+  }
+
+  if (action === "toggle-comments") {
+    const area = document.getElementById("comments-" + postId);
+
+    if (!area) return;
+
+    const opening = area.hidden;
+    area.hidden = !opening;
+
+    if (opening) {
+      await loadComments(postId);
+    }
+  }
+});
+
+feed.addEventListener("submit", async event => {
+  const form = event.target.closest(".comment-form");
+
+  if (!form) return;
+
+  event.preventDefault();
+
+  const postId = form.dataset.postId;
+  const input = form.querySelector('input[name="content"]');
+  const content = input.value.trim();
+  const submitButton = form.querySelector("button");
+
+  if (!content) return;
+
+  submitButton.disabled = true;
+  submitButton.textContent = "Envoi...";
+
+  try {
+    await apiRequest(
+      "/posts/" + encodeURIComponent(postId) + "/comments",
+      {
+        method: "POST",
+        body: JSON.stringify({ content })
+      }
+    );
+
+    input.value = "";
+
+    showMessage("Commentaire envoyé.", "success");
+
+    await loadPosts();
+
+    const area = document.getElementById("comments-" + postId);
+
+    if (area) {
+      area.hidden = false;
+      await loadComments(postId);
+    }
+
+  } catch (error) {
+    showMessage(error.message, "error");
+
+  } finally {
+    submitButton.disabled = false;
+    submitButton.textContent = "Envoyer";
+  }
+});
+
+refreshButton.addEventListener("click", loadPosts);
+
+logoutButton.addEventListener("click", async () => {
+  logoutButton.disabled = true;
+  logoutButton.textContent = "Déconnexion...";
+
+  try {
+    await apiRequest("/logout", {
+      method: "POST",
+      body: JSON.stringify({})
+    });
+
+    window.location.href = "connexion.html";
+
+  } catch (error) {
+    showMessage(error.message, "error");
+
+    logoutButton.disabled = false;
+    logoutButton.textContent = "Déconnexion";
+  }
+});
+
+document.querySelectorAll("[data-nav]").forEach(button => {
+  button.addEventListener("click", () => {
+    const destination = button.dataset.nav;
+
+    if (destination === "home") {
+      document.querySelectorAll("[data-nav]").forEach(item => {
+        item.classList.toggle("active", item.dataset.nav === "home");
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    showMessage(
+      "Cet espace sera activé dans une prochaine étape.",
+      "info"
+    );
+  });
+});
+
+async function initializeSpace() {
+  try {
+    await loadProfile();
+    await loadPosts();
+
+  } catch (error) {
+    showMessage(error.message, "error");
+
+    window.setTimeout(() => {
+      window.location.href = "connexion.html";
+    }, 1800);
+  }
+}
+
+initializeSpace();
 </script>
 
 </body>
-    </html>
-    
+</html>
+
