@@ -2,24 +2,30 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#102c35">
-<meta name="description" content="DREPA-WORLD — Une communauté mondiale. Une solidarité sans frontières.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123c32">
+<meta name="description" content="DREPA-WORLD, une communauté mondiale de solidarité et de partage.">
 <title>Communauté | DREPA-WORLD</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --navy: #102c35;
-  --green: #176b59;
-  --green-dark: #104d41;
-  --green-light: #eaf3ef;
-  --gold: #c9a56a;
-  --background: #f3f6f4;
+  --green: #123c32;
+  --green-dark: #0b2c25;
+  --green-light: #e8f1ed;
+  --gold: #bd9a59;
+  --gold-light: #f5efe2;
+  --ivory: #faf9f6;
   --white: #ffffff;
-  --text: #203b3a;
-  --muted: #87948f;
-  --border: #e5ece8;
-  --shadow: 0 5px 20px rgba(16,44,53,.055);
+  --text: #202d28;
+  --muted: #7b8781;
+  --border: #e9ece8;
+  --danger: #b94d4d;
+  --shadow: 0 8px 30px rgba(25, 54, 43, .045);
+  --radius: 17px;
 }
 
 * {
@@ -30,13 +36,15 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--ivory);
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
-  background: var(--background);
-  color: var(--text);
   min-height: 100vh;
+  font-family: "DM Sans", sans-serif;
+  color: var(--text);
+  background: var(--ivory);
+  -webkit-font-smoothing: antialiased;
 }
 
 button, input, textarea {
@@ -48,142 +56,221 @@ button {
 }
 
 button:disabled {
-  opacity: .55;
   cursor: not-allowed;
+  opacity: .6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.app-shell {
+  min-height: 100vh;
 }
 
 .topbar {
-  height: 64px;
-  background: var(--navy);
-  color: white;
+  height: 72px;
+  position: sticky;
+  top: 0;
+  z-index: 50;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 5%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  box-shadow: 0 3px 18px rgba(0,0,0,.13);
+  background: rgba(255,255,255,.94);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
 }
 
 .brand {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
 }
 
-.brand span {
-  color: var(--gold);
+.brand-mark {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  background: var(--green);
+  color: white;
+  border-radius: 12px;
+  font-family: Manrope, sans-serif;
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.brand-name {
+  color: var(--green);
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
 }
 
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 18px;
 }
 
-.member-label {
-  color: #d5e3dc;
+.topbar-label {
+  color: var(--muted);
   font-size: 12px;
+  font-weight: 600;
 }
 
-.logout {
-  color: white;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 8px;
-  padding: 9px 13px;
-  font-size: 11px;
+.icon-button {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: var(--green);
+  background: var(--green-light);
+  border: 0;
+  border-radius: 13px;
+  transition: .2s ease;
+}
+
+.icon-button:hover {
+  background: #dce9e2;
+  transform: rotate(-12deg);
 }
 
 .layout {
-  max-width: 1440px;
-  margin: 64px auto 0;
-  min-height: calc(100vh - 64px);
+  width: min(1450px, 94%);
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 220px minmax(0, 650px) 250px;
+  grid-template-columns: 235px minmax(0, 650px) 260px;
   justify-content: center;
-  gap: 25px;
-  padding: 23px;
+  gap: 28px;
+  padding: 28px 0 70px;
 }
 
-.left-sidebar,
-.right-sidebar {
+.sidebar {
   position: sticky;
-  top: 88px;
-  height: fit-content;
-}
-
-.sidebar-title {
-  color: var(--muted);
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  margin: 12px 0 14px;
-}
-
-.nav-list {
+  top: 96px;
+  height: calc(100vh - 120px);
+  min-height: 520px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
-}
-
-.nav-item {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 12px 14px;
-  color: #62736d;
-  text-decoration: none;
-  border: 0;
-  background: transparent;
-  border-radius: 10px;
-  text-align: left;
-  font-size: 12px;
-  transition: .2s;
-}
-
-.nav-item svg {
-  width: 19px;
-  height: 19px;
-  flex-shrink: 0;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.8;
-}
-
-.nav-item.active,
-.nav-item:hover {
-  background: var(--green-light);
-  color: var(--green);
-  font-weight: bold;
-}
-
-.sidebar-card,
-.right-card {
-  margin-top: 22px;
-  background: white;
+  padding: 18px 13px;
+  background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 16px;
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
-.sidebar-card h3,
-.right-card h3 {
-  color: var(--navy);
-  font-size: 13px;
-  margin-bottom: 9px;
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 8px 21px;
+  border-bottom: 1px solid var(--border);
 }
 
-.sidebar-card p,
-.right-card p {
+.avatar {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.profile-details {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-details strong {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-details span {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 10px;
+}
+
+.side-navigation {
+  display: grid;
+  gap: 6px;
+  padding-top: 22px;
+}
+
+.nav-link {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  color: #66736c;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  transition: .2s ease;
+}
+
+.nav-link svg {
+  width: 19px;
+  height: 19px;
+}
+
+.nav-link:hover {
+  color: var(--green);
+  background: #f3f6f3;
+}
+
+.nav-link.active {
+  color: var(--green);
+  background: var(--green-light);
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.logout-link {
+  width: 100%;
+  color: #8c615c;
+}
+
+.logout-link:hover {
+  color: var(--danger);
+  background: #fbf0ee;
+}
+
+.sidebar-footer p {
+  margin: 15px 8px 3px;
+  color: #9ba39e;
+  font-size: 10px;
   line-height: 1.7;
 }
 
@@ -191,212 +278,231 @@ button:disabled {
   min-width: 0;
 }
 
-.mobile-heading {
-  display: none;
+.feed-heading {
+  padding: 9px 3px 20px;
 }
 
-.message-box {
-  display: none;
-  margin-bottom: 13px;
-  padding: 12px 14px;
-  border-radius: 9px;
-  background: #fff0ed;
-  color: #a43c2d;
+.eyebrow {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.6px;
+}
+
+.feed-heading h1 {
+  color: var(--green);
+  font-family: Manrope, sans-serif;
+  font-size: clamp(24px, 3vw, 31px);
+  font-weight: 800;
+  letter-spacing: -.9px;
+}
+
+.feed-heading p {
+  margin-top: 7px;
+  color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
 }
 
-.message-box.success {
-  background: #e8f4ed;
-  color: #176b43;
-}
-
-.composer {
-  background: white;
+.composer-card {
+  padding: 19px;
+  background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 13px;
-  padding: 15px;
-  margin-bottom: 19px;
+  border-radius: var(--radius);
   box-shadow: var(--shadow);
 }
 
 .composer-top {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 11px;
+  margin-bottom: 15px;
 }
 
-.avatar {
-  width: 39px;
-  height: 39px;
-  flex: 0 0 39px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--green-light);
-  color: var(--green);
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.composer-identity strong {
+.composer-top strong {
   display: block;
-  color: var(--navy);
-  font-size: 12px;
+  color: var(--text);
+  font-size: 13px;
 }
 
-.composer-identity small {
+.composer-top span {
   display: block;
+  margin-top: 3px;
   color: var(--muted);
   font-size: 10px;
-  margin-top: 4px;
+}
+
+.composer-avatar {
+  width: 39px;
+  height: 39px;
 }
 
 #postContent {
-  display: block;
   width: 100%;
-  min-height: 67px;
+  min-height: 82px;
   resize: vertical;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  outline: none;
-  background: #fafcfb;
+  padding: 14px;
   color: var(--text);
-  font-size: 12px;
+  background: #f8f9f7;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  outline: none;
+  font-size: 13px;
   line-height: 1.6;
+  transition: .2s ease;
 }
 
-#postContent:focus,
-.comment-form input:focus {
-  border-color: var(--green);
+#postContent:focus {
   background: white;
+  border-color: #b6c9bd;
+}
+
+#postContent::placeholder {
+  color: #a0aaa3;
+}
+
+.composer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 13px;
 }
 
 .media-picker {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 11px;
-}
-
-.media-picker label {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  padding: 9px 11px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  gap: 8px;
+  padding: 9px 12px;
   color: var(--green);
-  background: #fbfdfb;
+  background: var(--green-light);
+  border-radius: 10px;
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 700;
   cursor: pointer;
+  transition: .2s ease;
+}
+
+.media-picker:hover {
+  background: #dce9e2;
 }
 
 .media-picker svg {
   width: 17px;
   height: 17px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.8;
-}
-
-#mediaInput {
-  display: none;
-}
-
-.media-selection {
-  display: none;
-  align-items: center;
-  gap: 9px;
-  margin-top: 10px;
-  padding: 9px 11px;
-  border-radius: 8px;
-  background: var(--green-light);
-  color: var(--green-dark);
-  font-size: 10px;
-}
-
-.media-selection.visible {
-  display: flex;
-}
-
-.media-selection span {
-  flex: 1;
-  overflow-wrap: anywhere;
-}
-
-.remove-media {
-  border: 0;
-  background: transparent;
-  color: #9b493e;
-  font-size: 11px;
-  font-weight: bold;
-}
-
-.composer-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.composer-bottom small {
-  color: var(--muted);
-  font-size: 10px;
 }
 
 .publish-button {
-  border: 0;
-  border-radius: 8px;
+  min-width: 105px;
   padding: 10px 18px;
-  background: var(--green);
   color: white;
+  background: var(--green);
+  border: 0;
+  border-radius: 10px;
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 700;
+  transition: .2s ease;
 }
 
 .publish-button:hover {
   background: var(--green-dark);
+  transform: translateY(-1px);
 }
 
-.feed-heading {
+.media-selection {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 20px 2px 12px;
-}
-
-.feed-heading h1 {
-  color: var(--navy);
-  font-size: 16px;
-}
-
-.feed-heading span {
-  color: var(--green);
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: .5px;
-}
-
-.feed {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.post {
-  position: relative;
-  padding: 15px 16px 11px;
-  border-radius: 13px;
-  background: white;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #f6f8f5;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  border-radius: 10px;
+}
+
+.media-selection[hidden] {
+  display: none;
+}
+
+.media-selection-info {
   min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--green);
+  font-size: 11px;
+}
+
+.media-selection-info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.media-selection-info svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+}
+
+#removeMediaButton {
+  padding: 6px 9px;
+  color: var(--danger);
+  background: transparent;
+  border: 0;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.form-message {
+  min-height: 0;
+  margin-top: 8px;
+  font-size: 11px;
+}
+
+.form-message:empty {
+  display: none;
+}
+
+.form-message.error {
+  color: var(--danger);
+}
+
+.form-message.success {
+  color: var(--green);
+}
+
+.feed-section {
+  margin-top: 23px;
+}
+
+.feed-list {
+  display: grid;
+  gap: 15px;
+}
+
+.post-card {
+  overflow: hidden;
+  padding: 17px 18px 10px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: appear .3s ease both;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .post-header {
@@ -405,267 +511,300 @@ button:disabled {
   gap: 10px;
 }
 
-.post-author {
-  flex: 1;
+.post-avatar {
+  width: 39px;
+  height: 39px;
+  font-size: 13px;
+}
+
+.post-author-info {
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.post-author strong {
-  display: block;
+.post-author-info strong {
+  color: var(--text);
   font-size: 12px;
-  color: var(--navy);
-  overflow-wrap: anywhere;
+  font-weight: 800;
 }
 
-.post-author small {
-  display: block;
-  color: var(--muted);
+.post-author-info span {
+  color: #9aa39d;
   font-size: 10px;
-  margin-top: 4px;
 }
 
-.post-label {
-  color: var(--green);
-  background: var(--green-light);
-  padding: 5px 8px;
-  border-radius: 20px;
+.post-menu-label {
+  margin-left: auto;
+  color: #a0aaa3;
   font-size: 9px;
-  font-weight: bold;
+  font-weight: 700;
+  letter-spacing: .5px;
 }
 
 .post-content {
-  padding: 12px 1px 13px;
-  color: var(--text);
+  padding: 15px 1px;
+  color: #37443d;
   font-size: 13px;
-  line-height: 1.65;
-  white-space: pre-wrap;
+  line-height: 1.75;
   overflow-wrap: anywhere;
 }
 
-.post-content:empty {
-  display: none;
+.post-media-container {
+  overflow: hidden;
+  margin: 0 -18px;
+  background: #f0f2ef;
 }
 
 .post-media {
-  display: none;
   width: 100%;
-  max-height: 540px;
+  max-height: 520px;
+  display: block;
   object-fit: contain;
-  background: #101b19;
-  border-radius: 9px;
-  margin: 2px 0 12px;
+  opacity: 0;
+  transition: opacity .25s ease;
 }
 
 .post-media.visible {
-  display: block;
-}
-
-video.post-media {
-  max-height: 500px;
+  opacity: 1;
 }
 
 .media-error {
-  display: none;
-  padding: 15px;
-  margin: 5px 0 12px;
-  background: #f3f6f4;
-  border-radius: 8px;
+  padding: 25px;
   color: var(--muted);
-  font-size: 11px;
   text-align: center;
+  font-size: 12px;
 }
 
-.post-stats {
+.post-statistics {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 10px 1px;
-  border-bottom: 1px solid var(--border);
-  color: var(--muted);
+  padding: 12px 2px 10px;
+  color: #8a9690;
   font-size: 10px;
+}
+
+.comments-total {
+  color: #8a9690;
+  background: transparent;
+  border: 0;
+  font-size: 10px;
+}
+
+.comments-total:hover {
+  color: var(--green);
 }
 
 .post-actions {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 5px;
-  padding-top: 8px;
-}
-
-.action-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-width: 0;
-  min-height: 37px;
-  padding: 6px 3px;
-  border: 0;
-  border-radius: 8px;
-  background: transparent;
-  color: #687a72;
-  font-size: 10px;
-  font-weight: bold;
-  transition: background .18s, color .18s;
-}
-
-.action-button:hover {
-  background: #f2f6f3;
-}
-
-.action-button.active {
-  background: var(--green-light);
-  color: var(--green);
-}
-
-.action-button svg {
-  width: 16px;
-  height: 16px;
-  flex: 0 0 16px;
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.comments-area {
-  display: none;
-  margin-top: 10px;
-  padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 
-.comments-area.open {
-  display: block;
-}
-
-.comment {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.comment .avatar {
-  width: 30px;
-  height: 30px;
-  flex-basis: 30px;
-  font-size: 11px;
-}
-
-.comment-bubble {
-  flex: 1;
+.post-action {
   min-width: 0;
-  background: #f3f6f4;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: #738078;
+  background: transparent;
+  border: 0;
   border-radius: 9px;
-  padding: 9px 11px;
-}
-
-.comment-bubble strong {
-  display: block;
   font-size: 10px;
-  margin-bottom: 4px;
-  color: var(--navy);
+  font-weight: 600;
+  transition: .18s ease;
 }
 
-.comment-bubble p {
+.post-action svg {
+  width: 17px;
+  height: 17px;
+}
+
+.post-action:hover {
+  color: var(--green);
+  background: #f3f7f3;
+}
+
+.comments-area {
+  padding: 12px 2px 8px;
+  border-top: 1px solid var(--border);
+}
+
+.comments-area[hidden] {
+  display: none;
+}
+
+.comments-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.comment-item {
+  padding: 10px 12px;
+  background: #f7f8f6;
+  border-radius: 11px;
+}
+
+.comment-item strong {
+  color: var(--green);
   font-size: 11px;
-  line-height: 1.55;
-  white-space: pre-wrap;
+}
+
+.comment-item p {
+  margin-top: 5px;
+  color: #49554e;
+  font-size: 11px;
+  line-height: 1.6;
   overflow-wrap: anywhere;
+}
+
+.comment-item span {
+  display: block;
+  margin-top: 5px;
+  color: #9aa39d;
+  font-size: 9px;
 }
 
 .comment-form {
   display: flex;
-  gap: 7px;
-  margin-top: 10px;
+  gap: 8px;
 }
 
 .comment-form input {
-  flex: 1;
   min-width: 0;
+  flex: 1;
+  padding: 10px 12px;
+  background: #f7f8f6;
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 9px 12px;
+  border-radius: 10px;
   outline: none;
   font-size: 11px;
 }
 
-.comment-form button {
-  border: 0;
-  border-radius: 20px;
-  padding: 0 13px;
-  background: var(--green);
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
+.comment-form input:focus {
+  border-color: #a9c0b2;
 }
 
-.loading,
-.empty {
-  text-align: center;
-  padding: 27px 15px;
+.comment-form button {
+  padding: 0 14px;
+  color: white;
+  background: var(--green);
+  border: 0;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.comment-message {
+  margin-top: 7px;
   color: var(--muted);
+  font-size: 10px;
+}
+
+.no-comments {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.feed-loading,
+.empty-feed {
+  padding: 35px 20px;
+  color: var(--muted);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
   font-size: 12px;
   line-height: 1.7;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 12px;
 }
 
-.loading-more {
-  text-align: center;
-  padding: 18px;
-  color: var(--muted);
-  font-size: 11px;
+.empty-feed h2 {
+  margin-bottom: 8px;
+  color: var(--green);
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
 }
 
-.right-item {
-  padding: 11px 0;
-  border-top: 1px solid var(--border);
+.empty-feed p {
+  max-width: 370px;
+  margin: 0 auto;
 }
 
-.right-item strong {
-  display: block;
-  font-size: 11px;
-  color: var(--text);
-}
-
-.right-item span {
-  display: block;
-  font-size: 10px;
-  line-height: 1.5;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.refresh-button {
+.retry-button,
+.load-more-button {
   display: block;
   margin: 14px auto;
-  padding: 10px 16px;
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 9px;
+  padding: 10px 17px;
   color: var(--green);
-  font-size: 10px;
-  font-weight: bold;
+  background: var(--green-light);
+  border: 0;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
 }
 
-.bottom-nav {
+.feed-sentinel {
+  height: 5px;
+}
+
+.feed-status {
+  padding: 12px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 10px;
+}
+
+.right-sidebar {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.information-card {
+  padding: 19px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.information-card h2 {
+  color: var(--green);
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.information-card p {
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.right-sidebar-footer {
+  padding: 8px 4px;
+  color: #a1aaa4;
+  font-size: 9px;
+}
+
+.mobile-nav {
   display: none;
 }
 
-footer {
-  padding: 20px;
-  color: var(--muted);
-  text-align: center;
-  font-size: 10px;
-}
-
-@media (max-width: 1050px) {
+@media (max-width: 1100px) {
   .layout {
-    grid-template-columns: 185px minmax(0, 650px);
-    gap: 18px;
+    grid-template-columns: 205px minmax(0, 650px);
+    gap: 20px;
   }
 
   .right-sidebar {
@@ -675,437 +814,460 @@ footer {
 
 @media (max-width: 700px) {
   body {
-    background: #f5f7f5;
+    background: #f6f7f4;
   }
 
   .topbar {
-    height: 56px;
-    padding: 0 14px;
+    height: 59px;
+    padding: 0 17px;
   }
 
-  .brand {
-    font-size: 16px;
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 20px;
   }
 
-  .member-label {
+  .brand-name {
+    font-size: 14px;
+  }
+
+  .topbar-label {
     display: none;
-  }
-
-  .topbar-right {
-    gap: 8px;
-  }
-
-  .logout {
-    padding: 8px 10px;
-    font-size: 10px;
   }
 
   .layout {
+    width: 100%;
     display: block;
-    margin-top: 56px;
-    min-height: calc(100vh - 56px);
-    padding: 12px 10px 92px;
+    padding: 17px 12px 100px;
   }
 
-  .left-sidebar,
-  .right-sidebar {
+  .sidebar {
     display: none;
   }
 
-  .mobile-heading {
-    display: block;
-    margin: 3px 2px 13px;
-  }
-
-  .mobile-heading h1 {
-    font-size: 19px;
-    color: var(--navy);
-  }
-
-  .mobile-heading p {
-    color: var(--muted);
-    font-size: 10px;
-    line-height: 1.6;
-    margin-top: 4px;
-  }
-
-  .composer {
-    padding: 12px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-  }
-
-  #postContent {
-    min-height: 60px;
+  .main-content {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
   }
 
   .feed-heading {
-    margin-top: 16px;
+    padding: 7px 4px 17px;
   }
 
-  .feed {
-    gap: 10px;
+  .feed-heading h1 {
+    font-size: 25px;
   }
 
-  .post {
-    padding: 13px 13px 9px;
-    border-radius: 12px;
+  .feed-heading p {
+    max-width: 310px;
+    font-size: 11px;
   }
 
-  .post-content {
-    font-size: 13px;
-    line-height: 1.65;
-    padding: 11px 1px;
+  .composer-card {
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  #postContent {
+    min-height: 72px;
+    font-size: 12px;
+  }
+
+  .post-card {
+    padding: 14px 14px 8px;
+    border-radius: 15px;
+  }
+
+  .post-media-container {
+    margin: 0 -14px;
   }
 
   .post-media {
-    max-height: 430px;
-  }
-
-  video.post-media {
-    max-height: 380px;
+    max-height: 440px;
   }
 
   .post-actions {
-    gap: 2px;
+    gap: 1px;
   }
 
-  .action-button {
-    min-height: 36px;
+  .post-action {
+    min-height: 43px;
+    gap: 5px;
     font-size: 9px;
-    gap: 4px;
   }
 
-  .action-button svg {
-    width: 15px;
-    height: 15px;
-    flex-basis: 15px;
+  .post-action svg {
+    width: 16px;
+    height: 16px;
   }
 
-  .bottom-nav {
+  .mobile-nav {
     position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    height: calc(62px + env(safe-area-inset-bottom));
-    padding: 6px 4px env(safe-area-inset-bottom);
-    background: rgba(255,255,255,.97);
-    border-top: 1px solid var(--border);
-    bottom: 0;
+    z-index: 60;
     left: 0;
     right: 0;
-    z-index: 110;
-    backdrop-filter: blur(12px);
+    bottom: 0;
+    height: calc(66px + env(safe-area-inset-bottom));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    background: rgba(255,255,255,.97);
+    border-top: 1px solid var(--border);
+    backdrop-filter: blur(18px);
   }
 
-  .bottom-nav button {
-    flex: 1;
-    border: 0;
-    background: transparent;
-    color: #7d8a84;
+  .mobile-nav-link {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
+    color: #89948d;
+    background: transparent;
+    border: 0;
     font-size: 9px;
+    font-weight: 600;
   }
 
-  .bottom-nav button.active {
+  .mobile-nav-link svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-nav-link.active {
     color: var(--green);
-    font-weight: bold;
   }
 
-  .bottom-nav svg {
-    width: 19px;
-    height: 19px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 1.8;
-  }
-
-  footer {
-    padding-bottom: 18px;
+  .mobile-nav-link.active svg {
+    stroke-width: 2.3;
   }
 }
 
-@media (max-width: 380px) {
-  .post {
-    padding: 12px 11px 8px;
-  }
-
-  .action-button {
+@media (max-width: 370px) {
+  .post-action {
+    flex-direction: column;
+    gap: 3px;
     font-size: 8px;
   }
 
-  .action-button svg {
-    width: 14px;
-    height: 14px;
-    flex-basis: 14px;
+  .composer-bottom {
+    gap: 6px;
+  }
+
+  .media-picker {
+    padding: 9px;
+    font-size: 10px;
+  }
+
+  .publish-button {
+    min-width: 88px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
   }
 }
 </style>
   </head>
   <body>
-  <div class="app-shell">
+<div class="app-shell">
 
-    <header class="topbar">
-      <a class="brand" href="espace.html" aria-label="DREPA-WORLD">
-        <span class="brand-mark">D</span>
-        <span class="brand-name">DREPA-WORLD</span>
-      </a>
+  <header class="topbar">
+    <a href="espace.html" class="brand" aria-label="DREPA-WORLD">
+      <span class="brand-mark">D</span>
+      <span class="brand-name">DREPA-WORLD</span>
+    </a>
 
-      <div class="topbar-right">
-        <span class="topbar-label">Communauté mondiale</span>
-        <button class="icon-button" id="refreshFeed" type="button" aria-label="Actualiser le fil">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 7v5h-5M4 17v-5h5"></path>
-            <path d="M5.5 9a7 7 0 0 1 12-2L20 12M4 12l2.5 5a7 7 0 0 0 12-2"></path>
-          </svg>
-        </button>
-      </div>
-    </header>
-
-    <div class="layout">
-
-      <aside class="sidebar">
-        <div class="sidebar-profile">
-          <div class="avatar" id="myAvatar">M</div>
-          <div class="profile-details">
-            <strong id="myUsername">Membre</strong>
-            <span>Membre de DREPA-WORLD</span>
-          </div>
-        </div>
-
-        <nav class="side-navigation" aria-label="Navigation principale">
-          <button class="nav-link active" type="button" data-nav="feed">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <rect x="3" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="14" y="3" width="7" height="7" rx="1"></rect>
-              <rect x="3" y="14" width="7" height="7" rx="1"></rect>
-              <rect x="14" y="14" width="7" height="7" rx="1"></rect>
-            </svg>
-            <span>Fil d'actualité</span>
-          </button>
-
-          <button class="nav-link" type="button" data-nav="messages">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"></path>
-            </svg>
-            <span>Messagerie</span>
-          </button>
-
-          <button class="nav-link" type="button" data-nav="network">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="9" cy="8" r="3"></circle>
-              <path d="M3 20v-1a6 6 0 0 1 12 0v1"></path>
-              <path d="M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"></path>
-            </svg>
-            <span>Réseau mondial</span>
-          </button>
-
-          <button class="nav-link" type="button" data-nav="support">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"></path>
-            </svg>
-            <span>Solidarité</span>
-          </button>
-        </nav>
-
-        <div class="sidebar-footer">
-          <button class="nav-link logout-link" id="logoutButton" type="button">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M10 17l5-5-5-5M15 12H3"></path>
-              <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path>
-            </svg>
-            <span>Déconnexion</span>
-          </button>
-          <p>Une communauté mondiale.<br>Une solidarité sans frontières.</p>
-        </div>
-      </aside>
-
-      <main class="main-content">
-
-        <section class="feed-heading">
-          <div>
-            <span class="eyebrow">DREPA-WORLD</span>
-            <h1>Fil d'actualité</h1>
-            <p>Les nouvelles, les échanges et les histoires de notre communauté.</p>
-          </div>
-        </section>
-
-        <section class="composer-card" aria-label="Créer une publication">
-          <div class="composer-top">
-            <div class="avatar composer-avatar" id="composerAvatar">M</div>
-            <div>
-              <strong id="composerUsername">Membre</strong>
-              <span>Partager avec la communauté</span>
-            </div>
-          </div>
-
-          <form id="postForm">
-            <textarea
-              id="postContent"
-              maxlength="2000"
-              placeholder="Que souhaitez-vous partager aujourd'hui ?"
-              aria-label="Contenu de la publication"
-            ></textarea>
-
-            <div class="media-selection" id="mediaSelection" hidden>
-              <div class="media-selection-info">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
-                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                  <path d="m21 15-5-5L5 21"></path>
-                </svg>
-                <span id="selectedMediaName"></span>
-              </div>
-              <button type="button" id="removeMediaButton" aria-label="Retirer le média">
-                Retirer
-              </button>
-            </div>
-
-            <div class="composer-bottom">
-              <label class="media-picker" for="mediaInput">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="3" y="3" width="18" height="18" rx="3"></rect>
-                  <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                  <path d="m21 15-5-5L5 21"></path>
-                </svg>
-                <span>Photo ou vidéo</span>
-              </label>
-
-              <input
-                type="file"
-                id="mediaInput"
-                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
-                hidden
-              >
-
-              <button type="submit" class="publish-button" id="publishButton">
-                Publier
-              </button>
-            </div>
-
-            <p class="form-message" id="formMessage" role="status"></p>
-          </form>
-        </section>
-
-        <section class="feed-section" aria-label="Publications de la communauté">
-          <div class="feed-list" id="feed" aria-live="polite">
-            <div class="feed-loading" id="initialFeedLoading">
-              Chargement des publications...
-            </div>
-          </div>
-
-          <div class="feed-sentinel" id="feedSentinel"></div>
-          <div class="feed-status" id="feedStatus" role="status"></div>
-
-          <button type="button" class="load-more-button" id="loadMoreButton" hidden>
-            Charger plus de publications
-          </button>
-        </section>
-
-      </main>
-
-      <aside class="right-sidebar">
-        <div class="information-card">
-          <span class="eyebrow">NOTRE ESPRIT</span>
-          <h2>Ensemble, plus forts.</h2>
-          <p>
-            DREPA-WORLD rassemble les personnes, les familles et les
-            organisations autour de l'entraide et de la solidarité.
-          </p>
-        </div>
-
-        <div class="information-card">
-          <span class="eyebrow">COMMUNAUTÉ</span>
-          <h2>Un espace de confiance</h2>
-          <p>
-            Chaque membre contribue à faire de cette communauté un espace
-            de respect, d'écoute et de partage.
-          </p>
-        </div>
-
-        <div class="right-sidebar-footer">
-          DREPA-WORLD · Communauté mondiale
-        </div>
-      </aside>
-
+    <div class="topbar-right">
+      <span class="topbar-label">Une communauté mondiale</span>
+      <button class="icon-button" id="refreshFeed" type="button" aria-label="Actualiser">
+        <svg viewBox="0 0 24 24">
+          <path d="M20 7v5h-5M4 17v-5h5"></path>
+          <path d="M5.5 9a7 7 0 0 1 12-2L20 12M4 12l2.5 5a7 7 0 0 0 12-2"></path>
+        </svg>
+      </button>
     </div>
+  </header>
 
-    <nav class="mobile-nav" aria-label="Navigation mobile">
-      <button class="mobile-nav-link active" type="button" data-nav="feed" aria-label="Accueil">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V10Z"></path>
-        </svg>
-        <span>Accueil</span>
-      </button>
+  <div class="layout">
 
-      <button class="mobile-nav-link" type="button" data-nav="messages" aria-label="Messages">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"></path>
-        </svg>
-        <span>Messages</span>
-      </button>
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar" id="myAvatar">M</div>
+        <div class="profile-details">
+          <strong id="myUsername">Membre</strong>
+          <span>Membre de la communauté</span>
+        </div>
+      </div>
 
-      <button class="mobile-nav-link" type="button" data-nav="network" aria-label="Réseau">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <circle cx="9" cy="8" r="3"></circle>
-          <path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"></path>
-        </svg>
-        <span>Réseau</span>
-      </button>
+      <nav class="side-navigation" aria-label="Navigation principale">
+        <button class="nav-link active" type="button" data-nav="feed">
+          <svg viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+          </svg>
+          <span>Accueil</span>
+        </button>
 
-      <button class="mobile-nav-link" type="button" data-nav="support" aria-label="Solidarité">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"></path>
-        </svg>
-        <span>Solidarité</span>
-      </button>
-    </nav>
+        <button class="nav-link" type="button" data-nav="messages">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"></path>
+          </svg>
+          <span>Messagerie</span>
+        </button>
 
-              </div>
-              <script>
-"use strict";
+        <button class="nav-link" type="button" data-nav="network">
+          <svg viewBox="0 0 24 24">
+            <circle cx="9" cy="8" r="3"></circle>
+            <path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"></path>
+          </svg>
+          <span>Réseau mondial</span>
+        </button>
 
+        <button class="nav-link" type="button" data-nav="support">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"></path>
+          </svg>
+          <span>Solidarité</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-link logout-link" id="logoutButton" type="button">
+          <svg viewBox="0 0 24 24">
+            <path d="M10 17l5-5-5-5M15 12H3"></path>
+            <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"></path>
+          </svg>
+          <span>Déconnexion</span>
+        </button>
+        <p>Une communauté mondiale.<br>Une solidarité sans frontières.</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+
+      <section class="feed-heading">
+        <span class="eyebrow">L'ESPACE DE NOTRE COMMUNAUTÉ</span>
+        <h1>Bienvenue dans votre monde.</h1>
+        <p>Des personnes, des histoires et des liens qui nous rapprochent.</p>
+      </section>
+
+      <section class="composer-card" aria-label="Créer une publication">
+
+        <div class="composer-top">
+          <div class="avatar composer-avatar" id="composerAvatar">M</div>
+          <div>
+            <strong id="composerUsername">Membre</strong>
+            <span>Partager avec la communauté</span>
+          </div>
+        </div>
+
+        <form id="postForm">
+          <textarea
+            id="postContent"
+            maxlength="2000"
+            placeholder="Une pensée, une histoire, un message à partager..."
+            aria-label="Contenu de la publication"
+          ></textarea>
+
+          <div class="media-selection" id="mediaSelection" hidden>
+            <div class="media-selection-info">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <path d="m21 15-5-5L5 21"></path>
+              </svg>
+              <span id="selectedMediaName"></span>
+            </div>
+            <button type="button" id="removeMediaButton">Retirer</button>
+          </div>
+
+          <div class="composer-bottom">
+            <label class="media-picker" for="mediaInput">
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="3" width="18" height="18" rx="3"></rect>
+                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                <path d="m21 15-5-5L5 21"></path>
+              </svg>
+              <span>Photo ou vidéo</span>
+            </label>
+
+            <input
+              type="file"
+              id="mediaInput"
+              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+              hidden
+            >
+
+            <button type="submit" class="publish-button" id="publishButton">
+              Publier
+            </button>
+          </div>
+
+          <p class="form-message" id="formMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="feed-section" aria-label="Fil d'actualité">
+        <div class="feed-list" id="feed" aria-live="polite">
+          <div class="feed-loading">
+            Chargement des publications...
+          </div>
+        </div>
+
+        <div class="feed-sentinel" id="feedSentinel"></div>
+        <div class="feed-status" id="feedStatus" role="status"></div>
+
+        <button
+          type="button"
+          class="load-more-button"
+          id="loadMoreButton"
+          hidden
+        >
+          Voir plus de publications
+        </button>
+      </section>
+
+    </main>
+
+    <aside class="right-sidebar">
+      <div class="information-card">
+        <span class="eyebrow">NOTRE IDENTITÉ</span>
+        <h2>Une communauté sans frontières.</h2>
+        <p>
+          DREPA-WORLD rapproche les personnes, les familles,
+          les associations et tous ceux qui souhaitent comprendre,
+          soutenir et agir.
+        </p>
+      </div>
+
+      <div class="information-card">
+        <span class="eyebrow">NOS VALEURS</span>
+        <h2>L'humain avant tout.</h2>
+        <p>
+          Respect, écoute, confidentialité et solidarité.
+          Chacun a sa place dans cette communauté.
+        </p>
+      </div>
+
+      <div class="right-sidebar-footer">
+        DREPA-WORLD · Une solidarité sans frontières.
+      </div>
+    </aside>
+
+  </div>
+
+  <nav class="mobile-nav" aria-label="Navigation mobile">
+
+    <button class="mobile-nav-link active" type="button" data-nav="feed">
+      <svg viewBox="0 0 24 24">
+        <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V10Z"></path>
+      </svg>
+      <span>Accueil</span>
+    </button>
+
+    <button class="mobile-nav-link" type="button" data-nav="messages">
+      <svg viewBox="0 0 24 24">
+        <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"></path>
+      </svg>
+      <span>Messages</span>
+    </button>
+
+    <button class="mobile-nav-link" type="button" data-nav="network">
+      <svg viewBox="0 0 24 24">
+        <circle cx="9" cy="8" r="3"></circle>
+        <path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.5V20"></path>
+      </svg>
+      <span>Réseau</span>
+    </button>
+
+    <button class="mobile-nav-link" type="button" data-nav="support">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"></path>
+      </svg>
+      <span>Solidarité</span>
+    </button>
+
+  </nav>
+
+  </div>
+  <script>
 const API_URL = "https://drepa-world-api.kchristezechieljunior.workers.dev";
+
+let currentMember = null;
+let selectedFile = null;
+let hasMore = true;
+let nextCursor = null;
+let loadingPosts = false;
+let mediaObjectUrls = [];
 
 const feed = document.getElementById("feed");
 const postForm = document.getElementById("postForm");
 const postContent = document.getElementById("postContent");
 const mediaInput = document.getElementById("mediaInput");
-const mediaSelection = document.getElementById("mediaSelection");
-const selectedMediaName = document.getElementById("selectedMediaName");
-const removeMediaButton = document.getElementById("removeMediaButton");
 const publishButton = document.getElementById("publishButton");
 const formMessage = document.getElementById("formMessage");
-const feedStatus = document.getElementById("feedStatus");
-const loadMoreButton = document.getElementById("loadMoreButton");
-const feedSentinel = document.getElementById("feedSentinel");
 
-let currentMember = null;
-let nextCursor = null;
-let hasMore = false;
-let loadingPosts = false;
-let selectedFile = null;
-let mediaObjectUrls = new Set();
+async function apiRequest(path, options = {}) {
+  const headers = new Headers(options.headers || {});
+  const isFormData = options.body instanceof FormData;
+
+  if (options.body && !isFormData && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const response = await fetch(API_URL + path, {
+    ...options,
+    headers,
+    credentials: "include"
+  });
+
+  let result = {};
+  try {
+    result = await response.json();
+  } catch (_) {}
+
+  if (!response.ok || result.success === false) {
+    throw new Error(result.error || result.message || "Une erreur est survenue.");
+  }
+
+  return result;
+}
 
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, character => ({
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
     "&": "&amp;",
     "<": "&lt;",
     ">": "&gt;",
     '"': "&quot;",
     "'": "&#039;"
-  })[character]);
+  })[char]);
+}
+
+function showFormMessage(message, isError = false) {
+  if (!formMessage) return;
+  formMessage.textContent = message;
+  formMessage.style.color = isError ? "#b42318" : "#26704f";
 }
 
 function formatDate(value) {
   if (!value) return "";
 
-  const date = new Date(value.replace(" ", "T") + "Z");
+  let dateValue = String(value);
+  if (!dateValue.includes("T")) {
+    dateValue = dateValue.replace(" ", "T") + "Z";
+  }
 
+  const date = new Date(dateValue);
   if (Number.isNaN(date.getTime())) return "";
 
   return new Intl.DateTimeFormat("fr-FR", {
@@ -1117,441 +1279,303 @@ function formatDate(value) {
   }).format(date);
 }
 
-async function apiRequest(path, options = {}) {
-  const headers = { ...(options.headers || {}) };
-
-  if (
-    options.body &&
-    !(options.body instanceof FormData) &&
-    !headers["Content-Type"]
-  ) {
-    headers["Content-Type"] = "application/json";
-  }
-
-  const response = await fetch(API_URL + path, {
-    ...options,
-    credentials: "include",
-    headers
-  });
-
-  let result = {};
-
-  try {
-    result = await response.json();
-  } catch {
-    result = {};
-  }
-
-  if (!response.ok || result.success === false) {
-    throw new Error(
-      result.error ||
-      result.message ||
-      "Une erreur est survenue. Réessaie."
-    );
-  }
-
-  return result;
-}
-
-function showFormMessage(message, type = "error") {
-  formMessage.textContent = message;
-  formMessage.className = "form-message " + type;
-}
-
-function setMemberName(name) {
-  const safeName = name || "Membre";
-  const initial = safeName.trim().charAt(0).toUpperCase() || "M";
-
-  document.getElementById("myUsername").textContent = safeName;
-  document.getElementById("composerUsername").textContent = safeName;
-  document.getElementById("myAvatar").textContent = initial;
-  document.getElementById("composerAvatar").textContent = initial;
-}
-
-async function loadProfile() {
-  const result = await apiRequest("/me");
-
-  currentMember = result.member;
-
-  if (!currentMember) {
-    throw new Error("Session introuvable.");
-  }
-
-  setMemberName(
-    currentMember.username ||
-    currentMember.public_name ||
-    "Membre"
-  );
+function registerObjectUrl(url) {
+  mediaObjectUrls.push(url);
+  return url;
 }
 
 function revokeMediaUrls() {
-  for (const url of mediaObjectUrls) {
-    URL.revokeObjectURL(url);
+  mediaObjectUrls.forEach(url => URL.revokeObjectURL(url));
+  mediaObjectUrls = [];
+}
+
+async function loadProfile() {
+  try {
+    const result = await apiRequest("/me");
+    currentMember = result.member;
+
+    if (!currentMember) {
+      window.location.href = "connexion.html";
+      return false;
+    }
+
+    const username = currentMember.username || "Membre";
+    const initial = escapeHTML(username.charAt(0).toUpperCase());
+
+    document.getElementById("myUsername").textContent = username;
+    document.getElementById("composerUsername").textContent = username;
+    document.getElementById("myAvatar").textContent = initial;
+    document.getElementById("composerAvatar").textContent = initial;
+
+    return true;
+  } catch (_) {
+    window.location.href = "connexion.html";
+    return false;
   }
-
-  mediaObjectUrls.clear();
 }
 
-function attachPostMedia(container) {
-  const mediaElement = container.querySelector("[data-media-url]");
+function mediaMarkup(post) {
+  if (!post.media_url) return "";
 
-  if (!mediaElement) return;
+  const isVideo = String(post.media_type || "").startsWith("video/");
+  const element = isVideo
+    ? `<video class="post-media" controls playsinline preload="metadata"></video>`
+    : `<img class="post-media" alt="Média publié par un membre" loading="lazy">`;
 
-  const mediaUrl = mediaElement.dataset.mediaUrl;
-
-  if (!mediaUrl) return;
-
-  fetch(API_URL + mediaUrl, {
-    credentials: "include"
-  })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Média indisponible.");
-      }
-
-      return response.blob();
-    })
-    .then(blob => {
-      const objectUrl = URL.createObjectURL(blob);
-
-      if (!mediaElement.isConnected) {
-        URL.revokeObjectURL(objectUrl);
-        return;
-      }
-
-      mediaObjectUrls.add(objectUrl);
-      mediaElement.src = objectUrl;
-      mediaElement.classList.add("visible");
-    })
-    .catch(() => {
-      if (mediaElement.isConnected) {
-        const error = document.createElement("div");
-        error.className = "media-error";
-        error.textContent = "Ce média ne peut pas être affiché.";
-        mediaElement.replaceWith(error);
-      }
-    });
-}
-
-function reactionIcon(type) {
-  const icons = {
-    like: `
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M20.8 8.8c0 5.2-8.8 10.2-8.8 10.2S3.2 14 3.2 8.8A4.7 4.7 0 0 1 12 6.1a4.7 4.7 0 0 1 8.8 2.7Z"></path>
-      </svg>`,
-    support: `
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z"></path>
-        <path d="M8 12h8M12 8v8"></path>
-      </svg>`,
-    courage: `
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3 14.5 9.5 21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"></path>
-      </svg>`
-  };
-
-  return icons[type] || "";
+  return `
+    <div class="post-media-container"
+         data-media-url="${escapeHTML(post.media_url)}"
+         data-media-type="${escapeHTML(post.media_type || "")}">
+      ${element}
+    </div>
+  `;
 }
 
 function renderPost(post) {
-  const article = document.createElement("article");
-  article.className = "post-card";
-  article.dataset.postId = post.id;
-
   const author = escapeHTML(post.author || post.username || "Membre");
-  const content = escapeHTML(post.content || "");
+  const initial = escapeHTML((post.author || post.username || "M").charAt(0).toUpperCase());
+  const content = escapeHTML(post.content || "").replace(/\n/g, "<br>");
   const date = escapeHTML(formatDate(post.created_at));
-  const initial = escapeHTML(author.trim().charAt(0).toUpperCase() || "M");
+  const postId = Number(post.id);
 
-  const reactions = Number(post.reactions_count || 0);
-  const comments = Number(post.comments_count || 0);
-
-  let mediaHTML = "";
-
-  if (post.media_url && post.media_type) {
-    if (String(post.media_type).startsWith("video/")) {
-      mediaHTML = `
-        <div class="post-media-container">
-          <video
-            class="post-media"
-            data-media-url="${escapeHTML(post.media_url)}"
-            controls
-            playsinline
-            preload="metadata"
-          ></video>
-        </div>`;
-    } else {
-      mediaHTML = `
-        <div class="post-media-container">
-          <img
-            class="post-media"
-            data-media-url="${escapeHTML(post.media_url)}"
-            alt="Image publiée par ${author}"
-            loading="lazy"
-          >
-        </div>`;
-    }
-  }
-
-  article.innerHTML = `
-    <div class="post-header">
-      <div class="avatar post-avatar">${initial}</div>
-      <div class="post-author-info">
-        <strong>${author}</strong>
-        <span>${date}</span>
+  return `
+    <article class="post-card" data-post-id="${postId}">
+      <div class="post-header">
+        <div class="avatar">${initial}</div>
+        <div class="post-author-info">
+          <strong>${author}</strong>
+          <span>${date}</span>
+        </div>
       </div>
-      <span class="post-menu-label">DREPA-WORLD</span>
-    </div>
 
-    ${content ? `<div class="post-content">${content.replace(/\n/g, "<br>")}</div>` : ""}
+      ${content ? `<div class="post-content">${content}</div>` : ""}
 
-    ${mediaHTML}
+      ${mediaMarkup(post)}
 
-    <div class="post-statistics">
-      <span class="reaction-total">${reactions} réaction${reactions > 1 ? "s" : ""}</span>
-      <button type="button" class="comments-total" data-action="comments">
-        ${comments} commentaire${comments > 1 ? "s" : ""}
-      </button>
-    </div>
+      <div class="post-actions">
+        <button type="button" class="post-action" data-reaction="like">
+          <span class="reaction-icon">♡</span>
+          <span>J’aime</span>
+          <span class="reaction-count">${Number(post.reactions_count || 0)}</span>
+        </button>
 
-    <div class="post-actions">
-      <button type="button" class="post-action" data-action="react" data-reaction="like">
-        ${reactionIcon("like")}
-        <span>J'aime</span>
-      </button>
+        <button type="button" class="post-action" data-reaction="support">
+          <span class="reaction-icon">＋</span>
+          <span>Soutenir</span>
+        </button>
 
-      <button type="button" class="post-action" data-action="react" data-reaction="support">
-        ${reactionIcon("support")}
-        <span>Soutien</span>
-      </button>
+        <button type="button" class="post-action" data-reaction="courage">
+          <span class="reaction-icon">✦</span>
+          <span>Encourager</span>
+        </button>
 
-      <button type="button" class="post-action" data-action="react" data-reaction="courage">
-        ${reactionIcon("courage")}
-        <span>Courage</span>
-      </button>
+        <button type="button" class="post-action comment-toggle">
+          <span>Commenter</span>
+          <span class="comment-count">${Number(post.comments_count || 0)}</span>
+        </button>
+      </div>
 
-      <button type="button" class="post-action" data-action="comments">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8v.5Z"></path>
-        </svg>
-        <span>Commenter</span>
-      </button>
-    </div>
-
-    <div class="comments-area" hidden>
-      <div class="comments-list"></div>
-
-      <form class="comment-form">
-        <input
-          type="text"
-          name="comment"
-          maxlength="1000"
-          placeholder="Écrire un commentaire..."
-          aria-label="Écrire un commentaire"
-          required
-        >
-        <button type="submit">Envoyer</button>
-      </form>
-
-      <p class="comment-message" role="status"></p>
-    </div>
+      <div class="comments-area" hidden>
+        <div class="comments-list"></div>
+        <form class="comment-form">
+          <input type="text" name="content"
+                 placeholder="Écrire un commentaire..."
+                 maxlength="2000" required>
+          <button type="submit">Envoyer</button>
+        </form>
+        <p class="comment-message" aria-live="polite"></p>
+      </div>
+    </article>
   `;
+}
 
-  const mediaContainer = article.querySelector(".post-media-container");
+async function attachPostMedia(container) {
+  const mediaUrl = container.dataset.mediaUrl;
+  if (!mediaUrl) return;
 
-  if (mediaContainer) {
-    attachPostMedia(mediaContainer);
+  const element = container.querySelector("img, video");
+  if (!element) return;
+
+  try {
+    const response = await fetch(API_URL + mediaUrl, {
+      credentials: "include"
+    });
+
+    if (!response.ok) {
+      throw new Error("Média indisponible");
+    }
+
+    const blob = await response.blob();
+    const objectUrl = registerObjectUrl(URL.createObjectURL(blob));
+
+    if (!element.isConnected) {
+      URL.revokeObjectURL(objectUrl);
+      mediaObjectUrls = mediaObjectUrls.filter(url => url !== objectUrl);
+      return;
+    }
+
+    element.src = objectUrl;
+  } catch (_) {
+    container.innerHTML = `
+      <p class="feed-status">Ce média n’est pas disponible actuellement.</p>
+    `;
   }
-
-  return article;
 }
 
 async function loadPosts(reset = false) {
   if (loadingPosts) return;
-
   if (!reset && !hasMore) return;
 
   loadingPosts = true;
-  loadMoreButton.hidden = true;
-  feedStatus.textContent = reset ? "Chargement des publications..." : "Chargement...";
+
+  const status = document.getElementById("feedStatus");
+  const loadMoreButton = document.getElementById("loadMoreButton");
 
   if (reset) {
     revokeMediaUrls();
     feed.innerHTML = "";
     nextCursor = null;
-    hasMore = false;
+    hasMore = true;
   }
 
-  try {
-    let path = "/posts?limit=10";
+  if (status) status.textContent = "Chargement des publications...";
+  if (loadMoreButton) loadMoreButton.hidden = true;
 
-    if (!reset && nextCursor) {
-      path += "&cursor=" + encodeURIComponent(nextCursor);
+  try {
+    let url = "/posts?limit=10";
+    if (nextCursor && !reset) {
+      url += "&cursor=" + encodeURIComponent(nextCursor);
     }
 
-    const result = await apiRequest(path);
-    const posts = Array.isArray(result.posts) ? result.posts : [];
+    const result = await apiRequest(url);
+    const posts = result.posts || [];
 
     if (reset && posts.length === 0) {
       feed.innerHTML = `
         <div class="empty-feed">
-          <h2>Bienvenue dans la communauté</h2>
-          <p>Aucune publication pour le moment. Tu peux être parmi les premiers à partager une histoire ou un message.</p>
-        </div>`;
+          <h3>Bienvenue dans DREPA-WORLD</h3>
+          <p>Votre communauté mondiale commence ici. Soyez le premier à partager une publication.</p>
+        </div>
+      `;
     } else {
-      for (const post of posts) {
-        feed.appendChild(renderPost(post));
-      }
+      posts.forEach(post => {
+        feed.insertAdjacentHTML("beforeend", renderPost(post));
+
+        const article = feed.lastElementChild;
+        const media = article.querySelector(".post-media-container");
+
+        if (media) attachPostMedia(media);
+      });
     }
 
     hasMore = Boolean(result.hasMore);
     nextCursor = result.nextCursor || null;
 
-    if (hasMore) {
-      feedStatus.textContent = "";
-      loadMoreButton.hidden = false;
-    } else {
-      feedStatus.textContent = posts.length
-        ? "Tu as vu toutes les publications."
-        : "";
+    if (status) {
+      status.textContent = hasMore ? "" : "Vous êtes à jour.";
     }
 
+    if (loadMoreButton) {
+      loadMoreButton.hidden = !hasMore;
+    }
   } catch (error) {
-    feedStatus.textContent = error.message;
-
-    if (reset) {
-      feed.innerHTML = `
-        <div class="empty-feed">
-          <p>Impossible de charger les publications.</p>
-          <button type="button" class="retry-button" id="retryFeed">Réessayer</button>
-        </div>`;
-    }
+    if (status) status.textContent = error.message;
+    if (loadMoreButton) loadMoreButton.hidden = false;
   } finally {
     loadingPosts = false;
   }
 }
 
-async function loadComments(postId, area) {
-  const list = area.querySelector(".comments-list");
-  const message = area.querySelector(".comment-message");
+async function loadComments(article) {
+  const postId = article.dataset.postId;
+  const list = article.querySelector(".comments-list");
 
-  list.innerHTML = "<p>Chargement des commentaires...</p>";
-  message.textContent = "";
+  list.innerHTML = `<p class="feed-status">Chargement des commentaires...</p>`;
 
   try {
-    const result = await apiRequest(
-      "/posts/" + encodeURIComponent(postId) + "/comments"
-    );
-
-    const comments = Array.isArray(result.comments)
-      ? result.comments
-      : [];
+    const result = await apiRequest(`/posts/${postId}/comments`);
+    const comments = result.comments || [];
 
     if (!comments.length) {
-      list.innerHTML = "<p class='no-comments'>Aucun commentaire pour le moment.</p>";
+      list.innerHTML = `<p class="feed-status">Aucun commentaire pour le moment.</p>`;
       return;
     }
 
-    list.innerHTML = comments.map(comment => `
-      <div class="comment-item">
-        <strong>${escapeHTML(comment.author || comment.username || "Membre")}</strong>
-        <p>${escapeHTML(comment.content || "").replace(/\n/g, "<br>")}</p>
-        <span>${escapeHTML(formatDate(comment.created_at))}</span>
-      </div>
-    `).join("");
+    list.innerHTML = comments.map(comment => {
+      const author = escapeHTML(comment.author || "Membre");
+      const content = escapeHTML(comment.content || "").replace(/\n/g, "<br>");
+      const date = escapeHTML(formatDate(comment.created_at));
 
+      return `
+        <div class="comment-item">
+          <strong>${author}</strong>
+          <span class="comment-date">${date}</span>
+          <p>${content}</p>
+        </div>
+      `;
+    }).join("");
   } catch (error) {
     list.textContent = error.message;
   }
 }
 
-async function toggleComments(article) {
-  const area = article.querySelector(".comments-area");
-
-  if (!area.hidden) {
-    area.hidden = true;
-    area.classList.remove("open");
-    return;
-  }
-
-  area.hidden = false;
-  area.classList.add("open");
-
-  await loadComments(article.dataset.postId, area);
-}
-
 async function sendReaction(article, reaction, button) {
   const postId = article.dataset.postId;
-
   button.disabled = true;
 
   try {
-    await apiRequest(
-      "/posts/" + encodeURIComponent(postId) + "/reactions",
-      {
-        method: "POST",
-        body: JSON.stringify({ reaction })
-      }
-    );
+    await apiRequest(`/posts/${postId}/reactions`, {
+      method: "POST",
+      body: JSON.stringify({ reaction })
+    });
 
-    const result = await apiRequest("/posts?limit=10");
+    button.classList.add("reaction-sent");
+    const count = button.querySelector(".reaction-count");
 
-    const updated = (result.posts || []).find(
-      post => String(post.id) === String(postId)
-    );
-
-    if (updated) {
-      const total = article.querySelector(".reaction-total");
-      const count = Number(updated.reactions_count || 0);
-
-      total.textContent =
-        count + " réaction" + (count > 1 ? "s" : "");
+    if (count) {
+      count.textContent = String(Number(count.textContent || 0) + 1);
     }
-
   } catch (error) {
-    alert(error.message);
+    showFormMessage(error.message, true);
   } finally {
     button.disabled = false;
   }
 }
 
 feed.addEventListener("click", async event => {
-  const retry = event.target.closest("#retryFeed");
-
-  if (retry) {
-    await loadPosts(true);
-    return;
-  }
-
-  const button = event.target.closest("[data-action]");
-
-  if (!button) return;
-
-  const article = button.closest(".post-card");
-
+  const article = event.target.closest(".post-card");
   if (!article) return;
 
-  if (button.dataset.action === "comments") {
-    await toggleComments(article);
+  const reactionButton = event.target.closest("[data-reaction]");
+  if (reactionButton) {
+    sendReaction(
+      article,
+      reactionButton.dataset.reaction,
+      reactionButton
+    );
     return;
   }
 
-  if (button.dataset.action === "react") {
-    await sendReaction(article, button.dataset.reaction, button);
+  const commentToggle = event.target.closest(".comment-toggle");
+  if (commentToggle) {
+    const area = article.querySelector(".comments-area");
+    area.hidden = !area.hidden;
+
+    if (!area.hidden) {
+      loadComments(article);
+    }
   }
 });
 
 feed.addEventListener("submit", async event => {
   const form = event.target.closest(".comment-form");
-
   if (!form) return;
 
   event.preventDefault();
 
   const article = form.closest(".post-card");
-  const area = article.querySelector(".comments-area");
-  const input = form.querySelector("input[name='comment']");
-  const message = area.querySelector(".comment-message");
+  const input = form.querySelector("input[name='content']");
+  const message = article.querySelector(".comment-message");
   const content = input.value.trim();
 
   if (!content) return;
@@ -1560,92 +1584,24 @@ feed.addEventListener("submit", async event => {
   submitButton.disabled = true;
 
   try {
-    await apiRequest(
-      "/posts/" + encodeURIComponent(article.dataset.postId) + "/comments",
-      {
-        method: "POST",
-        body: JSON.stringify({ content })
-      }
-    );
+    await apiRequest(`/posts/${article.dataset.postId}/comments`, {
+      method: "POST",
+      body: JSON.stringify({ content })
+    });
 
     input.value = "";
     message.textContent = "Commentaire publié.";
+    await loadComments(article);
 
-    await loadComments(article.dataset.postId, area);
-
-    const countButton = article.querySelector(".comments-total");
-    const match = countButton.textContent.match(/\d+/);
-    const oldCount = match ? Number(match[0]) : 0;
-    const newCount = oldCount + 1;
-
-    countButton.textContent =
-      newCount + " commentaire" + (newCount > 1 ? "s" : "");
-
+    const count = article.querySelector(".comment-count");
+    if (count) {
+      count.textContent = String(Number(count.textContent || 0) + 1);
+    }
   } catch (error) {
     message.textContent = error.message;
   } finally {
     submitButton.disabled = false;
   }
-});
-
-mediaInput.addEventListener("change", () => {
-  const file = mediaInput.files && mediaInput.files[0];
-
-  selectedFile = file || null;
-
-  if (!selectedFile) {
-    mediaSelection.hidden = true;
-    selectedMediaName.textContent = "";
-    return;
-  }
-
-  const isImage = selectedFile.type.startsWith("image/");
-  const isVideo = selectedFile.type.startsWith("video/");
-
-  const allowedTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-    "image/gif",
-    "video/mp4",
-    "video/webm",
-    "video/quicktime"
-  ];
-
-  if (!allowedTypes.includes(selectedFile.type)) {
-    showFormMessage("Format de fichier non accepté.");
-    mediaInput.value = "";
-    selectedFile = null;
-    mediaSelection.hidden = true;
-    return;
-  }
-
-  if (isImage && selectedFile.size > 8 * 1024 * 1024) {
-    showFormMessage("L'image ne doit pas dépasser 8 Mo.");
-    mediaInput.value = "";
-    selectedFile = null;
-    mediaSelection.hidden = true;
-    return;
-  }
-
-  if (isVideo && selectedFile.size > 50 * 1024 * 1024) {
-    showFormMessage("La vidéo ne doit pas dépasser 50 Mo.");
-    mediaInput.value = "";
-    selectedFile = null;
-    mediaSelection.hidden = true;
-    return;
-  }
-
-  mediaSelection.hidden = false;
-  selectedMediaName.textContent = selectedFile.name;
-  showFormMessage("");
-});
-
-removeMediaButton.addEventListener("click", () => {
-  mediaInput.value = "";
-  selectedFile = null;
-  mediaSelection.hidden = true;
-  selectedMediaName.textContent = "";
 });
 
 postForm.addEventListener("submit", async event => {
@@ -1654,7 +1610,7 @@ postForm.addEventListener("submit", async event => {
   const content = postContent.value.trim();
 
   if (!content && !selectedFile) {
-    showFormMessage("Ajoute un texte ou sélectionne une photo ou une vidéo.");
+    showFormMessage("Ajoutez un texte ou un média avant de publier.", true);
     return;
   }
 
@@ -1662,106 +1618,130 @@ postForm.addEventListener("submit", async event => {
   publishButton.textContent = "Publication...";
 
   try {
-    let result;
+    let body;
 
     if (selectedFile) {
-      const formData = new FormData();
-      formData.append("content", content);
-      formData.append("media", selectedFile);
-
-      result = await apiRequest("/posts", {
-        method: "POST",
-        body: formData
-      });
+      body = new FormData();
+      body.append("content", content);
+      body.append("media", selectedFile);
     } else {
-      result = await apiRequest("/posts", {
-        method: "POST",
-        body: JSON.stringify({ content })
-      });
+      body = JSON.stringify({ content });
     }
 
+    await apiRequest("/posts", {
+      method: "POST",
+      body
+    });
+
     postContent.value = "";
-    mediaInput.value = "";
     selectedFile = null;
-    mediaSelection.hidden = true;
-    selectedMediaName.textContent = "";
+    mediaInput.value = "";
+    document.getElementById("selectedMediaName").textContent = "";
+    document.getElementById("mediaSelection").hidden = true;
 
-    showFormMessage("Publication partagée avec succès.", "success");
-
+    showFormMessage("Votre publication a été publiée.");
     await loadPosts(true);
-
   } catch (error) {
-    showFormMessage(error.message);
+    showFormMessage(error.message, true);
   } finally {
     publishButton.disabled = false;
     publishButton.textContent = "Publier";
   }
 });
 
+mediaInput.addEventListener("change", () => {
+  const file = mediaInput.files[0];
+  selectedFile = null;
+
+  if (!file) return;
+
+  const allowedImage = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+  const allowedVideo = ["video/mp4", "video/webm", "video/quicktime"];
+
+  const isImage = allowedImage.includes(file.type);
+  const isVideo = allowedVideo.includes(file.type);
+
+  if (!isImage && !isVideo) {
+    showFormMessage("Format non accepté. Choisissez une image ou une vidéo compatible.", true);
+    mediaInput.value = "";
+    return;
+  }
+
+  const maxSize = isImage ? 8 * 1024 * 1024 : 50 * 1024 * 1024;
+
+  if (file.size > maxSize) {
+    showFormMessage(
+      isImage ? "L’image ne doit pas dépasser 8 Mo." : "La vidéo ne doit pas dépasser 50 Mo.",
+      true
+    );
+    mediaInput.value = "";
+    return;
+  }
+
+  selectedFile = file;
+  document.getElementById("selectedMediaName").textContent = file.name;
+  document.getElementById("mediaSelection").hidden = false;
+  showFormMessage("");
+});
+
+document.getElementById("removeMediaButton").addEventListener("click", () => {
+  selectedFile = null;
+  mediaInput.value = "";
+  document.getElementById("selectedMediaName").textContent = "";
+  document.getElementById("mediaSelection").hidden = true;
+});
+
 document.getElementById("refreshFeed").addEventListener("click", () => {
   loadPosts(true);
 });
 
-loadMoreButton.addEventListener("click", () => {
+document.getElementById("loadMoreButton").addEventListener("click", () => {
   loadPosts(false);
 });
 
 document.getElementById("logoutButton").addEventListener("click", async () => {
-  const confirmed = confirm("Veux-tu vraiment te déconnecter ?");
-
-  if (!confirmed) return;
+  const button = document.getElementById("logoutButton");
+  button.disabled = true;
 
   try {
     await apiRequest("/logout", {
       method: "POST",
       body: JSON.stringify({})
     });
-  } catch (error) {
-    console.error(error);
-  }
+  } catch (_) {}
 
   window.location.href = "connexion.html";
 });
 
 document.querySelectorAll("[data-nav]").forEach(button => {
-  button.addEventListener("click", () => {
-    const destination = button.dataset.nav;
-
-    if (destination === "feed") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
-    if (destination === "messages") {
-      alert("La messagerie sera disponible dans une prochaine mise à jour.");
-    } else if (destination === "network") {
-      alert("Le réseau mondial sera disponible dans une prochaine mise à jour.");
-    } else if (destination === "support") {
-      alert("Les espaces de solidarité seront disponibles dans une prochaine mise à jour.");
-    }
-  });
+  if (button.dataset.nav !== "feed") {
+    button.disabled = true;
+    button.title = "Cet espace sera disponible prochainement.";
+    button.setAttribute("aria-disabled", "true");
+  }
 });
 
-if ("IntersectionObserver" in window) {
+const sentinel = document.getElementById("feedSentinel");
+
+if ("IntersectionObserver" in window && sentinel) {
   const observer = new IntersectionObserver(entries => {
     if (entries.some(entry => entry.isIntersecting)) {
       loadPosts(false);
     }
   }, {
-    rootMargin: "600px 0px"
+    rootMargin: "600px"
   });
 
-  observer.observe(feedSentinel);
+  observer.observe(sentinel);
 }
 
+window.addEventListener("pagehide", revokeMediaUrls);
+
 async function initializePage() {
-  try {
-    await loadProfile();
-    await loadPosts(true);
-  } catch (error) {
-    console.error(error);
-    window.location.href = "connexion.html";
-  }
+  const authenticated = await loadProfile();
+  if (!authenticated) return;
+
+  await loadPosts(true);
 }
 
 initializePage();
