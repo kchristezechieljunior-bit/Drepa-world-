@@ -5,287 +5,278 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#102c35">
-  <meta name="description" content="Votre espace personnel DREPA-WORLD. Une communauté de partage, de soutien et de solidarité.">
+  <meta name="description" content="DREPA-WORLD, une communauté de solidarité et de partage.">
   <title>Mon espace | DREPA-WORLD</title>
   <link rel="stylesheet" href="css/espace.css">
 </head>
 
-<body data-period="day">
+<body>
 
-  <div class="ambient-glow" aria-hidden="true"></div>
-
-  <header class="topbar">
-    <div class="topbar-inner">
-
-      <a href="index.html" class="brand">
-        <span class="brand-mark">D</span>
-        <span class="brand-text">
-          DREPA-WORLD
-          <small>ESPACE MEMBRE</small>
-        </span>
-      </a>
-
-      <div class="topbar-actions">
-        <button type="button" class="icon-button" id="refreshFeed" aria-label="Actualiser le fil">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M20 7v5h-5M4 17v-5h5"></path>
-            <path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"></path>
-          </svg>
-        </button>
-
-        <a href="#feed" class="profile-shortcut" aria-label="Mon profil">
-          <span class="avatar" id="myAvatar">DW</span>
-          <span id="myUsername">Membre</span>
-        </a>
-      </div>
-
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">D</span>
+      <span class="brand-name">DREPA<span>WORLD</span></span>
+    </a>
+    <div class="header-search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      <input type="search" placeholder="Rechercher dans DREPA-WORLD" aria-label="Rechercher">
     </div>
-  </header>
-
-  <div class="page-layout">
-
-    <aside class="sidebar sidebar-left">
-
-      <div class="sidebar-profile">
-        <div class="avatar avatar-large" id="sidebarAvatar">DW</div>
-        <div>
-          <strong id="sidebarUsername">Membre</strong>
-          <span>Membre DREPA-WORLD</span>
-        </div>
-      </div>
-
-      <div class="sidebar-divider"></div>
-
-      <nav class="side-navigation" aria-label="Navigation de l'espace membre">
-
-        <a href="#feed" class="nav-item active" data-nav="feed">
-          <span class="nav-icon">01</span>
-          <span>Accueil</span>
-        </a>
-
-        <a href="#feed" class="nav-item" data-nav="community" aria-disabled="true">
-          <span class="nav-icon">02</span>
-          <span>Communauté</span>
-        </a>
-
-        <a href="#feed" class="nav-item" data-nav="groups" aria-disabled="true">
-          <span class="nav-icon">03</span>
-          <span>Groupes</span>
-        </a>
-
-        <a href="#feed" class="nav-item" data-nav="messages" aria-disabled="true">
-          <span class="nav-icon">04</span>
-          <span>Messages</span>
-        </a>
-
-        <a href="#feed" class="nav-item" data-nav="shield" aria-disabled="true">
-          <span class="nav-icon">05</span>
-          <span>MON BOUCLIER</span>
-        </a>
-
-        <a href="#feed" class="nav-item" data-nav="profile" aria-disabled="true">
-          <span class="nav-icon">06</span>
-          <span>Mon profil</span>
-        </a>
-
-      </nav>
-
-      <div class="sidebar-divider"></div>
-
-      <div class="sidebar-note">
-        <span class="note-label">L'ESPRIT DREPA-WORLD</span>
-        <p>Un espace de respect, d'écoute et de solidarité. Chaque membre compte.</p>
-      </div>
-
-      <button type="button" class="logout-button" id="logoutButton">
-        <span>Quitter mon espace</span>
-      </button>
-
-    </aside>
-
-    <main class="main-content">
-
-      <section class="community-welcome">
-
-        <div>
-          <span class="welcome-eyebrow">VOTRE COMMUNAUTÉ</span>
-          <h1>Bienvenue dans votre espace.</h1>
-          <p>
-            Ici, chaque parole compte. Partagez votre expérience,
-            échangez et avançons ensemble.
-          </p>
-        </div>
-
-        <div class="welcome-decoration" aria-hidden="true">
-          <span>D</span>
-        </div>
-
-      </section>
-
-      <section class="feed-section">
-
-        <div class="feed-heading">
-          <div>
-            <span class="section-eyebrow">LA VIE DE LA COMMUNAUTÉ</span>
-            <h2>Fil d'actualité</h2>
-          </div>
-
-          <button type="button" class="refresh-button" id="refreshFeedText">
-            Actualiser
-          </button>
-        </div>
-
-        <section class="composer-card">
-
-          <div class="composer-heading">
-            <div class="avatar" id="composerAvatar">DW</div>
-            <div>
-              <strong>Un message à partager ?</strong>
-              <span>Votre communauté est à votre écoute.</span>
-            </div>
-          </div>
-
-          <form id="postForm" enctype="multipart/form-data">
-
-            <label for="postContent" class="sr-only">
-              Votre publication
-            </label>
-
-            <textarea
-              id="postContent"
-              name="content"
-              placeholder="Exprimez-vous librement, dans le respect de chacun..."
-              maxlength="5000"
-              rows="4"
-            ></textarea>
-
-            <div class="media-selection" id="mediaSelection" hidden>
-              <div class="selected-media-info">
-                <span id="selectedMediaName"></span>
-                <button type="button" id="removeMediaButton">
-                  Retirer
-                </button>
-              </div>
-            </div>
-
-            <div class="composer-footer">
-
-              <div class="composer-tools">
-                <label for="mediaInput" class="media-picker">
-                  <span>Joindre une photo ou une vidéo</span>
-                </label>
-
-                <input
-                  type="file"
-                  id="mediaInput"
-                  name="media"
-                  accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
-                  hidden
-                >
-              </div>
-
-              <button type="submit" class="publish-button" id="publishButton">
-                Publier
-              </button>
-
-            </div>
-
-            <p class="form-message" id="formMessage" role="status" aria-live="polite"></p>
-
-          </form>
-
-        </section>
-
-        <div class="feed-list" id="feedList">
-
-          <div class="feed-loading" id="feedLoading">
-            <span class="loading-indicator"></span>
-            <p>Chargement de la communauté...</p>
-          </div>
-
-          <div id="feed"></div>
-
-        </div>
-
-        <div id="feedSentinel" aria-hidden="true"></div>
-
-        <div class="feed-status" id="feedStatus" role="status" aria-live="polite"></div>
-
-        <button type="button" class="load-more-button" id="loadMoreButton" hidden>
-          Charger davantage
-        </button>
-
-      </section>
-
-    </main>
-
-    <aside class="sidebar sidebar-right">
-
-      <section class="side-card vision-card">
-        <span class="card-eyebrow">NOTRE VISION</span>
-        <h3>Plus forts ensemble.</h3>
-        <p>
-          DREPA-WORLD rapproche les personnes, favorise
-          le partage d'expérience et fait grandir la solidarité.
-        </p>
-      </section>
-
-      <section class="side-card trust-card">
-        <span class="card-eyebrow">NOTRE ENGAGEMENT</span>
-        <h3>Un espace de confiance.</h3>
-        <p>
-          Le respect, la confidentialité et la bienveillance
-          sont au cœur de notre communauté.
-        </p>
-      </section>
-
-      <section class="side-card reminder-card">
-        <span class="card-eyebrow">UN RAPPEL</span>
-        <p>
-          Prenez soin de vous et n'hésitez pas à demander
-          un accompagnement médical lorsque vous en avez besoin.
-        </p>
-      </section>
-
-      <div class="sidebar-footer">
-        <a href="index.html">Découvrir DREPA-WORLD</a>
-        <span>© <span id="currentYear"></span> DREPA-WORLD</span>
-      </div>
-
-    </aside>
-
   </div>
 
-  <nav class="mobile-navigation" aria-label="Navigation mobile">
-
-    <a href="#feed" class="mobile-nav-item active" data-nav="feed">
-      <span>01</span>
-      <small>Accueil</small>
+  <nav class="top-navigation" aria-label="Navigation principale">
+    <a href="#feed" class="top-nav-item active" aria-label="Accueil" title="Accueil">
+      <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
     </a>
-
-    <a href="#feed" class="mobile-nav-item" data-nav="community" aria-disabled="true">
-      <span>02</span>
-      <small>Communauté</small>
+    <a href="#feed" class="top-nav-item" aria-label="Communauté" title="Communauté">
+      <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-3.5 2.5-6 6-6s6 2.5 6 6M15 15c3.5-.5 6 1.5 6 4"></path></svg>
     </a>
-
-    <a href="#feed" class="mobile-nav-item" data-nav="groups" aria-disabled="true">
-      <span>03</span>
-      <small>Groupes</small>
+    <a href="#profile" class="top-nav-item" aria-label="Profil" title="Profil">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.2-7 8-7s8 2.8 8 7"></path></svg>
     </a>
-
-    <a href="#feed" class="mobile-nav-item" data-nav="messages" aria-disabled="true">
-      <span>04</span>
-      <small>Messages</small>
-    </a>
-
-    <a href="#feed" class="mobile-nav-item" data-nav="profile" aria-disabled="true">
-      <span>05</span>
-      <small>Profil</small>
-    </a>
-
   </nav>
 
-  <script type="module" src="js/espace.js"></script>
+  <div class="topbar-actions">
+    <button class="header-icon" type="button" aria-label="Créer une publication" onclick="document.getElementById('postContent').focus()">
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+    </button>
+    <button class="header-icon" type="button" aria-label="Notifications" disabled>
+      <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+    </button>
+    <div class="top-profile">
+      <span class="avatar avatar-small" id="myAvatar">D</span>
+      <span id="myUsername">Membre</span>
+    </div>
+    <button id="logoutButton" class="logout-button" type="button">Déconnexion</button>
+  </div>
+</header>
+
+<main class="main-content">
+
+  <aside class="sidebar left-sidebar">
+    <section class="sidebar-profile">
+      <div class="sidebar-cover"></div>
+      <span class="avatar sidebar-avatar" id="sidebarAvatar">D</span>
+      <div class="sidebar-profile-info">
+        <strong id="sidebarUsername">Mon profil</strong>
+        <span>Membre de DREPA-WORLD</span>
+      </div>
+    </section>
+
+    <nav class="sidebar-nav" aria-label="Navigation de l'espace membre">
+      <a href="#feed" class="sidebar-link active" data-nav="feed">
+        <span class="nav-symbol">01</span>
+        <span>Fil d’actualité</span>
+      </a>
+      <a href="#community" class="sidebar-link" data-nav="community" aria-disabled="true">
+        <span class="nav-symbol">02</span>
+        <span>Communauté</span>
+      </a>
+      <a href="#groups" class="sidebar-link" data-nav="groups" aria-disabled="true">
+        <span class="nav-symbol">03</span>
+        <span>Groupes</span>
+      </a>
+      <a href="#messages" class="sidebar-link" data-nav="messages" aria-disabled="true">
+        <span class="nav-symbol">04</span>
+        <span>Messages</span>
+      </a>
+      <a href="#shield" class="sidebar-link" data-nav="shield" aria-disabled="true">
+        <span class="nav-symbol">05</span>
+        <span>MON BOUCLIER</span>
+      </a>
+      <a href="#profile" class="sidebar-link" data-nav="profile">
+        <span class="nav-symbol">06</span>
+        <span>Mon profil</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-note">
+      <span class="note-line"></span>
+      <p>Un espace de partage, de respect et de solidarité.</p>
+    </div>
+
+    <div class="sidebar-footer">
+      <span>Confidentialité</span>
+      <span>Respect</span>
+      <span>Solidarité</span>
+    </div>
+  </aside>
+
+  <section class="feed-column" id="feed">
+
+    <section class="profile-cover-card" id="profile">
+      <div class="profile-cover">
+        <div class="cover-decoration"></div>
+        <span class="cover-label">MON ESPACE PERSONNEL</span>
+      </div>
+
+      <div class="profile-main">
+        <div class="profile-identity">
+          <span class="avatar profile-avatar" id="composerAvatar">D</span>
+          <div class="profile-name-block">
+            <h1 id="profileUsername">Mon profil</h1>
+            <p>Membre de DREPA-WORLD</p>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button type="button" class="profile-action-button" disabled>Modifier le profil</button>
+          <button type="button" class="profile-more-button" disabled aria-label="Plus d'options">...</button>
+        </div>
+      </div>
+
+      <nav class="profile-tabs" aria-label="Onglets du profil">
+        <a href="#feed" class="profile-tab active">Publications</a>
+        <span class="profile-tab disabled">À propos</span>
+        <span class="profile-tab disabled">Réseau</span>
+      </nav>
+    </section>
+
+    <section class="stories-section">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">LES MOMENTS DE LA COMMUNAUTÉ</span>
+          <h2>Instants partagés</h2>
+        </div>
+        <span class="section-caption">DREPA-WORLD</span>
+      </div>
+
+      <div class="stories-list">
+        <div class="story-card story-add">
+          <div class="story-add-visual">
+            <span>+</span>
+          </div>
+          <strong>Partager un instant</strong>
+          <small>Les stories arrivent dans une prochaine évolution</small>
+        </div>
+        <div class="story-card story-message">
+          <div class="story-visual">
+            <span class="story-letter">D</span>
+          </div>
+          <strong>Notre communauté</strong>
+          <small>Unis par la solidarité</small>
+        </div>
+        <div class="story-card story-message second-story">
+          <div class="story-visual">
+            <span class="story-letter">W</span>
+          </div>
+          <strong>Un même espace</strong>
+          <small>Ensemble, avançons</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="composer card">
+      <div class="composer-heading">
+        <span class="avatar composer-avatar">D</span>
+        <div>
+          <strong>Un mot à partager ?</strong>
+          <span>Votre voix compte dans cette communauté.</span>
+        </div>
+      </div>
+
+      <form id="postForm">
+        <label class="visually-hidden" for="postContent">Votre publication</label>
+        <textarea id="postContent" name="content" placeholder="Que souhaitez-vous partager avec la communauté ?" required maxlength="5000"></textarea>
+
+        <div class="selected-media-row" id="selectedMediaName" aria-live="polite"></div>
+
+        <div class="composer-actions">
+          <div class="composer-tools">
+            <label class="composer-tool" for="mediaInput">
+              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m21 15-5-5L5 20"></path></svg>
+              <span>Photo / Vidéo</span>
+            </label>
+            <input type="file" id="mediaInput" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" hidden>
+            <button type="button" class="composer-tool" disabled>
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"></path></svg>
+              <span>Humeur</span>
+            </button>
+          </div>
+
+          <button type="button" id="removeMediaButton" class="remove-media-button" hidden>Retirer</button>
+          <button type="submit" id="publishButton" class="publish-button">Publier</button>
+        </div>
+        <p id="formMessage" class="form-message" aria-live="polite"></p>
+        <div id="mediaSelection"></div>
+      </form>
+    </section>
+
+    <section class="feed-section">
+      <div class="feed-section-heading">
+        <div>
+          <span class="eyebrow">LA VIE DE DREPA-WORLD</span>
+          <h2>Le fil de la communauté</h2>
+        </div>
+        <button type="button" id="refreshFeed" class="refresh-button">Actualiser</button>
+      </div>
+
+      <div id="feedList" class="feed-list">
+        <div id="feedLoading" class="feed-loading">Chargement des publications...</div>
+        <div id="feed"></div>
+        <div id="feedSentinel"></div>
+      </div>
+
+      <button type="button" id="loadMoreButton" class="load-more-button" hidden>Voir plus de publications</button>
+      <p id="feedStatus" class="feed-status" aria-live="polite"></p>
+    </section>
+
+    <footer class="main-footer">
+      <span>DREPA-WORLD</span>
+      <span>Ensemble, nous sommes plus forts.</span>
+      <span id="currentYear"></span>
+    </footer>
+
+  </section>
+
+  <aside class="sidebar right-sidebar">
+    <section class="welcome-card">
+      <span class="eyebrow">BIENVENUE CHEZ VOUS</span>
+      <h2>Une communauté. Des histoires. Une force commune.</h2>
+      <p>DREPA-WORLD est un espace d'écoute, de partage et de solidarité.</p>
+      <div class="welcome-line"></div>
+    </section>
+
+    <section class="right-info-card">
+      <span class="eyebrow">NOS VALEURS</span>
+      <div class="value-item">
+        <span class="value-number">01</span>
+        <div><strong>Solidarité</strong><p>Ne laisser personne seul.</p></div>
+      </div>
+      <div class="value-item">
+        <span class="value-number">02</span>
+        <div><strong>Respect</strong><p>Accueillir chaque histoire.</p></div>
+      </div>
+      <div class="value-item">
+        <span class="value-number">03</span>
+        <div><strong>Espoir</strong><p>Avancer ensemble.</p></div>
+      </div>
+    </section>
+
+    <section class="right-quote-card">
+      <span class="quote-mark">“</span>
+      <p>La force d'une communauté se mesure à la place qu'elle accorde à chacun.</p>
+      <span class="quote-signature">L'esprit DREPA-WORLD</span>
+    </section>
+  </aside>
+
+</main>
+
+<nav class="mobile-nav" aria-label="Navigation mobile">
+  <a href="#feed" class="mobile-nav-link active" aria-label="Accueil">
+    <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
+    <span>Accueil</span>
+  </a>
+  <a href="#profile" class="mobile-nav-link" aria-label="Profil">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.2-7 8-7s8 2.8 8 7"></path></svg>
+    <span>Profil</span>
+  </a>
+  <a href="#postContent" class="mobile-nav-link" aria-label="Publier" onclick="document.getElementById('postContent').focus()">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+    <span>Publier</span>
+  </a>
+</nav>
+
+<script type="module" src="js/espace.js"></script>
 
 </body>
           </html>
