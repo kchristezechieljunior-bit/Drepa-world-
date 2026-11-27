@@ -541,6 +541,93 @@ if (
     profile
   });
 }
+      
+      // EXPÉRIENCES PROFESSIONNELLES
+      if (
+        (request.method === "GET" || request.method === "POST") &&
+        path === "/work-experiences"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour accéder à vos expériences."
+          }, 401);
+        }
+
+        if (request.method === "POST") {
+          const body = await readBody(request);
+
+          if (!body || typeof body !== "object" || Array.isArray(body)) {
+            return respond({
+              success: false,
+              error: "Données invalides."
+            }, 400);
+          }
+
+          const fields = {
+            company: 150,
+            position: 150,
+            employment_type: 80,
+            location: 150,
+            start_date: 10,
+            end_date: 10,
+            description: 2000
+          };
+
+          const values = {};
+
+          for (const [field, maxLength] of Object.entries(fields)) {
+            const value = String(body[field] ?? "").trim();
+
+            if (value.length > maxLength) {
+              return respond({
+                success: false,
+                error: `Le champ ${field} est trop long.`
+              }, 400);
+            }
+
+            values[field] = value || null;
+          }
+
+          const isCurrent = body.is_current === true ||
+            body.is_current === 1 ||
+            body.is_current === "1";
+
+          await env.DB.prepare(
+            `INSERT INTO work_experiences
+             (member_id, company, position, employment_type,
+              location, start_date, end_date, is_current, description)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+          ).bind(
+            member.id,
+            values.company,
+            values.position,
+            values.employment_type,
+            values.location,
+            values.start_date,
+            isCurrent ? null : values.end_date,
+            isCurrent ? 1 : 0,
+            values.description
+          ).run();
+        }
+
+        const experiences = await env.DB.prepare(
+          `SELECT id, company, position, employment_type,
+                  location, start_date, end_date, is_current,
+                  description, created_at
+           FROM work_experiences
+           WHERE member_id = ?
+           ORDER BY is_current DESC, start_date DESC, id DESC`
+        ).bind(member.id).all();
+
+        return respond({
+          success: true,
+          experiences: experiences.results || []
+        });
+      }
+      
 
       // CRÉER UNE PUBLICATION
       if (request.method === "POST" && path === "/posts") {
