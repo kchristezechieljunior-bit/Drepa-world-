@@ -1,356 +1,408 @@
 
-/* =========================================================
-   DREPA-WORLD — RÉACTIONS ET COMMENTAIRES
-   ========================================================= */
+/* =========================================
+   DREPA-WORLD — COMMENTAIRES ET RÉACTIONS
+========================================= */
 
 export function initializeComments(context) {
-    const {
-        apiRequest,
-        escapeHTML,
-        getInitials,
-        formatDate,
-        loadPosts
-    } = context;
+  const {
+    apiRequest,
+    escapeHTML,
+    getInitials,
+    formatDate
+  } = context;
 
-    const loadingComments = new Set();
-    const sendingComments = new Set();
-    const sendingReactions = new Set();
+  const loadedComments = new Set();
+  const loadingComments = new Set();
 
-    /* ---------- OUTILS ---------- */
+  /* =====================================
+     MESSAGES D'INFORMATION
+  ===================================== */
 
-    function getPostId(element) {
-        const article = element.closest("[data-post-id]");
+  function showCommentMessage(container, message, type = "error") {
+    if (!container) return;
 
-        if (!article) return null;
+    const notice = document.createElement("p");
 
-        const id = article.dataset.postId;
+    notice.className = `comment-message ${type}`;
+    notice.textContent = message;
 
-        return id ? String(id) : null;
+    container.prepend(notice);
+  }
+
+  /* =====================================
+     AFFICHAGE D'UN COMMENTAIRE
+  ===================================== */
+
+  function createCommentElement(comment) {
+    const element = document.createElement("div");
+
+    element.className = "post-comment";
+
+    const author = escapeHTML(comment.author || "Membre");
+    const initials = escapeHTML(
+      getInitials(comment.author || "Membre")
+    );
+
+    const date = escapeHTML(formatDate(comment.created_at));
+
+    const content = escapeHTML(comment.content || "")
+      .replace(/\r\n/g, "\n")
+      .replace(/\r/g, "\n")
+      .replace(/\n/g, "<br>");
+
+    element.innerHTML = `
+      <div class="comment-avatar">${initials}</div>
+
+      <div class="comment-body">
+        <div class="comment-bubble">
+          <strong>${author}</strong>
+          <p>${content}</p>
+        </div>
+
+        <div class="comment-meta">
+          <span>${date}</span>
+        </div>
+      </div>
+    `;
+
+    return element;
+  }
+
+  /* =====================================
+     CHARGEMENT DES COMMENTAIRES
+  ===================================== */
+
+  async function loadComments(postId, container) {
+    const id = String(postId);
+
+    if (!container || loadingComments.has(id)) return;
+
+    if (loadedComments.has(id)) {
+      container.hidden = !container.hidden;
+      return;
     }
 
-    function getPostElement(postId) {
-        return document.querySelector(
-            `[data-post-id="${CSS.escape(String(postId))}"]`
-        );
-    }
-
-    function getCommentList(postElement) {
-        return postElement?.querySelector("[data-comments-list]");
-    }
-
-    function showCommentMessage(list, message, type = "") {
-        if (!list) return;
-
-        const paragraph = document.createElement("p");
-        paragraph.className = type || "comments-empty";
-        paragraph.textContent = message;
-
-        list.replaceChildren(paragraph);
-    }
-
-    /* ---------- AFFICHAGE D'UN COMMENTAIRE ---------- */
-
-    function renderComment(comment) {
-        const item = document.createElement("div");
-
-        item.className = "comment-item";
-
-        const author =
-            comment.author ||
-            comment.username ||
-            comment.pseudonym ||
-            "Membre";
-
-        const content =
-            comment.content ||
-            "";
-
-        const date = formatDate(comment.created_at);
-
-        item.innerHTML = `
-            <div class="comment-avatar">
-                ${escapeHTML(getInitials(author))}
-            </div>
-
-            <div class="comment-body">
-                <div class="comment-meta">
-                    <strong>${escapeHTML(author)}</strong>
-                    <span>${escapeHTML(date)}</span>
-                </div>
-
-                <p class="comment-content">${escapeHTML(content)}</p>
-            </div>
-        `;
-
-        return item;
-    }
-
-    /* ---------- CHARGEMENT DES COMMENTAIRES ---------- */
-
-    async function loadComments(postId) {
-        const postElement = getPostElement(postId);
-
-        if (!postElement) return;
-
-        const list = getCommentList(postElement);
-
-        if (!list || loadingComments.has(postId)) return;
-
-        loadingComments.add(postId);
-
-        showCommentMessage(list, "Chargement des commentaires...");
-
-        try {
-            const data = await apiRequest(
-                `/posts/${encodeURIComponent(postId)}/comments`
-            );
-
-            const comments = Array.isArray(data.comments)
-                ? data.comments
-                : [];
-
-            list.replaceChildren();
-
-            if (comments.length === 0) {
-                showCommentMessage(
-                    list,
-                    "Aucun commentaire pour le moment."
-                );
-                return;
-            }
-
-            comments.forEach(comment => {
-                list.appendChild(renderComment(comment));
-            });
-
-        } catch (error) {
-            console.error(
-                "Erreur de chargement des commentaires :",
-                error
-            );
-
-            showCommentMessage(
-                list,
-                error.message || "Impossible de charger les commentaires.",
-                "comments-error"
-            );
-
-        } finally {
-            loadingComments.delete(postId);
-        }
-    }
-
-    /* ---------- MISE À JOUR DU NOMBRE DE COMMENTAIRES ---------- */
-
-    function updateCommentCount(postElement) {
-        const counter = postElement?.querySelector(
-            "[data-comments-count]"
-        );
-
-        if (!counter) return;
-
-        const currentText = counter.textContent || "";
-        const match = currentText.match(/\d+/);
-        const currentCount = match ? Number(match[0]) : 0;
-        const newCount = currentCount + 1;
-
-        counter.textContent =
-            `${newCount} commentaire${newCount > 1 ? "s" : ""}`;
-    }
-
-    /* ---------- ENVOI D'UN COMMENTAIRE ---------- */
-
-    async function submitComment(form) {
-        const postElement = form.closest("[data-post-id]");
-
-        if (!postElement) return;
-
-        const postId = String(postElement.dataset.postId);
-
-        if (sendingComments.has(postId)) return;
-
-        const input = form.querySelector(
-            'input[name="content"], textarea[name="content"]'
-        );
-
-        if (!input) return;
-
-        const content = input.value.trim();
-
-        if (!content) {
-            input.focus();
-            return;
-        }
-
-        if (content.length > 2000) {
-            alert("Ton commentaire ne doit pas dépasser 2 000 caractères.");
-            return;
-        }
-
-        const submitButton = form.querySelector(
-            'button[type="submit"]'
-        );
-
-        sendingComments.add(postId);
-
-        if (submitButton) {
-            submitButton.disabled = true;
-            submitButton.textContent = "Envoi...";
-        }
-
-        try {
-            await apiRequest(
-                `/posts/${encodeURIComponent(postId)}/comments`,
-                {
-                    method: "POST",
-                    body: { content }
-                }
-            );
-
-            input.value = "";
-
-            updateCommentCount(postElement);
-
-            await loadComments(postId);
-
-        } catch (error) {
-            console.error(
-                "Erreur d'envoi du commentaire :",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Impossible d'envoyer ce commentaire."
-            );
-
-        } finally {
-            sendingComments.delete(postId);
-
-            if (submitButton) {
-                submitButton.disabled = false;
-                submitButton.textContent = "Envoyer";
-            }
-        }
-    }
-
-    /* ---------- RÉACTIONS ---------- */
-
-    async function sendReaction(button) {
-        const postElement = button.closest("[data-post-id]");
-
-        if (!postElement) return;
-
-        const postId = String(postElement.dataset.postId);
-        const reaction = button.dataset.reaction;
-
-        const allowedReactions = [
-            "like",
-            "support",
-            "courage"
-        ];
-
-        if (!allowedReactions.includes(reaction)) {
-            return;
-        }
-
-        const reactionKey = `${postId}:${reaction}`;
-
-        if (sendingReactions.has(reactionKey)) return;
-
-        sendingReactions.add(reactionKey);
-
-        button.disabled = true;
-
-        try {
-            await apiRequest(
-                `/posts/${encodeURIComponent(postId)}/reactions`,
-                {
-                    method: "POST",
-                    body: { reaction }
-                }
-            );
-
-            /*
-             * L'API confirme l'action.
-             * On ne marque pas une réaction comme active
-             * car l'état personnel n'est pas fourni par GET /posts.
-             */
-
-        } catch (error) {
-            console.error(
-                "Erreur d'envoi de la réaction :",
-                error
-            );
-
-            alert(
-                error.message ||
-                "Impossible d'envoyer cette réaction."
-            );
-
-        } finally {
-            sendingReactions.delete(reactionKey);
-            button.disabled = false;
-        }
-    }
-
-    /* ---------- ÉVÉNEMENTS DU FIL ---------- */
-
-    function initializeEvents() {
-        document.addEventListener("click", event => {
-            const reactionButton = event.target.closest(
-                "[data-reaction]"
-            );
-
-            if (reactionButton) {
-                sendReaction(reactionButton);
-                return;
-            }
-
-            const commentButton = event.target.closest(
-                "[data-comment-toggle]"
-            );
-
-            if (commentButton) {
-                const postId = getPostId(commentButton);
-
-                if (!postId) return;
-
-                const postElement = getPostElement(postId);
-
-                const section = postElement?.querySelector(
-                    "[data-comments-section]"
-                );
-
-                if (!section) return;
-
-                section.hidden = !section.hidden;
-
-                if (!section.hidden) {
-                    loadComments(postId);
-                }
-            }
+    loadingComments.add(id);
+    container.hidden = false;
+
+    container.innerHTML = `
+      <p class="comments-empty">Chargement des commentaires...</p>
+    `;
+
+    try {
+      const data = await apiRequest(
+        `/posts/${encodeURIComponent(id)}/comments`
+      );
+
+      const comments = Array.isArray(data.comments)
+        ? data.comments
+        : [];
+
+      container.replaceChildren();
+
+      if (comments.length === 0) {
+        const empty = document.createElement("p");
+
+        empty.className = "comments-empty";
+        empty.textContent = "Aucun commentaire pour le moment.";
+
+        container.appendChild(empty);
+      } else {
+        comments.forEach(comment => {
+          container.appendChild(
+            createCommentElement(comment)
+          );
         });
+      }
 
-        document.addEventListener("submit", event => {
-            const form = event.target.closest(
-                "[data-comment-form]"
-            );
+      loadedComments.add(id);
 
-            if (!form) return;
+    } catch (error) {
+      console.error("Chargement des commentaires :", error);
 
-            event.preventDefault();
+      container.innerHTML = "";
 
-            submitComment(form);
-        });
+      showCommentMessage(
+        container,
+        "Impossible de charger les commentaires."
+      );
+
+    } finally {
+      loadingComments.delete(id);
+    }
+  }
+
+  /* =====================================
+     MISE À JOUR DU NOMBRE DE COMMENTAIRES
+  ===================================== */
+
+  function updateCommentCount(postElement, count) {
+    const counter = postElement.querySelector(
+      ".post-comment-count"
+    );
+
+    if (!counter) return;
+
+    counter.textContent = count > 0
+      ? `${count} commentaire(s)`
+      : "";
+  }
+
+  /* =====================================
+     ENVOI D'UN COMMENTAIRE
+  ===================================== */
+
+  async function submitComment(postId, postElement, input, button, container) {
+    const content = input.value.trim();
+
+    if (!content) {
+      showCommentMessage(
+        container,
+        "Écrivez votre commentaire avant de l'envoyer."
+      );
+
+      return;
     }
 
-    /* ---------- DÉMARRAGE ---------- */
+    button.disabled = true;
+    button.textContent = "Envoi...";
 
-    initializeEvents();
+    try {
+      const data = await apiRequest(
+        `/posts/${encodeURIComponent(postId)}/comments`,
+        {
+          method: "POST",
+          body: { content }
+        }
+      );
 
-    return {
-        loadComments
-    };
-                                                        }
-      
+      input.value = "";
+
+      loadedComments.delete(String(postId));
+
+      const commentsData = await apiRequest(
+        `/posts/${encodeURIComponent(postId)}/comments`
+      );
+
+      const comments = Array.isArray(commentsData.comments)
+        ? commentsData.comments
+        : [];
+
+      container.replaceChildren();
+
+      if (comments.length === 0) {
+        const empty = document.createElement("p");
+
+        empty.className = "comments-empty";
+        empty.textContent = "Aucun commentaire pour le moment.";
+
+        container.appendChild(empty);
+      } else {
+        comments.forEach(comment => {
+          container.appendChild(
+            createCommentElement(comment)
+          );
+        });
+      }
+
+      loadedComments.add(String(postId));
+
+      const currentCount = Number(
+        data.comments_count
+      );
+
+      updateCommentCount(
+        postElement,
+        Number.isFinite(currentCount) && currentCount >= 0
+          ? currentCount
+          : comments.length
+      );
+
+    } catch (error) {
+      console.error("Envoi du commentaire :", error);
+
+      showCommentMessage(
+        container,
+        error.message || "Impossible d'envoyer votre commentaire."
+      );
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "Envoyer";
+    }
+  }
+
+  /* =====================================
+     GESTION DES RÉACTIONS
+  ===================================== */
+
+  async function sendReaction(button, postElement) {
+    if (button.disabled) return;
+
+    const postId = button.dataset.postId;
+    const reaction = button.dataset.reaction;
+
+    if (!postId || !reaction) return;
+
+    button.disabled = true;
+    button.classList.add("is-loading");
+
+    try {
+      await apiRequest(
+        `/posts/${encodeURIComponent(postId)}/reactions`,
+        {
+          method: "POST",
+          body: { reaction }
+        }
+      );
+
+      button.classList.add("sent");
+
+      const labels = {
+        like: "J'aime",
+        support: "Soutien envoyé",
+        courage: "Courage envoyé"
+      };
+
+      const originalLabel = {
+        like: "J'aime",
+        support: "Soutenir",
+        courage: "Courage"
+      };
+
+      button.textContent = labels[reaction] || "Envoyé";
+
+      window.setTimeout(() => {
+        button.classList.remove("sent");
+        button.textContent =
+          originalLabel[reaction] || "Réagir";
+      }, 1800);
+
+    } catch (error) {
+      console.error("Envoi de la réaction :", error);
+
+      button.textContent = "Réessayer";
+
+      window.setTimeout(() => {
+        button.textContent =
+          reaction === "like"
+            ? "J'aime"
+            : reaction === "support"
+              ? "Soutenir"
+              : "Courage";
+      }, 1800);
+
+    } finally {
+      button.disabled = false;
+      button.classList.remove("is-loading");
+    }
+  }
+
+  /* =====================================
+     OUVERTURE DU FORMULAIRE COMMENTAIRE
+  ===================================== */
+
+  function openCommentForm(postId, postElement, container) {
+    if (!container) return;
+
+    const existingForm = container.querySelector(
+      ".comment-form"
+    );
+
+    if (existingForm) {
+      existingForm.querySelector("textarea")?.focus();
+      return;
+    }
+
+    const form = document.createElement("form");
+
+    form.className = "comment-form";
+
+    form.innerHTML = `
+      <textarea
+        rows="2"
+        maxlength="3000"
+        placeholder="Écrire un commentaire..."
+        aria-label="Votre commentaire"
+        required
+      ></textarea>
+
+      <button type="submit" class="comment-submit">
+        Envoyer
+      </button>
+    `;
+
+    const textarea = form.querySelector("textarea");
+    const button = form.querySelector("button");
+
+    form.addEventListener("submit", event => {
+      event.preventDefault();
+
+      submitComment(
+        postId,
+        postElement,
+        textarea,
+        button,
+        container
+      );
+    });
+
+    container.appendChild(form);
+
+    textarea.focus();
+  }
+
+  /* =====================================
+     ÉVÉNEMENTS DU FIL D'ACTUALITÉ
+  ===================================== */
+
+  document.addEventListener("click", event => {
+    const button = event.target.closest(
+      "[data-action]"
+    );
+
+    if (!button) return;
+
+    const action = button.dataset.action;
+    const postId = button.dataset.postId;
+
+    if (!postId) return;
+
+    const postElement = button.closest(".post-card");
+
+    if (!postElement) return;
+
+    const container = postElement.querySelector(
+      `[data-comments-container="${CSS.escape(String(postId))}"]`
+    );
+
+    if (action === "reaction") {
+      sendReaction(button, postElement);
+      return;
+    }
+
+    if (action === "comments") {
+      if (!container) return;
+
+      const isExpanded =
+        button.getAttribute("aria-expanded") === "true";
+
+      if (isExpanded) {
+        button.setAttribute("aria-expanded", "false");
+        container.hidden = true;
+        return;
+      }
+
+      button.setAttribute("aria-expanded", "true");
+      container.hidden = false;
+
+      loadComments(postId, container);
+      openCommentForm(postId, postElement, container);
+    }
+  });
+
+  return {
+    loadComments
+  };
+                  }
+       
