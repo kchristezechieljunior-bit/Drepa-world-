@@ -9,11 +9,22 @@
   <title>Mon espace | DREPA-WORLD</title>
   <link rel="stylesheet" href="css/espace.css">
 </head>
+  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 
 <body>
 
 <header class="topbar">
   <div class="topbar-left">
+    <button
+  type="button"
+  class="mobile-menu-toggle"
+  id="mobileMenuToggle"
+  aria-label="Ouvrir le menu"
+  aria-controls="leftSidebar"
+  aria-expanded="false"
+>
+  ☰
+    </button>
     <a href="index.html" class="brand">
       <span class="brand-mark">D</span>
       <span class="brand-name">DREPA<span>WORLD</span></span>
@@ -53,7 +64,7 @@
 
 <main class="main-content">
 
-  <aside class="sidebar left-sidebar">
+  <aside class="sidebar left-sidebar" id="leftSidebar">
     <section class="sidebar-profile">
       <div class="sidebar-cover"></div>
       <span class="avatar sidebar-avatar" id="sidebarAvatar">D</span>
