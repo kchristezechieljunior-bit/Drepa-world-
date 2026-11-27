@@ -27,16 +27,25 @@ export function initializeFeed(context) {
   const selectedMediaName = document.getElementById("selectedMediaName");
   const removeMediaButton = document.getElementById("removeMediaButton");
   const publishButton = document.getElementById("publishButton");
-  const refreshButton = document.getElementById("refreshFeed");
   const formMessage = document.getElementById("formMessage");
 
   let nextCursor = null;
   let hasMore = true;
   let isLoading = false;
   let isPublishing = false;
+  let refreshQueued = false;
   let observer = null;
+  let lastRefreshTime = 0;
+  let touchStartY = 0;
+  let touchStartX = 0;
+  let isPulling = false;
 
   const mediaObjectURLs = new Map();
+  const displayedPostIds = new Set();
+
+  const REFRESH_INTERVAL = 3 * 60 * 1000;
+  const REFRESH_COOLDOWN = 30 * 1000;
+  const PULL_THRESHOLD = 85;
 
   /* =====================================
      AFFICHAGE DES MESSAGES
@@ -145,6 +154,8 @@ export function initializeFeed(context) {
   async function loadPostMedia(post, container) {
     if (!post.media_url || !container) return;
 
+    let objectURL = null;
+
     try {
       const response = await fetch(
         `${API_URL}${post.media_url}`,
@@ -159,9 +170,12 @@ export function initializeFeed(context) {
       }
 
       const blob = await response.blob();
-      const objectURL = URL.createObjectURL(blob);
 
-      mediaObjectURLs.set(container, objectURL);
+      if (!container.isConnected) {
+        return;
+      }
+
+      objectURL = URL.createObjectURL(blob);
 
       if (blob.type.startsWith("video/")) {
         const video = document.createElement("video");
@@ -173,6 +187,7 @@ export function initializeFeed(context) {
         video.className = "post-media-video";
 
         container.replaceChildren(video);
+
       } else if (blob.type.startsWith("image/")) {
         const image = document.createElement("img");
 
@@ -182,15 +197,27 @@ export function initializeFeed(context) {
         image.className = "post-media-image";
 
         container.replaceChildren(image);
+
       } else {
         URL.revokeObjectURL(objectURL);
-        mediaObjectURLs.delete(container);
+        objectURL = null;
+
         container.textContent = "Ce média ne peut pas être affiché.";
+        return;
       }
 
+      mediaObjectURLs.set(container, objectURL);
+
     } catch (error) {
+      if (objectURL) {
+        URL.revokeObjectURL(objectURL);
+      }
+
       console.error("Chargement du média :", error);
-      container.textContent = "Impossible de charger ce média.";
+
+      if (container.isConnected) {
+        container.textContent = "Impossible de charger ce média.";
+      }
     }
   }
 
@@ -315,7 +342,33 @@ export function initializeFeed(context) {
     });
 
     mediaObjectURLs.clear();
+    displayedPostIds.clear();
+
     feed.replaceChildren();
+  }
+
+  /* =====================================
+     AJOUT SANS DOUBLONS
+  ===================================== */
+
+  function appendPosts(posts) {
+    if (!feed || !Array.isArray(posts)) return;
+
+    posts.forEach(post => {
+      if (!post || post.id === undefined || post.id === null) {
+        return;
+      }
+
+      const postId = String(post.id);
+
+      if (displayedPostIds.has(postId)) {
+        return;
+      }
+
+      displayedPostIds.add(postId);
+
+      feed.appendChild(createPostElement(post));
+    });
   }
 
   /* =====================================
@@ -323,11 +376,20 @@ export function initializeFeed(context) {
   ===================================== */
 
   async function loadFeed(reset = false) {
-    if (!feed || isLoading) return;
+    if (!feed) return;
+
+    if (isLoading) {
+      if (reset) {
+        refreshQueued = true;
+      }
+
+      return;
+    }
 
     if (!hasMore && !reset) return;
 
     isLoading = true;
+
     setLoading(true);
     setFeedStatus("");
 
@@ -355,9 +417,7 @@ export function initializeFeed(context) {
         ? data.posts
         : [];
 
-      posts.forEach(post => {
-        feed.appendChild(createPostElement(post));
-      });
+      appendPosts(posts);
 
       hasMore = Boolean(data.hasMore);
       nextCursor = data.nextCursor || null;
@@ -405,8 +465,122 @@ export function initializeFeed(context) {
       if (loadMoreButton) {
         loadMoreButton.disabled = false;
       }
+
+      if (refreshQueued) {
+        refreshQueued = false;
+
+        loadFeed(true);
+      }
     }
   }
+
+  /* =====================================
+     ACTUALISATION INTELLIGENTE
+  ===================================== */
+
+  function refreshIfNeeded(force = false) {
+    if (document.visibilityState !== "visible") {
+      return;
+    }
+
+    if (!navigator.onLine) {
+      return;
+    }
+
+    if (isPublishing) {
+      return;
+    }
+
+    if (!force && window.scrollY > 400) {
+      return;
+    }
+
+    const now = Date.now();
+
+    if (
+      !force &&
+      now - lastRefreshTime < REFRESH_COOLDOWN
+    ) {
+      return;
+    }
+
+    lastRefreshTime = now;
+
+    loadFeed(true);
+  }
+
+  /* =====================================
+     RETOUR DANS L'APPLICATION
+  ===================================== */
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      refreshIfNeeded();
+    }
+  });
+
+  window.addEventListener("focus", () => {
+    refreshIfNeeded();
+  });
+
+  window.addEventListener("online", () => {
+    refreshIfNeeded();
+  });
+
+  /* =====================================
+     ACTUALISATION PÉRIODIQUE
+  ===================================== */
+
+  const refreshInterval = window.setInterval(() => {
+    if (document.visibilityState !== "visible") {
+      return;
+    }
+
+    refreshIfNeeded();
+  }, REFRESH_INTERVAL);
+
+  /* =====================================
+     GLISSEMENT VERS LE BAS
+     POUR ACTUALISER SUR MOBILE
+  ===================================== */
+
+  window.addEventListener("touchstart", event => {
+    if (window.scrollY > 0 || isLoading) {
+      isPulling = false;
+      return;
+    }
+
+    const touch = event.touches[0];
+
+    touchStartY = touch.clientY;
+    touchStartX = touch.clientX;
+    isPulling = true;
+
+  }, { passive: true });
+
+  window.addEventListener("touchend", event => {
+    if (!isPulling) return;
+
+    isPulling = false;
+
+    const touch = event.changedTouches[0];
+
+    const distanceY = touch.clientY - touchStartY;
+    const distanceX = Math.abs(touch.clientX - touchStartX);
+
+    if (
+      distanceY >= PULL_THRESHOLD &&
+      distanceY > distanceX * 1.5 &&
+      window.scrollY <= 0
+    ) {
+      refreshIfNeeded(true);
+    }
+
+  }, { passive: true });
+
+  window.addEventListener("touchcancel", () => {
+    isPulling = false;
+  }, { passive: true });
 
   /* =====================================
      PUBLICATION D'UN MESSAGE
@@ -511,12 +685,6 @@ export function initializeFeed(context) {
     );
   }
 
-  if (refreshButton) {
-    refreshButton.addEventListener("click", () => {
-      loadFeed(true);
-    });
-  }
-
   if (loadMoreButton) {
     loadMoreButton.addEventListener("click", () => {
       loadFeed(false);
@@ -524,7 +692,7 @@ export function initializeFeed(context) {
   }
 
   /* =====================================
-     CHARGEMENT AUTOMATIQUE
+     DÉFILEMENT INFINI
   ===================================== */
 
   if ("IntersectionObserver" in window && feedSentinel) {
@@ -551,4 +719,4 @@ export function initializeFeed(context) {
     refreshFeed: () => loadFeed(true),
     loadMore: () => loadFeed(false)
   };
-}
+     }
