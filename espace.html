@@ -9,28 +9,32 @@
   <title>Mon espace | DREPA-WORLD</title>
   <link rel="stylesheet" href="css/espace.css">
 </head>
-  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 
 <body>
+
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
 
 <header class="topbar">
   <div class="topbar-left">
     <button
-  type="button"
-  class="mobile-menu-toggle"
-  id="mobileMenuToggle"
-  aria-label="Ouvrir le menu"
-  aria-controls="leftSidebar"
-  aria-expanded="false"
->
-  ☰
-    </button>
+      type="button"
+      class="mobile-menu-toggle"
+      id="mobileMenuToggle"
+      aria-label="Ouvrir le menu"
+      aria-controls="leftSidebar"
+      aria-expanded="false"
+    >☰</button>
+
     <a href="index.html" class="brand">
       <span class="brand-mark">D</span>
       <span class="brand-name">DREPA<span>WORLD</span></span>
     </a>
+
     <div class="header-search">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-4-4"></path>
+      </svg>
       <input type="search" placeholder="Rechercher dans DREPA-WORLD" aria-label="Rechercher">
     </div>
   </div>
@@ -39,7 +43,7 @@
     <a href="#feed" class="top-nav-item active" aria-label="Accueil" title="Accueil">
       <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
     </a>
-    <a href="#feed" class="top-nav-item" aria-label="Communauté" title="Communauté">
+    <a href="#friendSuggestionsSection" class="top-nav-item" aria-label="Communauté" title="Communauté">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-3.5 2.5-6 6-6s6 2.5 6 6M15 15c3.5-.5 6 1.5 6 4"></path></svg>
     </a>
     <a href="#profile" class="top-nav-item" aria-label="Profil" title="Profil">
@@ -74,95 +78,93 @@
       </div>
     </section>
 
-    
-<nav class="sidebar-nav" aria-label="Navigation de l'espace membre">
+    <nav class="sidebar-nav" aria-label="Navigation de l'espace membre">
 
-  <a href="#feed" class="sidebar-link active" data-nav="feed">
-    <span class="nav-symbol">⌂</span>
-    <span>Accueil</span>
-  </a>
+      <a href="#feed" class="sidebar-link active" data-nav="feed">
+        <span class="nav-symbol">⌂</span>
+        <span>Accueil</span>
+      </a>
 
-  <details class="menu-group">
-    <summary>
-      <span class="menu-group-icon">♧</span>
-      <span>Mon réseau</span>
-      <span class="menu-arrow">⌄</span>
-    </summary>
-    <div class="menu-subitems">
-      <span>Mes amis <small>Bientôt</small></span>
-      <span>Demandes d'amitié <small>Bientôt</small></span>
-      <span>Suggestions d'amis <small>Bientôt</small></span>
-      <span>Abonnements <small>Bientôt</small></span>
-      <span>Messages <small>Bientôt</small></span>
-      <span>Notifications <small>Bientôt</small></span>
-    </div>
-  </details>
+      <details class="menu-group">
+        <summary>
+          <span class="menu-group-icon">♧</span>
+          <span>Mon réseau</span>
+          <span class="menu-arrow">⌄</span>
+        </summary>
+        <div class="menu-subitems">
+          <span>Mes amis <small>Bientôt</small></span>
+          <span>Demandes d'amitié <small>Bientôt</small></span>
+          <a href="#friendSuggestionsSection">Suggestions d'amis</a>
+          <span>Abonnements <small>Bientôt</small></span>
+          <span>Messages <small>Bientôt</small></span>
+          <span>Notifications <small>Bientôt</small></span>
+        </div>
+      </details>
 
-  <details class="menu-group">
-    <summary>
-      <span class="menu-group-icon">⌕</span>
-      <span>Découvrir</span>
-      <span class="menu-arrow">⌄</span>
-    </summary>
-    <div class="menu-subitems">
-      <span>Communauté <small>Bientôt</small></span>
-      <span>Groupes <small>Bientôt</small></span>
-      <span>Pages <small>Bientôt</small></span>
-      <span>Recherche <small>Bientôt</small></span>
-      <span>Tendances et hashtags <small>Bientôt</small></span>
-    </div>
-  </details>
+      <details class="menu-group">
+        <summary>
+          <span class="menu-group-icon">⌕</span>
+          <span>Découvrir</span>
+          <span class="menu-arrow">⌄</span>
+        </summary>
+        <div class="menu-subitems">
+          <span>Communauté <small>Bientôt</small></span>
+          <span>Groupes <small>Bientôt</small></span>
+          <span>Pages <small>Bientôt</small></span>
+          <span>Recherche <small>Bientôt</small></span>
+          <span>Tendances et hashtags <small>Bientôt</small></span>
+        </div>
+      </details>
 
-  <details class="menu-group">
-    <summary>
-      <span class="menu-group-icon">♡</span>
-      <span>Santé et solidarité</span>
-      <span class="menu-arrow">⌄</span>
-    </summary>
-    <div class="menu-subitems">
-      <span>MON BOUCLIER VITAL <small>Bientôt</small></span>
-      <span>Météo intérieure <small>Bientôt</small></span>
-      <span>Donneur Ange <small>Bientôt</small></span>
-      <span>Veille de nuit <small>Bientôt</small></span>
-      <span>Suivi santé et hydratation <small>Bientôt</small></span>
-      <span>La force du vécu <small>Bientôt</small></span>
-      <span>SOLIDARITÉS <small>Bientôt</small></span>
-      <span>SOS SANG <small>Bientôt</small></span>
-    </div>
-  </details>
+      <details class="menu-group">
+        <summary>
+          <span class="menu-group-icon">♡</span>
+          <span>Santé et solidarité</span>
+          <span class="menu-arrow">⌄</span>
+        </summary>
+        <div class="menu-subitems">
+          <span>MON BOUCLIER VITAL <small>Bientôt</small></span>
+          <span>Météo intérieure <small>Bientôt</small></span>
+          <span>Donneur Ange <small>Bientôt</small></span>
+          <span>Veille de nuit <small>Bientôt</small></span>
+          <span>Suivi santé et hydratation <small>Bientôt</small></span>
+          <span>La force du vécu <small>Bientôt</small></span>
+          <span>SOLIDARITÉS <small>Bientôt</small></span>
+          <span>SOS SANG <small>Bientôt</small></span>
+        </div>
+      </details>
 
-  <details class="menu-group">
-    <summary>
-      <span class="menu-group-icon">♙</span>
-      <span>Mon espace</span>
-      <span class="menu-arrow">⌄</span>
-    </summary>
-    <div class="menu-subitems">
-      <a href="#profile">Mon profil</a>
-      <span>Mes photos et vidéos <small>Bientôt</small></span>
-      <span>Informations personnelles <small>Bientôt</small></span>
-      <span>Expériences professionnelles <small>Bientôt</small></span>
-      <span>Formations <small>Bientôt</small></span>
-      <span>Loisirs et intérêts <small>Bientôt</small></span>
-    </div>
-  </details>
+      <details class="menu-group">
+        <summary>
+          <span class="menu-group-icon">♙</span>
+          <span>Mon espace</span>
+          <span class="menu-arrow">⌄</span>
+        </summary>
+        <div class="menu-subitems">
+          <a href="#profile">Mon profil</a>
+          <span>Mes photos et vidéos <small>Bientôt</small></span>
+          <span>Informations personnelles <small>Bientôt</small></span>
+          <span>Expériences professionnelles <small>Bientôt</small></span>
+          <span>Formations <small>Bientôt</small></span>
+          <span>Loisirs et intérêts <small>Bientôt</small></span>
+        </div>
+      </details>
 
-  <details class="menu-group">
-    <summary>
-      <span class="menu-group-icon">⚙</span>
-      <span>Paramètres</span>
-      <span class="menu-arrow">⌄</span>
-    </summary>
-    <div class="menu-subitems">
-      <span>Confidentialité <small>Bientôt</small></span>
-      <span>Sécurité <small>Bientôt</small></span>
-      <span>Notifications <small>Bientôt</small></span>
-      <span>Gestion du compte <small>Bientôt</small></span>
-    </div>
-  </details>
+      <details class="menu-group">
+        <summary>
+          <span class="menu-group-icon">⚙</span>
+          <span>Paramètres</span>
+          <span class="menu-arrow">⌄</span>
+        </summary>
+        <div class="menu-subitems">
+          <span>Confidentialité <small>Bientôt</small></span>
+          <span>Sécurité <small>Bientôt</small></span>
+          <span>Notifications <small>Bientôt</small></span>
+          <span>Gestion du compte <small>Bientôt</small></span>
+        </div>
+      </details>
 
-</nav>
-    
+    </nav>
 
     <div class="sidebar-note">
       <span class="note-line"></span>
@@ -216,27 +218,41 @@
 
       <div class="stories-list">
         <div class="story-card story-add">
-          <div class="story-add-visual">
-            <span>+</span>
-          </div>
+          <div class="story-add-visual"><span>+</span></div>
           <strong>Partager un instant</strong>
           <small>Les stories arrivent dans une prochaine évolution</small>
         </div>
         <div class="story-card story-message">
-          <div class="story-visual">
-            <span class="story-letter">D</span>
-          </div>
+          <div class="story-visual"><span class="story-letter">D</span></div>
           <strong>Notre communauté</strong>
           <small>Unis par la solidarité</small>
         </div>
         <div class="story-card story-message second-story">
-          <div class="story-visual">
-            <span class="story-letter">W</span>
-          </div>
+          <div class="story-visual"><span class="story-letter">W</span></div>
           <strong>Un même espace</strong>
           <small>Ensemble, avançons</small>
         </div>
       </div>
+    </section>
+
+    <!-- SUGGESTIONS D'AMIS -->
+    <section class="friend-suggestions-section card" id="friendSuggestionsSection">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">AGRANDISSONS NOTRE COMMUNAUTÉ</span>
+          <h2>Suggestions d'amis</h2>
+        </div>
+      </div>
+
+      <p class="friend-suggestions-intro">
+        Découvrez des membres que vous pourriez connaître grâce à vos amis en commun.
+      </p>
+
+      <div id="friendSuggestionsList" aria-live="polite">
+        <p>Chargement des suggestions...</p>
+      </div>
+
+      <p id="friendSuggestionsMessage" aria-live="polite"></p>
     </section>
 
     <section class="composer card">
@@ -286,7 +302,7 @@
 
       <div id="feedList" class="feed-list">
         <div id="feedLoading" class="feed-loading">Chargement des publications...</div>
-        <div id="feed"></div>
+        <div id="feedPosts"></div>
         <div id="feedSentinel"></div>
       </div>
 
@@ -353,5 +369,5 @@
 <script type="module" src="js/espace.js"></script>
 
 </body>
-          </html>
+  </html>
   
