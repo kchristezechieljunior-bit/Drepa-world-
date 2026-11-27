@@ -447,100 +447,118 @@ export default {
           member: fullMember
         });
       }
+      
       // PROFIL PERSONNEL DU MEMBRE
-if (
-  (request.method === "GET" || request.method === "POST") &&
-  path === "/profile"
-) {
-  const member = await getAuthenticatedMember(request, env);
+      if (
+        (request.method === "GET" || request.method === "POST") &&
+        path === "/profile"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
 
-  if (!member) {
-    return respond({
-      success: false,
-      error: "Connectez-vous pour accéder à votre profil."
-    }, 401);
-  }
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour accéder à votre profil."
+          }, 401);
+        }
 
-  if (request.method === "POST") {
-    const body = await readBody(request);
+        if (request.method === "POST") {
+          const body = await readBody(request);
 
-    if (!body || typeof body !== "object" || Array.isArray(body)) {
-      return respond({
-        success: false,
-        error: "Données du profil invalides."
-      }, 400);
-    }
+          if (!body || typeof body !== "object" || Array.isArray(body)) {
+            return respond({
+              success: false,
+              error: "Données du profil invalides."
+            }, 400);
+          }
 
-    const fields = {
-      city: 100,
-      origin_city: 100,
-      birth_date: 10,
-      relationship_status: 50,
-      family_info: 1000,
-      gender: 50,
-      languages: 500
-    };
+          const fields = {
+            city: 100,
+            origin_city: 100,
+            birth_date: 10,
+            relationship_status: 50,
+            family_info: 1000,
+            gender: 50,
+            languages: 500
+          };
 
-    const values = {};
+          const updates = [];
+          const values = [];
 
-    for (const [field, maxLength] of Object.entries(fields)) {
-      const value = String(body[field] ?? "").trim();
+          for (const [field, maxLength] of Object.entries(fields)) {
+            if (!Object.prototype.hasOwnProperty.call(body, field)) {
+              continue;
+            }
 
-      if (value.length > maxLength) {
+            if (
+              body[field] !== null &&
+              typeof body[field] !== "string"
+            ) {
+              return respond({
+                success: false,
+                error: `Le champ ${field} doit être un texte valide.`
+              }, 400);
+            }
+
+            const value = String(body[field] ?? "").trim();
+
+            if (value.length > maxLength) {
+              return respond({
+                success: false,
+                error: `Le champ ${field} est trop long.`
+              }, 400);
+            }
+
+            if (field === "birth_date" && value) {
+              if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+                return respond({
+                  success: false,
+                  error: "Format de date invalide."
+                }, 400);
+              }
+
+              const date = new Date(`${value}T00:00:00.000Z`);
+
+              if (
+                Number.isNaN(date.getTime()) ||
+                date.toISOString().slice(0, 10) !== value
+              ) {
+                return respond({
+                  success: false,
+                  error: "Cette date n'est pas valide."
+                }, 400);
+              }
+            }
+
+            updates.push(`${field} = ?`);
+            values.push(value || null);
+          }
+
+          if (updates.length > 0) {
+            values.push(member.id);
+
+            await env.DB.prepare(
+              `UPDATE member_profiles
+               SET ${updates.join(", ")}
+               WHERE member_id = ?`
+            ).bind(...values).run();
+          }
+        }
+
+        const profile = await env.DB.prepare(
+          `SELECT username, photo_url, country, city, bio,
+                  origin_city, birth_date, relationship_status,
+                  family_info, gender, languages
+           FROM member_profiles
+           WHERE member_id = ?`
+        ).bind(member.id).first();
+
         return respond({
-          success: false,
-          error: `Le champ ${field} est trop long.`
-        }, 400);
+          success: true,
+          profile
+        });
       }
-
-      values[field] = value || null;
-    }
-
-    if (
-      values.birth_date &&
-      !/^\d{4}-\d{2}-\d{2}$/.test(values.birth_date)
-    ) {
-      return respond({
-        success: false,
-        error: "Format de date invalide."
-      }, 400);
-    }
-
-    await env.DB.prepare(
-      `UPDATE member_profiles
-       SET city = ?,
-           origin_city = ?,
-           birth_date = ?,
-           relationship_status = ?,
-           family_info = ?,
-           gender = ?,
-           languages = ?
-       WHERE member_id = ?`
-    ).bind(
-      values.city,
-      values.origin_city,
-      values.birth_date,
-      values.relationship_status,
-      values.family_info,
-      values.gender,
-      values.languages,
-      member.id
-    ).run();
-  }
-
-  const profile = await env.DB.prepare(
-    `SELECT username, photo_url, country, city, bio,
-            origin_city, birth_date, relationship_status,
-            family_info, gender, languages
-     FROM member_profiles
-     WHERE member_id = ?`
-  ).bind(member.id).first();
-
-  return respond({
-    success: true,
-    profile
-  });
-}
+      
       
       // EXPÉRIENCES PROFESSIONNELLES
       if (
