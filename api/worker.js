@@ -1060,43 +1060,38 @@ if (request.method === "GET" && path === "/friend-suggestions") {
   }
 
   const result = await env.DB.prepare(`
+    WITH my_friends AS (
+      SELECT
+        CASE
+          WHEN requester_id = ? THEN addressee_id
+          ELSE requester_id
+        END AS friend_id
+      FROM friendships
+      WHERE status = 'accepted'
+        AND (requester_id = ? OR addressee_id = ?)
+    ),
+    mutual_counts AS (
+      SELECT
+        CASE
+          WHEN f.requester_id = mf.friend_id THEN f.addressee_id
+          ELSE f.requester_id
+        END AS suggested_id,
+        COUNT(DISTINCT mf.friend_id) AS mutual_friends_count
+      FROM my_friends mf
+      JOIN friendships f
+        ON f.status = 'accepted'
+       AND (f.requester_id = mf.friend_id OR f.addressee_id = mf.friend_id)
+      GROUP BY suggested_id
+    )
     SELECT
       m.id AS member_id,
       mp.username,
       mp.photo_url,
-      COUNT(DISTINCT mutual.friend_id) AS mutual_friends_count
-    FROM friendships my_friends
-
-    JOIN friendships mutual
-      ON mutual.status = 'accepted'
-     AND (
-       (mutual.requester_id = CASE
-          WHEN my_friends.requester_id = ? THEN my_friends.addressee_id
-          ELSE my_friends.requester_id
-        END)
-       OR
-       (mutual.addressee_id = CASE
-          WHEN my_friends.requester_id = ? THEN my_friends.addressee_id
-          ELSE my_friends.requester_id
-        END)
-     )
-
-    JOIN members m
-      ON m.id = CASE
-        WHEN mutual.requester_id = ?
-        THEN mutual.addressee_id
-        ELSE mutual.requester_id
-      END
-
-    JOIN member_profiles mp
-      ON mp.member_id = m.id
-
-    WHERE my_friends.status = 'accepted'
-      AND (
-        my_friends.requester_id = ?
-        OR my_friends.addressee_id = ?
-      )
-      AND m.id != ?
+      mc.mutual_friends_count
+    FROM mutual_counts mc
+    JOIN members m ON m.id = mc.suggested_id
+    JOIN member_profiles mp ON mp.member_id = m.id
+    WHERE m.id != ?
       AND NOT EXISTS (
         SELECT 1
         FROM friendships existing
@@ -1106,14 +1101,9 @@ if (request.method === "GET" && path === "/friend-suggestions") {
           (existing.requester_id = m.id AND existing.addressee_id = ?)
         )
       )
-
-    GROUP BY m.id, mp.username, mp.photo_url
-    HAVING mutual_friends_count > 0
-    ORDER BY mutual_friends_count DESC
+    ORDER BY mc.mutual_friends_count DESC
     LIMIT 20
   `).bind(
-    member.id,
-    member.id,
     member.id,
     member.id,
     member.id,
@@ -1128,6 +1118,8 @@ if (request.method === "GET" && path === "/friend-suggestions") {
   });
 }
       
+      
+    
       
       
       
