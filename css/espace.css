@@ -2434,5 +2434,185 @@ input:focus-visible {
   }
 }
 
+/* =========================================
+   SUGGESTIONS D'AMIS — DREPA-WORLD
+========================================= */
+
+.friend-suggestions-section {
+  padding: 20px;
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 1px solid #e3ebf2;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.friend-suggestions-section .section-heading {
+  margin: 0 0 10px;
+}
+
+.friend-suggestions-section h2 {
+  margin: 0;
+  color: #123b63;
+  font-size: 19px;
+  font-weight: 750;
+}
+
+.friend-suggestions-intro {
+  margin: 0 0 16px;
+  color: #718398;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+#friendSuggestionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.friend-suggestion-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px;
+  border: 1px solid #e5edf4;
+  border-radius: 14px;
+  background: #f9fbfd;
+  transition: background .2s, box-shadow .2s;
+}
+
+.friend-suggestion-card:hover {
+  background: #f1f8fb;
+  box-shadow: 0 5px 15px rgba(24, 62, 96, .06);
+}
+
+.friend-suggestion-identity {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+  flex: 1;
+}
+
+.friend-suggestion-avatar,
+.friend-suggestion-initials {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.friend-suggestion-initials {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #123b63, #159a9b);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 750;
+}
+
+.friend-suggestion-info {
+  min-width: 0;
+}
+
+.friend-suggestion-info strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: #123b63;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.friend-suggestion-info span {
+  display: block;
+  margin-top: 3px;
+  color: #718398;
+  font-size: 11px;
+}
+
+.friend-suggestion-add {
+  flex-shrink: 0;
+  padding: 9px 13px;
+  border: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #123b63, #147e99);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  transition: .2s;
+}
+
+.friend-suggestion-add:hover {
+  background: linear-gradient(135deg, #0d3153, #0d9994);
+  transform: translateY(-1px);
+}
+
+.friend-suggestion-add.request-sent {
+  background: #e5f4ef;
+  color: #159b79;
+  border: 1px solid #cce9dd;
+  cursor: default;
+  transform: none;
+}
+
+#friendSuggestionsMessage {
+  margin: 12px 0 0;
+  color: #718398;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .friend-suggestions-section {
+    padding: 14px;
+    margin-bottom: 17px;
+    border-radius: 14px;
+  }
+
+  .friend-suggestions-section h2 {
+    font-size: 17px;
+  }
+
+  .friend-suggestion-card {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .friend-suggestion-avatar,
+  .friend-suggestion-initials {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .friend-suggestion-info strong {
+    font-size: 12px;
+  }
+
+  .friend-suggestion-info span {
+    font-size: 10px;
+  }
+
+  .friend-suggestion-add {
+    padding: 8px 10px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .friend-suggestion-card {
+    flex-wrap: wrap;
+  }
+
+  .friend-suggestion-add {
+    width: 100%;
+  }
+   }
+
+
+
 
      
