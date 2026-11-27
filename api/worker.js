@@ -1012,6 +1012,45 @@ if (
           message: "Demande refusée."
         });
       }
+      // SUPPRIMER UN AMI
+if (request.method === "POST" && path === "/friends/remove") {
+  const member = await getAuthenticatedMember(request, env);
+  if (!member) {
+    return respond({ error: "Non autorisé." }, 401);
+  }
+
+  const body = await readBody(request);
+  const friendId = Number(body?.friend_id);
+
+  if (
+    !Number.isSafeInteger(friendId) ||
+    friendId < 1 ||
+    friendId === member.id
+  ) {
+    return respond({ error: "Identifiant d'ami invalide." }, 400);
+  }
+
+  const result = await env.DB.prepare(
+    `DELETE FROM friendships
+     WHERE status = 'accepted'
+       AND (
+         (requester_id = ? AND addressee_id = ?)
+         OR
+         (requester_id = ? AND addressee_id = ?)
+       )`
+  )
+    .bind(member.id, friendId, friendId, member.id)
+    .run();
+
+  if (result.meta.changes !== 1) {
+    return respond({ error: "Amitié introuvable." }, 404);
+  }
+
+  return respond({
+    success: true,
+    message: "Ami retiré de votre liste."
+  });
+}
       
       
       
