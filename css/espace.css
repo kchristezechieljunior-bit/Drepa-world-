@@ -2278,5 +2278,161 @@ input:focus-visible {
     min-height: 44px;
   }
    }
+/* =========================================
+   MENU MOBILE DREPA-WORLD
+========================================= */
+
+.mobile-menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 12px;
+  background: #eaf1ef;
+  color: #102c35;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.mobile-menu-backdrop {
+  display: none;
+}
+
+@media (max-width: 760px) {
+
+  .topbar {
+    height: 60px;
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .mobile-menu-toggle {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .header-search,
+  .top-navigation {
+    display: none;
+  }
+
+  .topbar-left {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .brand-name {
+    font-size: 13px;
+  }
+
+  .topbar-actions {
+    gap: 6px;
+  }
+
+  .topbar-actions .logout-button {
+    display: none;
+  }
+
+  /* Panneau latéral coulissant */
+  .left-sidebar {
+    display: block !important;
+    position: fixed !important;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 1200;
+    width: min(86vw, 340px);
+    height: auto;
+    margin: 0;
+    padding: 12px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: #f6f7f4;
+    box-shadow: 12px 0 35px rgba(16, 44, 53, .18);
+
+    transform: translateX(-110%);
+    visibility: hidden;
+    transition:
+      transform .28s ease,
+      visibility .28s ease;
+  }
+
+  body.mobile-menu-open .left-sidebar {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  /* Fond sombre derrière le menu */
+  .mobile-menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 60px 0 0;
+    z-index: 1100;
+    background: rgba(8, 25, 30, .48);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity .25s ease,
+      visibility .25s ease;
+  }
+
+  body.mobile-menu-open .mobile-menu-backdrop {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  body.mobile-menu-open {
+    overflow: hidden;
+  }
+
+  .left-sidebar .sidebar-profile,
+  .left-sidebar .sidebar-nav,
+  .left-sidebar .sidebar-note {
+    display: block;
+    margin-top: 12px;
+  }
+
+  .left-sidebar .sidebar-nav {
+    padding: 10px;
+  }
+
+  .left-sidebar .menu-group summary {
+    min-height: 48px;
+    font-size: 13px;
+  }
+
+  .left-sidebar .menu-subitems a,
+  .left-sidebar .menu-subitems span {
+    min-height: 40px;
+    font-size: 12px;
+  }
+
+  .left-sidebar .sidebar-footer {
+    padding-bottom: 25px;
+  }
+
+  /* Contenu principal */
+  .main-content {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 12px;
+  }
+
+  .feed-column {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .right-sidebar {
+    display: none;
+  }
+
+  .mobile-nav {
+    z-index: 1000;
+  }
+}
+
 
      
