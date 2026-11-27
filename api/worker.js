@@ -1,4 +1,3 @@
-
 const SITE_ORIGIN = "https://drepa-world.kchristezechieljunior.workers.dev";
 const SESSION_DAYS = 30;
 const ITERATIONS = 100000;
@@ -369,8 +368,7 @@ export default {
           message: "Compte créé et activé. Vous pouvez maintenant vous connecter."
         }, 201);
       }
-
-      // CONNEXION
+            // CONNEXION
       if (request.method === "POST" && path === "/login") {
         const body = await readBody(request);
 
@@ -449,6 +447,7 @@ export default {
           member: fullMember
         });
       }
+
       // CRÉER UNE PUBLICATION
       if (request.method === "POST" && path === "/posts") {
         const member = await getAuthenticatedMember(request, env);
@@ -472,9 +471,12 @@ export default {
 
           const uploadedFile = formData.get("media");
 
-          if (uploadedFile && typeof uploadedFile === "object" &&
-              typeof uploadedFile.size === "number" &&
-              uploadedFile.size > 0) {
+          if (
+            uploadedFile &&
+            typeof uploadedFile === "object" &&
+            typeof uploadedFile.size === "number" &&
+            uploadedFile.size > 0
+          ) {
             file = uploadedFile;
           }
         } else {
@@ -490,10 +492,10 @@ export default {
           content = String(body.content || "").trim();
         }
 
-        if (content.length > 2000) {
+        if (content.length > 5000) {
           return respond({
             success: false,
-            error: "La publication ne peut pas dépasser 2000 caractères."
+            error: "La publication ne peut pas dépasser 5000 caractères."
           }, 400);
         }
 
@@ -591,9 +593,8 @@ export default {
             error: "La publication n'a pas pu être enregistrée."
           }, 500);
         }
-      }
-
-      // RÉCUPÉRER LES PUBLICATIONS AVEC PAGINATION
+            }
+            // RÉCUPÉRER LES PUBLICATIONS AVEC PAGINATION
       if (request.method === "GET" && path === "/posts") {
         const member = await getAuthenticatedMember(request, env);
 
@@ -730,10 +731,10 @@ export default {
 
         const content = String(body?.content || "").trim();
 
-        if (!content || content.length > 1000) {
+        if (!content || content.length > 2000) {
           return respond({
             success: false,
-            error: "Le commentaire doit contenir entre 1 et 1000 caractères."
+            error: "Le commentaire doit contenir entre 1 et 2000 caractères."
           }, 400);
         }
 
@@ -814,7 +815,7 @@ export default {
           success: true,
           comments: result.results || []
         });
-            }
+        }
             // AJOUTER OU MODIFIER UNE RÉACTION
       if (
         request.method === "POST" &&
@@ -1085,9 +1086,8 @@ export default {
           status: 206,
           headers: mediaHeaders
         });
-      }
-
-      // DÉCONNEXION
+                           }
+            // DÉCONNEXION
       if (request.method === "POST" && path === "/logout") {
         const token = getCookie(request, "dw_session");
 
