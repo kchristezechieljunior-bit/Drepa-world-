@@ -178,8 +178,10 @@
     </div>
   </aside>
 
-  <section class="feed-column" id="feed">
+  <!-- CONTENU CENTRAL -->
+  <section class="feed-column" id="feedColumn">
 
+    <!-- PROFIL -->
     <section class="profile-cover-card" id="profile">
       <div class="profile-cover">
         <div class="cover-decoration"></div>
@@ -207,6 +209,7 @@
       </nav>
     </section>
 
+    <!-- STORIES -->
     <section class="stories-section">
       <div class="section-heading">
         <div>
@@ -255,6 +258,7 @@
       <p id="friendSuggestionsMessage" aria-live="polite"></p>
     </section>
 
+    <!-- CRÉATION DE PUBLICATION -->
     <section class="composer card">
       <div class="composer-heading">
         <span class="avatar composer-avatar">D</span>
@@ -291,6 +295,7 @@
       </form>
     </section>
 
+    <!-- FIL D'ACTUALITÉ -->
     <section class="feed-section">
       <div class="feed-section-heading">
         <div>
@@ -302,7 +307,10 @@
 
       <div id="feedList" class="feed-list">
         <div id="feedLoading" class="feed-loading">Chargement des publications...</div>
-        <div id="feedPosts"></div>
+
+        <!-- IMPORTANT : feed.js utilise cet identifiant -->
+        <div id="feed"></div>
+
         <div id="feedSentinel"></div>
       </div>
 
@@ -318,6 +326,7 @@
 
   </section>
 
+  <!-- BARRE LATÉRALE DROITE -->
   <aside class="sidebar right-sidebar">
     <section class="welcome-card">
       <span class="eyebrow">BIENVENUE CHEZ VOUS</span>
@@ -351,6 +360,7 @@
 
 </main>
 
+<!-- NAVIGATION MOBILE -->
 <nav class="mobile-nav" aria-label="Navigation mobile">
   <a href="#feed" class="mobile-nav-link active" aria-label="Accueil">
     <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
@@ -369,5 +379,5 @@
 <script type="module" src="js/espace.js"></script>
 
 </body>
-  </html>
-  
+      </html>
+        
