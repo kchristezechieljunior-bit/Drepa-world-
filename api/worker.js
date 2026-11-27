@@ -814,6 +814,206 @@ if (
         });
       }
       
+      // SYSTÈME D'AMITIÉ
+      if (
+        request.method === "GET" &&
+        path === "/friends"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour voir vos amis."
+          }, 401);
+        }
+
+        const friends = await env.DB.prepare(
+          `SELECT m.id, m.name, p.username, p.photo_url
+           FROM friendships f
+           JOIN members m
+             ON m.id = CASE
+               WHEN f.requester_id = ? THEN f.addressee_id
+               ELSE f.requester_id
+             END
+           LEFT JOIN member_profiles p ON p.member_id = m.id
+           WHERE (f.requester_id = ? OR f.addressee_id = ?)
+             AND f.status = 'accepted'
+           ORDER BY m.name ASC`
+        ).bind(member.id, member.id, member.id).all();
+
+        return respond({
+          success: true,
+          friends: friends.results || [],
+          friends_count: (friends.results || []).length
+        });
+      }
+
+      // DEMANDES D'AMITIÉ REÇUES
+      if (
+        request.method === "GET" &&
+        path === "/friend-requests"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour voir vos demandes."
+          }, 401);
+        }
+
+        const requests = await env.DB.prepare(
+          `SELECT f.id, f.requester_id, f.created_at,
+                  m.name, p.username, p.photo_url
+           FROM friendships f
+           JOIN members m ON m.id = f.requester_id
+           LEFT JOIN member_profiles p ON p.member_id = m.id
+           WHERE f.addressee_id = ?
+             AND f.status = 'pending'
+           ORDER BY f.created_at DESC`
+        ).bind(member.id).all();
+
+        return respond({
+          success: true,
+          requests: requests.results || []
+        });
+      }
+
+      // ENVOYER UNE DEMANDE D'AMITIÉ
+      if (
+        request.method === "POST" &&
+        path === "/friend-requests"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour envoyer une demande."
+          }, 401);
+        }
+
+        const body = await readBody(request);
+        const targetId = Number(body?.member_id);
+
+        if (!Number.isSafeInteger(targetId) || targetId < 1) {
+          return respond({
+            success: false,
+            error: "Membre invalide."
+          }, 400);
+        }
+
+        if (targetId === member.id) {
+          return respond({
+            success: false,
+            error: "Vous ne pouvez pas vous ajouter vous-même."
+          }, 400);
+        }
+
+        const target = await env.DB.prepare(
+          "SELECT id FROM members WHERE id = ? AND status = 'active'"
+        ).bind(targetId).first();
+
+        if (!target) {
+          return respond({
+            success: false,
+            error: "Ce membre n'existe pas."
+          }, 404);
+        }
+
+        try {
+          await env.DB.prepare(
+            `INSERT INTO friendships
+             (requester_id, addressee_id, status)
+             VALUES (?, ?, 'pending')`
+          ).bind(member.id, targetId).run();
+
+          return respond({
+            success: true,
+            message: "Demande d'amitié envoyée."
+          }, 201);
+        } catch (error) {
+          return respond({
+            success: false,
+            error: "Une demande ou une amitié existe déjà entre ces membres."
+          }, 409);
+        }
+      }
+
+      // ACCEPTER OU REFUSER UNE DEMANDE
+      if (
+        request.method === "POST" &&
+        path === "/friend-requests/respond"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour répondre."
+          }, 401);
+        }
+
+        const body = await readBody(request);
+        const requestId = Number(body?.request_id);
+        const action = String(body?.action || "");
+
+        if (
+          !Number.isSafeInteger(requestId) ||
+          requestId < 1 ||
+          !["accept", "decline"].includes(action)
+        ) {
+          return respond({
+            success: false,
+            error: "Réponse invalide."
+          }, 400);
+        }
+
+        if (action === "accept") {
+          const result = await env.DB.prepare(
+            `UPDATE friendships
+             SET status = 'accepted',
+                 updated_at = CURRENT_TIMESTAMP
+             WHERE id = ?
+               AND addressee_id = ?
+               AND status = 'pending'`
+          ).bind(requestId, member.id).run();
+
+          if (result.meta.changes !== 1) {
+            return respond({
+              success: false,
+              error: "Demande introuvable ou déjà traitée."
+            }, 404);
+          }
+
+          return respond({
+            success: true,
+            message: "Demande d'amitié acceptée."
+          });
+        }
+
+        const result = await env.DB.prepare(
+          `DELETE FROM friendships
+           WHERE id = ?
+             AND addressee_id = ?
+             AND status = 'pending'`
+        ).bind(requestId, member.id).run();
+
+        if (result.meta.changes !== 1) {
+          return respond({
+            success: false,
+            error: "Demande introuvable ou déjà traitée."
+          }, 404);
+        }
+
+        return respond({
+          success: true,
+          message: "Demande refusée."
+        });
+      }
+      
+      
       
       
 
