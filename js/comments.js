@@ -1,4 +1,3 @@
-
 /* =========================================
    DREPA-WORLD — COMMENTAIRES ET RÉACTIONS
 ========================================= */
@@ -257,7 +256,7 @@ export function initializeComments(context) {
     form.innerHTML = `
       <textarea
         rows="2"
-        maxlength="3000"
+        maxlength="2000"
         placeholder="Écrire un commentaire..."
         aria-label="Votre commentaire"
         required
@@ -404,5 +403,4 @@ export function initializeComments(context) {
   return {
     loadComments
   };
-       }
-     
+  }
