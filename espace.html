@@ -43,10 +43,12 @@
     <a href="#feed" class="top-nav-item active" aria-label="Accueil" title="Accueil">
       <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
     </a>
+
     <a href="#friendSuggestionsSection" class="top-nav-item" aria-label="Communauté" title="Communauté">
       <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-3.5 2.5-6 6-6s6 2.5 6 6M15 15c3.5-.5 6 1.5 6 4"></path></svg>
     </a>
-    <a href="#profile" class="top-nav-item" aria-label="Profil" title="Profil">
+
+    <a href="profil.html" class="top-nav-item" aria-label="Profil" title="Profil">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.2-7 8-7s8 2.8 8 7"></path></svg>
     </a>
   </nav>
@@ -55,27 +57,37 @@
     <button class="header-icon" type="button" aria-label="Créer une publication" onclick="document.getElementById('postContent').focus()">
       <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
     </button>
+
     <button class="header-icon" type="button" aria-label="Notifications" disabled>
       <svg viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
     </button>
+
     <div class="top-profile">
       <span class="avatar avatar-small" id="myAvatar">D</span>
       <span id="myUsername">Membre</span>
     </div>
+
     <button id="logoutButton" class="logout-button" type="button">Déconnexion</button>
   </div>
 </header>
 
 <main class="main-content">
 
+  <!-- BARRE LATÉRALE GAUCHE -->
   <aside class="sidebar left-sidebar" id="leftSidebar">
+
     <section class="sidebar-profile">
       <div class="sidebar-cover"></div>
       <span class="avatar sidebar-avatar" id="sidebarAvatar">D</span>
+
       <div class="sidebar-profile-info">
         <strong id="sidebarUsername">Mon profil</strong>
         <span>Membre de DREPA-WORLD</span>
       </div>
+
+      <a href="profil.html" class="profile-button profile-button-secondary">
+        Voir mon profil
+      </a>
     </section>
 
     <nav class="sidebar-nav" aria-label="Navigation de l'espace membre">
@@ -91,6 +103,7 @@
           <span>Mon réseau</span>
           <span class="menu-arrow">⌄</span>
         </summary>
+
         <div class="menu-subitems">
           <span>Mes amis <small>Bientôt</small></span>
           <span>Demandes d'amitié <small>Bientôt</small></span>
@@ -107,6 +120,7 @@
           <span>Découvrir</span>
           <span class="menu-arrow">⌄</span>
         </summary>
+
         <div class="menu-subitems">
           <span>Communauté <small>Bientôt</small></span>
           <span>Groupes <small>Bientôt</small></span>
@@ -122,6 +136,7 @@
           <span>Santé et solidarité</span>
           <span class="menu-arrow">⌄</span>
         </summary>
+
         <div class="menu-subitems">
           <span>MON BOUCLIER VITAL <small>Bientôt</small></span>
           <span>Météo intérieure <small>Bientôt</small></span>
@@ -140,13 +155,14 @@
           <span>Mon espace</span>
           <span class="menu-arrow">⌄</span>
         </summary>
+
         <div class="menu-subitems">
-          <a href="#profile">Mon profil</a>
+          <a href="profil.html">Mon profil</a>
+          <a href="profil.html#personalSection">Informations personnelles</a>
+          <a href="profil.html#workSection">Expériences professionnelles</a>
+          <a href="profil.html#educationSection">Formations</a>
+          <a href="profil.html#interestsSection">Loisirs et intérêts</a>
           <span>Mes photos et vidéos <small>Bientôt</small></span>
-          <span>Informations personnelles <small>Bientôt</small></span>
-          <span>Expériences professionnelles <small>Bientôt</small></span>
-          <span>Formations <small>Bientôt</small></span>
-          <span>Loisirs et intérêts <small>Bientôt</small></span>
         </div>
       </details>
 
@@ -156,6 +172,7 @@
           <span>Paramètres</span>
           <span class="menu-arrow">⌄</span>
         </summary>
+
         <div class="menu-subitems">
           <span>Confidentialité <small>Bientôt</small></span>
           <span>Sécurité <small>Bientôt</small></span>
@@ -176,38 +193,11 @@
       <span>Respect</span>
       <span>Solidarité</span>
     </div>
+
   </aside>
 
   <!-- CONTENU CENTRAL -->
   <section class="feed-column" id="feedColumn">
-
-    <!-- PROFIL -->
-    <section class="profile-cover-card" id="profile">
-      <div class="profile-cover">
-        <div class="cover-decoration"></div>
-        <span class="cover-label">MON ESPACE PERSONNEL</span>
-      </div>
-
-      <div class="profile-main">
-        <div class="profile-identity">
-          <span class="avatar profile-avatar" id="composerAvatar">D</span>
-          <div class="profile-name-block">
-            <h1 id="profileUsername">Mon profil</h1>
-            <p>Membre de DREPA-WORLD</p>
-          </div>
-        </div>
-        <div class="profile-actions">
-          <button type="button" class="profile-action-button" disabled>Modifier le profil</button>
-          <button type="button" class="profile-more-button" disabled aria-label="Plus d'options">...</button>
-        </div>
-      </div>
-
-      <nav class="profile-tabs" aria-label="Onglets du profil">
-        <a href="#feed" class="profile-tab active">Publications</a>
-        <span class="profile-tab disabled">À propos</span>
-        <span class="profile-tab disabled">Réseau</span>
-      </nav>
-    </section>
 
     <!-- STORIES -->
     <section class="stories-section">
@@ -225,11 +215,13 @@
           <strong>Partager un instant</strong>
           <small>Les stories arrivent dans une prochaine évolution</small>
         </div>
+
         <div class="story-card story-message">
           <div class="story-visual"><span class="story-letter">D</span></div>
           <strong>Notre communauté</strong>
           <small>Unis par la solidarité</small>
         </div>
+
         <div class="story-card story-message second-story">
           <div class="story-visual"><span class="story-letter">W</span></div>
           <strong>Un même espace</strong>
@@ -260,8 +252,10 @@
 
     <!-- CRÉATION DE PUBLICATION -->
     <section class="composer card">
+
       <div class="composer-heading">
-        <span class="avatar composer-avatar">D</span>
+        <span class="avatar composer-avatar" id="composerAvatar">D</span>
+
         <div>
           <strong>Un mot à partager ?</strong>
           <span>Votre voix compte dans cette communauté.</span>
@@ -270,52 +264,92 @@
 
       <form id="postForm">
         <label class="visually-hidden" for="postContent">Votre publication</label>
-        <textarea id="postContent" name="content" placeholder="Que souhaitez-vous partager avec la communauté ?" required maxlength="5000"></textarea>
+
+        <textarea
+          id="postContent"
+          name="content"
+          placeholder="Que souhaitez-vous partager avec la communauté ?"
+          required
+          maxlength="5000"
+        ></textarea>
 
         <div class="selected-media-row" id="selectedMediaName" aria-live="polite"></div>
 
         <div class="composer-actions">
           <div class="composer-tools">
+
             <label class="composer-tool" for="mediaInput">
-              <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><circle cx="8.5" cy="9" r="1.5"></circle><path d="m21 15-5-5L5 20"></path></svg>
+              <svg viewBox="0 0 24 24">
+                <rect x="3" y="4" width="18" height="16" rx="2"></rect>
+                <circle cx="8.5" cy="9" r="1.5"></circle>
+                <path d="m21 15-5-5L5 20"></path>
+              </svg>
               <span>Photo / Vidéo</span>
             </label>
-            <input type="file" id="mediaInput" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime" hidden>
+
+            <input
+              type="file"
+              id="mediaInput"
+              accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime"
+              hidden
+            >
+
             <button type="button" class="composer-tool" disabled>
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"></path></svg>
+              <svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"></path>
+              </svg>
               <span>Humeur</span>
             </button>
+
           </div>
 
-          <button type="button" id="removeMediaButton" class="remove-media-button" hidden>Retirer</button>
-          <button type="submit" id="publishButton" class="publish-button">Publier</button>
+          <button type="button" id="removeMediaButton" class="remove-media-button" hidden>
+            Retirer
+          </button>
+
+          <button type="submit" id="publishButton" class="publish-button">
+            Publier
+          </button>
         </div>
+
         <p id="formMessage" class="form-message" aria-live="polite"></p>
         <div id="mediaSelection"></div>
       </form>
+
     </section>
 
     <!-- FIL D'ACTUALITÉ -->
     <section class="feed-section">
+
       <div class="feed-section-heading">
         <div>
           <span class="eyebrow">LA VIE DE DREPA-WORLD</span>
           <h2>Le fil de la communauté</h2>
         </div>
-        <button type="button" id="refreshFeed" class="refresh-button">Actualiser</button>
+
+        <button type="button" id="refreshFeed" class="refresh-button">
+          Actualiser
+        </button>
       </div>
 
       <div id="feedList" class="feed-list">
-        <div id="feedLoading" class="feed-loading">Chargement des publications...</div>
+        <div id="feedLoading" class="feed-loading">
+          Chargement des publications...
+        </div>
 
-        <!-- IMPORTANT : feed.js utilise cet identifiant -->
+        <!-- Identifiant utilisé par feed.js -->
         <div id="feed"></div>
 
         <div id="feedSentinel"></div>
       </div>
 
-      <button type="button" id="loadMoreButton" class="load-more-button" hidden>Voir plus de publications</button>
+      <button type="button" id="loadMoreButton" class="load-more-button" hidden>
+        Voir plus de publications
+      </button>
+
       <p id="feedStatus" class="feed-status" aria-live="polite"></p>
+
     </section>
 
     <footer class="main-footer">
@@ -328,6 +362,7 @@
 
   <!-- BARRE LATÉRALE DROITE -->
   <aside class="sidebar right-sidebar">
+
     <section class="welcome-card">
       <span class="eyebrow">BIENVENUE CHEZ VOUS</span>
       <h2>Une communauté. Des histoires. Une force commune.</h2>
@@ -337,17 +372,29 @@
 
     <section class="right-info-card">
       <span class="eyebrow">NOS VALEURS</span>
+
       <div class="value-item">
         <span class="value-number">01</span>
-        <div><strong>Solidarité</strong><p>Ne laisser personne seul.</p></div>
+        <div>
+          <strong>Solidarité</strong>
+          <p>Ne laisser personne seul.</p>
+        </div>
       </div>
+
       <div class="value-item">
         <span class="value-number">02</span>
-        <div><strong>Respect</strong><p>Accueillir chaque histoire.</p></div>
+        <div>
+          <strong>Respect</strong>
+          <p>Accueillir chaque histoire.</p>
+        </div>
       </div>
+
       <div class="value-item">
         <span class="value-number">03</span>
-        <div><strong>Espoir</strong><p>Avancer ensemble.</p></div>
+        <div>
+          <strong>Espoir</strong>
+          <p>Avancer ensemble.</p>
+        </div>
       </div>
     </section>
 
@@ -356,28 +403,45 @@
       <p>La force d'une communauté se mesure à la place qu'elle accorde à chacun.</p>
       <span class="quote-signature">L'esprit DREPA-WORLD</span>
     </section>
+
   </aside>
 
 </main>
 
 <!-- NAVIGATION MOBILE -->
 <nav class="mobile-nav" aria-label="Navigation mobile">
+
   <a href="#feed" class="mobile-nav-link active" aria-label="Accueil">
-    <svg viewBox="0 0 24 24"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path></svg>
+    <svg viewBox="0 0 24 24">
+      <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-6v-7h-4v7H4a1 1 0 0 1-1-1z"></path>
+    </svg>
     <span>Accueil</span>
   </a>
-  <a href="#profile" class="mobile-nav-link" aria-label="Profil">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.2 3.2-7 8-7s8 2.8 8 7"></path></svg>
+
+  <a href="profil.html" class="mobile-nav-link" aria-label="Profil">
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="4"></circle>
+      <path d="M4 21c0-4.2 3.2-7 8-7s8 2.8 8 7"></path>
+    </svg>
     <span>Profil</span>
   </a>
-  <a href="#postContent" class="mobile-nav-link" aria-label="Publier" onclick="document.getElementById('postContent').focus()">
-    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+
+  <a
+    href="#postContent"
+    class="mobile-nav-link"
+    aria-label="Publier"
+    onclick="document.getElementById('postContent').focus()"
+  >
+    <svg viewBox="0 0 24 24">
+      <path d="M12 5v14M5 12h14"></path>
+    </svg>
     <span>Publier</span>
   </a>
+
 </nav>
 
 <script type="module" src="js/espace.js"></script>
 
 </body>
-      </html>
-        
+        </html>
+            
