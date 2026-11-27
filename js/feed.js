@@ -1,4 +1,3 @@
-
 /* =========================================
    DREPA-WORLD — FIL D'ACTUALITÉ
 ========================================= */
@@ -215,7 +214,7 @@ export function initializeFeed(context) {
       .replace(/\n/g, "<br>");
 
     const commentsCount = Number(post.comments_count) || 0;
-    const likesCount = Number(post.likes_count) || 0;
+    const reactionsCount = Number(post.reactions_count) || 0;
 
     article.innerHTML = `
       <div class="post-header">
@@ -239,7 +238,7 @@ export function initializeFeed(context) {
 
       <div class="post-statistics">
         <span class="post-like-count">
-          ${likesCount > 0 ? `${likesCount} appréciation(s)` : ""}
+          ${reactionsCount > 0 ? `${reactionsCount} réaction(s)` : ""}
         </span>
 
         <span class="post-comment-count">
