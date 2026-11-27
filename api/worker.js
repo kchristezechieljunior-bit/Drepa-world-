@@ -1051,6 +1051,82 @@ if (request.method === "POST" && path === "/friends/remove") {
     message: "Ami retiré de votre liste."
   });
 }
+      // SUGGESTIONS D'AMIS AVEC AMIS EN COMMUN
+if (request.method === "GET" && path === "/friend-suggestions") {
+  const member = await getAuthenticatedMember(request, env);
+
+  if (!member) {
+    return respond({ error: "Non autorisé." }, 401);
+  }
+
+  const result = await env.DB.prepare(`
+    SELECT
+      m.id AS member_id,
+      mp.username,
+      mp.photo_url,
+      COUNT(DISTINCT mutual.friend_id) AS mutual_friends_count
+    FROM friendships my_friends
+
+    JOIN friendships mutual
+      ON mutual.status = 'accepted'
+     AND (
+       (mutual.requester_id = CASE
+          WHEN my_friends.requester_id = ? THEN my_friends.addressee_id
+          ELSE my_friends.requester_id
+        END)
+       OR
+       (mutual.addressee_id = CASE
+          WHEN my_friends.requester_id = ? THEN my_friends.addressee_id
+          ELSE my_friends.requester_id
+        END)
+     )
+
+    JOIN members m
+      ON m.id = CASE
+        WHEN mutual.requester_id = ?
+        THEN mutual.addressee_id
+        ELSE mutual.requester_id
+      END
+
+    JOIN member_profiles mp
+      ON mp.member_id = m.id
+
+    WHERE my_friends.status = 'accepted'
+      AND (
+        my_friends.requester_id = ?
+        OR my_friends.addressee_id = ?
+      )
+      AND m.id != ?
+      AND NOT EXISTS (
+        SELECT 1
+        FROM friendships existing
+        WHERE (
+          (existing.requester_id = ? AND existing.addressee_id = m.id)
+          OR
+          (existing.requester_id = m.id AND existing.addressee_id = ?)
+        )
+      )
+
+    GROUP BY m.id, mp.username, mp.photo_url
+    HAVING mutual_friends_count > 0
+    ORDER BY mutual_friends_count DESC
+    LIMIT 20
+  `).bind(
+    member.id,
+    member.id,
+    member.id,
+    member.id,
+    member.id,
+    member.id,
+    member.id,
+    member.id
+  ).all();
+
+  return respond({
+    success: true,
+    suggestions: result.results || []
+  });
+}
       
       
       
