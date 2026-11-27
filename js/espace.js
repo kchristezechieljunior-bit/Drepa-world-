@@ -224,6 +224,59 @@ function initializeNavigation() {
     });
   });
 }
+/* =====================================
+   MENU MOBILE
+===================================== */
+
+function initializeMobileMenu() {
+  const toggle = document.getElementById("mobileMenuToggle");
+  const backdrop = document.getElementById("mobileMenuBackdrop");
+  const sidebar = document.getElementById("leftSidebar");
+
+  if (!toggle || !backdrop || !sidebar) return;
+
+  function closeMenu() {
+    document.body.classList.remove("mobile-menu-open");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Ouvrir le menu");
+    toggle.textContent = "☰";
+  }
+
+  function openMenu() {
+    document.body.classList.add("mobile-menu-open");
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Fermer le menu");
+    toggle.textContent = "✕";
+  }
+
+  toggle.addEventListener("click", () => {
+    const isOpen =
+      document.body.classList.contains("mobile-menu-open");
+
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  backdrop.addEventListener("click", closeMenu);
+
+  sidebar.querySelectorAll("a[href]").forEach(link => {
+    link.addEventListener("click", () => {
+      if (link.getAttribute("aria-disabled") !== "true") {
+        closeMenu();
+      }
+    });
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+}
+
 
 /* =====================================
    INITIALISATION
@@ -239,6 +292,7 @@ async function initializePage() {
   updateAmbientPeriod();
 
   initializeNavigation();
+  initializeMobileMenu();
 
   const logoutButton = document.getElementById("logoutButton");
 
