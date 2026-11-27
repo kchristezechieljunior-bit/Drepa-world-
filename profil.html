@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102c35">
+  <meta name="description" content="Profil membre DREPA-WORLD.">
+  <title>Mon profil | DREPA-WORLD</title>
+  <link rel="stylesheet" href="css/espace.css">
+  <style>
+    .profile-page {
+      width: min(850px, 100%);
+      margin: 25px auto;
+      padding: 0 15px 40px;
+    }
+    .profile-page-card, .profile-info-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.06);
+    }
+    .profile-page-cover {
+      min-height: 190px;
+      background: linear-gradient(120deg,#102c35,#167d83,#36b6a5);
+      display: flex;
+      align-items: end;
+      padding: 20px;
+      color: white;
+      font-weight: bold;
+    }
+    .profile-page-identity {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 20px;
+      flex-wrap: wrap;
+    }
+    .profile-page-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #d9eeee;
+      color: #102c35;
+      font-size: 28px;
+      font-weight: bold;
+      border: 4px solid white;
+    }
+    .profile-page-identity h1 { margin: 0 0 6px; }
+    .profile-page-identity p { margin: 0; color: #68777b; }
+    .profile-page-stats {
+      display: flex;
+      gap: 25px;
+      padding: 0 20px 20px;
+      color: #52666b;
+    }
+    .profile-info-card { padding: 20px; }
+    .profile-info-card h2 { margin-top: 0; color: #102c35; }
+    .profile-info-card p { color: #607176; }
+    .profile-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 14px;
+    }
+    .profile-detail {
+      padding: 12px;
+      background: #f3f8f8;
+      border-radius: 10px;
+      overflow-wrap: anywhere;
+    }
+    .profile-detail strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #52666b;
+      font-size: 13px;
+    }
+    .profile-detail span { color: #102c35; }
+    .profile-page a { color: #087d83; }
+    .profile-page-message { color: #607176; }
+    .profile-friend {
+      padding: 12px;
+      border-bottom: 1px solid #edf1f1;
+    }
+    .profile-friend:last-child { border-bottom: 0; }
+    .profile-posts { min-height: 80px; }
+    @media(max-width:600px) {
+      .profile-page-cover { min-height: 135px; }
+      .profile-page-identity { gap: 12px; }
+      .profile-page-avatar { width: 72px; height: 72px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">
+    <a href="espace.html" class="brand">
+      <span class="brand-mark">D</span>
+      <span class="brand-name">DREPA<span>WORLD</span></span>
+    </a>
+  </div>
+  <div class="topbar-actions">
+    <a href="espace.html" class="logout-button" style="text-decoration:none">
+      Retour à l'accueil
+    </a>
+    <button id="logoutButton" class="logout-button" type="button">
+      Déconnexion
+    </button>
+  </div>
+</header>
+
+<main class="profile-page">
+
+  <section class="profile-page-card">
+    <div class="profile-page-cover">
+      MON ESPACE PERSONNEL
+    </div>
+
+    <div class="profile-page-identity">
+      <span class="profile-page-avatar" id="profileAvatar">D</span>
+      <div>
+        <h1 id="profileUsername">Chargement...</h1>
+        <p>Membre de DREPA-WORLD</p>
+      </div>
+    </div>
+
+    <div class="profile-page-stats">
+      <span><strong id="friendsCount">0</strong> amis</span>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Informations personnelles</h2>
+    <p>Ces informations sont facultatives. Chacun reste libre de choisir ce qu'il partage.</p>
+    <div class="profile-details" id="personalInformation">
+      <p class="profile-page-message">Chargement des informations...</p>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Expériences professionnelles</h2>
+    <div id="workExperiences">
+      <p class="profile-page-message">Chargement...</p>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Formations</h2>
+    <div id="educationRecords">
+      <p class="profile-page-message">Chargement...</p>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Loisirs et centres d'intérêt</h2>
+    <div id="memberInterests">
+      <p class="profile-page-message">Chargement...</p>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Mes amis</h2>
+    <div id="profileFriends">
+      <p class="profile-page-message">Chargement...</p>
+    </div>
+  </section>
+
+  <section class="profile-info-card">
+    <h2>Mes publications</h2>
+    <div id="profilePosts" class="profile-posts">
+      <p class="profile-page-message">Chargement...</p>
+    </div>
+  </section>
+
+</main>
+
+<script type="module" src="js/profil.js"></script>
+
+</body>
+  </html>
+  
