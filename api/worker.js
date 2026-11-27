@@ -447,6 +447,100 @@ export default {
           member: fullMember
         });
       }
+      // PROFIL PERSONNEL DU MEMBRE
+if (
+  (request.method === "GET" || request.method === "POST") &&
+  path === "/profile"
+) {
+  const member = await getAuthenticatedMember(request, env);
+
+  if (!member) {
+    return respond({
+      success: false,
+      error: "Connectez-vous pour accéder à votre profil."
+    }, 401);
+  }
+
+  if (request.method === "POST") {
+    const body = await readBody(request);
+
+    if (!body || typeof body !== "object" || Array.isArray(body)) {
+      return respond({
+        success: false,
+        error: "Données du profil invalides."
+      }, 400);
+    }
+
+    const fields = {
+      city: 100,
+      origin_city: 100,
+      birth_date: 10,
+      relationship_status: 50,
+      family_info: 1000,
+      gender: 50,
+      languages: 500
+    };
+
+    const values = {};
+
+    for (const [field, maxLength] of Object.entries(fields)) {
+      const value = String(body[field] ?? "").trim();
+
+      if (value.length > maxLength) {
+        return respond({
+          success: false,
+          error: `Le champ ${field} est trop long.`
+        }, 400);
+      }
+
+      values[field] = value || null;
+    }
+
+    if (
+      values.birth_date &&
+      !/^\d{4}-\d{2}-\d{2}$/.test(values.birth_date)
+    ) {
+      return respond({
+        success: false,
+        error: "Format de date invalide."
+      }, 400);
+    }
+
+    await env.DB.prepare(
+      `UPDATE member_profiles
+       SET city = ?,
+           origin_city = ?,
+           birth_date = ?,
+           relationship_status = ?,
+           family_info = ?,
+           gender = ?,
+           languages = ?
+       WHERE member_id = ?`
+    ).bind(
+      values.city,
+      values.origin_city,
+      values.birth_date,
+      values.relationship_status,
+      values.family_info,
+      values.gender,
+      values.languages,
+      member.id
+    ).run();
+  }
+
+  const profile = await env.DB.prepare(
+    `SELECT username, photo_url, country, city, bio,
+            origin_city, birth_date, relationship_status,
+            family_info, gender, languages
+     FROM member_profiles
+     WHERE member_id = ?`
+  ).bind(member.id).first();
+
+  return respond({
+    success: true,
+    profile
+  });
+}
 
       // CRÉER UNE PUBLICATION
       if (request.method === "POST" && path === "/posts") {
