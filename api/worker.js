@@ -1288,7 +1288,8 @@ if (request.method === "GET" && path === "/friend-suggestions") {
           }, 500);
         }
             }
-            // RÉCUPÉRER LES PUBLICATIONS AVEC PAGINATION
+            
+      // RÉCUPÉRER LES PUBLICATIONS AVEC PAGINATION
       if (request.method === "GET" && path === "/posts") {
         const member = await getAuthenticatedMember(request, env);
 
@@ -1307,6 +1308,9 @@ if (request.method === "GET" && path === "/friend-suggestions") {
         const cursorValue = url.searchParams.get("cursor");
         const cursor = cursorValue ? Number(cursorValue) : null;
 
+        const memberIdValue = url.searchParams.get("member_id");
+        const memberId = memberIdValue ? Number(memberIdValue) : null;
+
         if (
           cursor !== null &&
           (!Number.isSafeInteger(cursor) || cursor < 1)
@@ -1317,65 +1321,60 @@ if (request.method === "GET" && path === "/friend-suggestions") {
           }, 400);
         }
 
+        if (
+          memberId !== null &&
+          (!Number.isSafeInteger(memberId) || memberId < 1)
+        ) {
+          return respond({
+            success: false,
+            error: "Identifiant de membre invalide."
+          }, 400);
+        }
+
         let query;
         let results;
 
-        if (cursor !== null) {
-          query = env.DB.prepare(
-            `SELECT
-               p.id,
-               p.member_id,
-               p.content,
-               p.media_url,
-               p.media_type,
-               p.created_at,
-               COALESCE(mp.username, m.name) AS author,
-               (
-                 SELECT COUNT(*)
-                 FROM reactions r
-                 WHERE r.post_id = p.id
-               ) AS reactions_count,
-               (
-                 SELECT COUNT(*)
-                 FROM comments c
-                 WHERE c.post_id = p.id
-               ) AS comments_count
-             FROM posts p
-             JOIN members m ON m.id = p.member_id
-             LEFT JOIN member_profiles mp ON mp.member_id = m.id
-             WHERE p.status = 'published'
-               AND p.id < ?
-             ORDER BY p.created_at DESC, p.id DESC
-             LIMIT ?`
-          ).bind(cursor, limit + 1);
-        } else {
-          query = env.DB.prepare(
-            `SELECT
-               p.id,
-               p.member_id,
-               p.content,
-               p.media_url,
-               p.media_type,
-               p.created_at,
-               COALESCE(mp.username, m.name) AS author,
-               (
-                 SELECT COUNT(*)
-                 FROM reactions r
-                 WHERE r.post_id = p.id
-               ) AS reactions_count,
-               (
-                 SELECT COUNT(*)
-                 FROM comments c
-                 WHERE c.post_id = p.id
-               ) AS comments_count
-             FROM posts p
-             JOIN members m ON m.id = p.member_id
-             LEFT JOIN member_profiles mp ON mp.member_id = m.id
-             WHERE p.status = 'published'
-             ORDER BY p.created_at DESC, p.id DESC
-             LIMIT ?`
-          ).bind(limit + 1);
+        const conditions = ["p.status = 'published'"];
+        const bindings = [];
+
+        if (memberId !== null) {
+          conditions.push("p.member_id = ?");
+          bindings.push(memberId);
         }
+
+        if (cursor !== null) {
+          conditions.push("p.id < ?");
+          bindings.push(cursor);
+        }
+
+        bindings.push(limit + 1);
+
+        query = env.DB.prepare(
+          `SELECT
+             p.id,
+             p.member_id,
+             p.content,
+             p.media_url,
+             p.media_type,
+             p.created_at,
+             COALESCE(mp.username, m.name) AS author,
+             (
+               SELECT COUNT(*)
+               FROM reactions r
+               WHERE r.post_id = p.id
+             ) AS reactions_count,
+             (
+               SELECT COUNT(*)
+               FROM comments c
+               WHERE c.post_id = p.id
+             ) AS comments_count
+           FROM posts p
+           JOIN members m ON m.id = p.member_id
+           LEFT JOIN member_profiles mp ON mp.member_id = m.id
+           WHERE ${conditions.join(" AND ")}
+           ORDER BY p.created_at DESC, p.id DESC
+           LIMIT ?`
+        ).bind(...bindings);
 
         const result = await query.all();
 
@@ -1405,6 +1404,7 @@ if (request.method === "GET" && path === "/friend-suggestions") {
           nextCursor
         });
       }
+      
 
       // AJOUTER UN COMMENTAIRE
       if (
