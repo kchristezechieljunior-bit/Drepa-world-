@@ -727,6 +727,94 @@ if (
         });
             }
       
+      // LOISIRS ET CENTRES D'INTÉRÊT
+      if (
+        (request.method === "GET" || request.method === "POST") &&
+        path === "/interests"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour gérer vos centres d'intérêt."
+          }, 401);
+        }
+
+        if (request.method === "POST") {
+          const body = await readBody(request);
+
+          if (!body || typeof body !== "object" || Array.isArray(body)) {
+            return respond({
+              success: false,
+              error: "Données invalides."
+            }, 400);
+          }
+
+          const category = String(body.category || "").trim().toLowerCase();
+          const interestName = String(body.interest_name || "").trim();
+          const description = String(body.description || "").trim();
+
+          const allowedCategories = [
+            "loisirs",
+            "musique",
+            "series",
+            "films",
+            "jeux",
+            "equipes_sportives"
+          ];
+
+          if (!allowedCategories.includes(category)) {
+            return respond({
+              success: false,
+              error: "Catégorie non autorisée."
+            }, 400);
+          }
+
+          if (
+            !interestName ||
+            interestName.length > 150 ||
+            description.length > 500
+          ) {
+            return respond({
+              success: false,
+              error: "Vérifiez le nom et la description de votre intérêt."
+            }, 400);
+          }
+
+          try {
+            await env.DB.prepare(
+              `INSERT INTO member_interests
+               (member_id, category, interest_name, description)
+               VALUES (?, ?, ?, ?)`
+            ).bind(
+              member.id,
+              category,
+              interestName,
+              description || null
+            ).run();
+          } catch (error) {
+            return respond({
+              success: false,
+              error: "Cet intérêt existe déjà ou n'a pas pu être enregistré."
+            }, 409);
+          }
+        }
+
+        const interests = await env.DB.prepare(
+          `SELECT id, category, interest_name, description, created_at
+           FROM member_interests
+           WHERE member_id = ?
+           ORDER BY category ASC, interest_name ASC`
+        ).bind(member.id).all();
+
+        return respond({
+          success: true,
+          interests: interests.results || []
+        });
+      }
+      
+      
       
 
       // CRÉER UNE PUBLICATION
