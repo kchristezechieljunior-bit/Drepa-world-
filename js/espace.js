@@ -124,7 +124,8 @@ export function setIdentity(username) {
 
   const elements = [
     document.getElementById("myUsername"),
-    document.getElementById("sidebarUsername")
+    document.getElementById("sidebarUsername"),
+    document.getElementById("profileUsername")
   ];
 
   elements.forEach(element => {
@@ -188,6 +189,177 @@ export async function loadProfile() {
 }
 
 /* =====================================
+   SUGGESTIONS D'AMIS
+===================================== */
+
+function getSafePhotoUrl(value) {
+  if (!value) return "";
+
+  try {
+    const url = new URL(value);
+
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      return "";
+    }
+
+    return url.href;
+  } catch {
+    return "";
+  }
+}
+
+async function loadFriendSuggestions(context) {
+  const list = document.getElementById("friendSuggestionsList");
+  const message = document.getElementById("friendSuggestionsMessage");
+
+  if (!list) return;
+
+  list.innerHTML = "<p>Chargement des suggestions...</p>";
+
+  if (message) {
+    message.textContent = "";
+  }
+
+  try {
+    const data = await context.apiRequest("/friend-suggestions");
+
+    const suggestions = Array.isArray(data.suggestions)
+      ? data.suggestions
+      : [];
+
+    if (!suggestions.length) {
+      list.innerHTML = `
+        <p>
+          Aucune suggestion pour le moment.
+          Revenez un peu plus tard !
+        </p>
+      `;
+      return;
+    }
+
+    list.innerHTML = suggestions.map(friend => {
+      const id = Number(friend.member_id);
+
+      if (!Number.isSafeInteger(id) || id < 1) {
+        return "";
+      }
+
+      const username = context.escapeHTML(
+        friend.username || "Membre"
+      );
+
+      const initials = context.escapeHTML(
+        context.getInitials(friend.username)
+      );
+
+      const photoUrl = getSafePhotoUrl(friend.photo_url);
+
+      const mutualCount = Math.max(
+        0,
+        Number(friend.mutual_friends_count) || 0
+      );
+
+      const avatar = photoUrl
+        ? `<img
+             src="${context.escapeHTML(photoUrl)}"
+             alt=""
+             class="friend-suggestion-avatar"
+             loading="lazy"
+           >`
+        : `<span class="friend-suggestion-avatar friend-suggestion-initials">${initials}</span>`;
+
+      return `
+        <article class="friend-suggestion-card">
+          <div class="friend-suggestion-identity">
+            ${avatar}
+
+            <div class="friend-suggestion-info">
+              <strong>${username}</strong>
+              <span>
+                ${mutualCount} ami${mutualCount > 1 ? "s" : ""} en commun
+              </span>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="friend-suggestion-add"
+            data-friend-id="${id}"
+          >
+            Ajouter en ami
+          </button>
+        </article>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("Chargement des suggestions :", error);
+
+    list.innerHTML = `
+      <p>
+        Impossible de charger les suggestions.
+        Veuillez réessayer plus tard.
+      </p>
+    `;
+  }
+}
+
+function initializeFriendSuggestions(context) {
+  const list = document.getElementById("friendSuggestionsList");
+  const message = document.getElementById("friendSuggestionsMessage");
+
+  if (!list) return;
+
+  list.addEventListener("click", async event => {
+    const button = event.target.closest(".friend-suggestion-add");
+
+    if (!button || button.disabled) return;
+
+    const friendId = Number(button.dataset.friendId);
+
+    if (!Number.isSafeInteger(friendId) || friendId < 1) {
+      return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Envoi en cours...";
+
+    if (message) {
+      message.textContent = "";
+    }
+
+    try {
+      await context.apiRequest("/friend-requests", {
+        method: "POST",
+        body: {
+          member_id: friendId
+        }
+      });
+
+      button.textContent = "Demande envoyée";
+      button.classList.add("request-sent");
+
+      if (message) {
+        message.textContent = "Votre demande d'amitié a été envoyée.";
+      }
+
+    } catch (error) {
+      console.error("Envoi de demande d'amitié :", error);
+
+      button.disabled = false;
+      button.textContent = "Ajouter en ami";
+
+      if (message) {
+        message.textContent =
+          error.message || "Impossible d'envoyer la demande.";
+      }
+    }
+  });
+
+  loadFriendSuggestions(context);
+}
+
+/* =====================================
    DÉCONNEXION
 ===================================== */
 
@@ -224,6 +396,7 @@ function initializeNavigation() {
     });
   });
 }
+
 /* =====================================
    MENU MOBILE
 ===================================== */
@@ -277,7 +450,6 @@ function initializeMobileMenu() {
   });
 }
 
-
 /* =====================================
    INITIALISATION
 ===================================== */
@@ -318,6 +490,7 @@ async function initializePage() {
 
     initializeComments(context);
     initializeFeed(context);
+    initializeFriendSuggestions(context);
 
   } catch (error) {
     console.error("Initialisation de l'espace membre :", error);
@@ -327,7 +500,7 @@ async function initializePage() {
       return;
     }
 
-    const feed = document.getElementById("feed");
+    const feed = document.getElementById("feedPosts");
 
     if (feed) {
       feed.innerHTML = `
@@ -341,4 +514,4 @@ async function initializePage() {
 }
 
 initializePage();
-     
+                       
