@@ -2170,4 +2170,113 @@ input:focus-visible {
     font-size: 9px;
   }
    }
+
+/* =========================================
+   NOUVEAU MENU DREPA-WORLD
+========================================= */
+
+.sidebar-nav {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #24445f;
+  font-weight: 700;
+}
+
+.menu-group {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.menu-group summary {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 47px;
+  padding: 10px 11px;
+  color: #24445f;
+  font-size: 13px;
+  font-weight: 700;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: background .2s;
+}
+
+.menu-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu-group summary:hover,
+.menu-group[open] summary {
+  background: #eaf5fb;
+  color: #078f89;
+}
+
+.menu-group-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: #edf5fa;
+  color: #078f89;
+  font-size: 17px;
+}
+
+.menu-arrow {
+  margin-left: auto;
+  color: #8297a9;
+  transition: transform .2s;
+}
+
+.menu-group[open] .menu-arrow {
+  transform: rotate(180deg);
+}
+
+.menu-subitems {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 5px 5px 9px 48px;
+}
+
+.menu-subitems a,
+.menu-subitems span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 9px 7px;
+  border-radius: 8px;
+  color: #62788b;
+  font-size: 11px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.menu-subitems a:hover {
+  background: #edf7fa;
+  color: #078f89;
+}
+
+.menu-subitems small {
+  flex-shrink: 0;
+  color: #0b9992;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+@media (max-width: 760px) {
+  .menu-group summary {
+    min-height: 44px;
+  }
+   }
+
      
