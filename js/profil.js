@@ -129,7 +129,9 @@ function renderPersonalInformation(profile) {
   ];
 
   const visibleFields = fields.filter(([, value]) =>
-    value !== null && value !== undefined && String(value).trim() !== ""
+    value !== null &&
+    value !== undefined &&
+    String(value).trim() !== ""
   );
 
   if (!visibleFields.length) {
@@ -155,6 +157,223 @@ function renderPersonalInformation(profile) {
       </div>
     `;
   }).join("");
+}
+
+/* =====================================
+   FORMULAIRE DE MODIFICATION DU PROFIL
+===================================== */
+
+function setupProfileEditor(initialProfile) {
+  const editButton = document.getElementById("editProfileButton");
+  const informationContainer = document.getElementById("personalInformation");
+
+  if (!editButton || !informationContainer) return;
+
+  let profile = { ...initialProfile };
+
+  let formContainer = document.getElementById(
+    "profileEditFormContainer"
+  );
+
+  if (!formContainer) {
+    formContainer = document.createElement("div");
+    formContainer.id = "profileEditFormContainer";
+
+    informationContainer.parentNode.insertBefore(
+      formContainer,
+      informationContainer
+    );
+  }
+
+  function showForm() {
+    const fields = [
+      ["city", "Ville actuelle", "text"],
+      ["origin_city", "Ville d'origine", "text"],
+      ["country", "Pays", "text"],
+      ["birth_date", "Date de naissance", "date"],
+      ["relationship_status", "Situation amoureuse", "text"],
+      ["family_info", "Famille", "text"],
+      ["gender", "Genre", "text"],
+      ["languages", "Langues parlées", "text"]
+    ];
+
+    formContainer.innerHTML = `
+      <form
+        id="profileEditForm"
+        class="profile-info-card"
+        style="margin-bottom:20px"
+      >
+
+        <h2>Modifier mes informations personnelles</h2>
+
+        <p>
+          Tous les champs sont facultatifs.
+          Tu gardes le choix des informations que tu souhaites renseigner.
+        </p>
+
+        ${fields.map(([name, label, type]) => `
+          <div style="margin-bottom:14px">
+
+            <label
+              for="edit_${name}"
+              style="display:block;font-weight:600;margin-bottom:6px"
+            >
+              ${escapeHTML(label)}
+            </label>
+
+            <input
+              type="${type}"
+              id="edit_${name}"
+              name="${name}"
+              value="${escapeHTML(profile[name] || "")}"
+              ${type === "date" ? 'max="9999-12-31"' : ""}
+              style="width:100%;padding:12px;border:1px solid #ccd8da;border-radius:8px;font:inherit"
+            >
+
+          </div>
+        `).join("")}
+
+        <div style="margin-bottom:14px">
+
+          <label
+            for="edit_bio"
+            style="display:block;font-weight:600;margin-bottom:6px"
+          >
+            Ma présentation
+          </label>
+
+          <textarea
+            id="edit_bio"
+            name="bio"
+            maxlength="1000"
+            rows="4"
+            style="width:100%;padding:12px;border:1px solid #ccd8da;border-radius:8px;font:inherit;resize:vertical"
+          >${escapeHTML(profile.bio || "")}</textarea>
+
+        </div>
+
+        <p style="font-size:13px;color:#607176;line-height:1.5">
+          Tes informations personnelles sont sensibles.
+          Ne renseigne que ce que tu souhaites partager.
+        </p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+
+          <button
+            type="submit"
+            class="profile-button profile-button-primary"
+            id="saveProfileButton"
+          >
+            Enregistrer
+          </button>
+
+          <button
+            type="button"
+            class="profile-button profile-button-secondary"
+            id="cancelProfileEdit"
+          >
+            Annuler
+          </button>
+
+        </div>
+
+        <p
+          id="profileEditMessage"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+      </form>
+    `;
+
+    const form = document.getElementById("profileEditForm");
+    const cancelButton = document.getElementById("cancelProfileEdit");
+    const saveButton = document.getElementById("saveProfileButton");
+    const message = document.getElementById("profileEditMessage");
+
+    cancelButton.addEventListener("click", () => {
+      formContainer.innerHTML = "";
+      editButton.textContent = "Modifier mon profil";
+    });
+
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      saveButton.disabled = true;
+      saveButton.textContent = "Enregistrement...";
+      message.textContent = "";
+
+      const formData = new FormData(form);
+      const updates = {};
+
+      fields.forEach(([name]) => {
+        const value = String(formData.get(name) || "").trim();
+
+        updates[name] = value || null;
+      });
+
+      const bio = String(formData.get("bio") || "").trim();
+
+      updates.bio = bio || null;
+
+      try {
+        await apiRequest("/profile", {
+          method: "POST",
+          body: updates
+        });
+
+        const refreshed = await apiRequest("/profile");
+
+        profile = refreshed.profile || {
+          ...profile,
+          ...updates
+        };
+
+        renderPersonalInformation(profile);
+
+        formContainer.innerHTML = "";
+
+        editButton.textContent = "Modifier mon profil";
+
+        const successMessage = document.createElement("p");
+        successMessage.textContent =
+          "Tes informations ont été mises à jour avec succès.";
+        successMessage.style.color = "#087d83";
+        successMessage.style.marginBottom = "15px";
+        successMessage.setAttribute("role", "status");
+
+        formContainer.appendChild(successMessage);
+
+        window.setTimeout(() => {
+          if (successMessage.isConnected) {
+            successMessage.remove();
+          }
+        }, 5000);
+
+      } catch (error) {
+        console.error("Modification du profil :", error);
+
+        message.textContent =
+          error.message ||
+          "Impossible d'enregistrer les modifications.";
+
+        message.style.color = "#b42318";
+
+        saveButton.disabled = false;
+        saveButton.textContent = "Réessayer";
+      }
+    });
+  }
+
+  editButton.addEventListener("click", () => {
+    if (formContainer.querySelector("#profileEditForm")) {
+      formContainer.innerHTML = "";
+      editButton.textContent = "Modifier mon profil";
+    } else {
+      showForm();
+      editButton.textContent = "Fermer le formulaire";
+    }
+  });
 }
 
 /* =====================================
@@ -442,33 +661,59 @@ async function initializeProfile() {
       }
 
       renderPersonalInformation(profile);
+
+      // Activer la modification du profil
+      setupProfileEditor(profile);
+
     } else {
-      document.getElementById("personalInformation").textContent =
-        "Impossible de charger les informations personnelles.";
+      const container = document.getElementById("personalInformation");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger les informations personnelles.";
+      }
+
+      const editButton = document.getElementById("editProfileButton");
+
+      if (editButton) {
+        editButton.disabled = true;
+      }
     }
 
     // Expériences
     if (results[1].status === "fulfilled") {
       renderExperiences(results[1].value.experiences || []);
     } else {
-      document.getElementById("workExperiences").textContent =
-        "Impossible de charger les expériences.";
+      const container = document.getElementById("workExperiences");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger les expériences.";
+      }
     }
 
     // Formations
     if (results[2].status === "fulfilled") {
       renderEducation(results[2].value.education || []);
     } else {
-      document.getElementById("educationRecords").textContent =
-        "Impossible de charger les formations.";
+      const container = document.getElementById("educationRecords");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger les formations.";
+      }
     }
 
     // Intérêts
     if (results[3].status === "fulfilled") {
       renderInterests(results[3].value.interests || []);
     } else {
-      document.getElementById("memberInterests").textContent =
-        "Impossible de charger les centres d'intérêt.";
+      const container = document.getElementById("memberInterests");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger les centres d'intérêt.";
+      }
     }
 
     // Amis
@@ -477,16 +722,24 @@ async function initializeProfile() {
 
       renderFriends(data.friends || [], data.friends_count);
     } else {
-      document.getElementById("profileFriends").textContent =
-        "Impossible de charger la liste des amis.";
+      const container = document.getElementById("profileFriends");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger la liste des amis.";
+      }
     }
 
     // Publications personnelles
     if (results[5].status === "fulfilled") {
       renderPosts(results[5].value.posts || []);
     } else {
-      document.getElementById("profilePosts").textContent =
-        "Impossible de charger vos publications.";
+      const container = document.getElementById("profilePosts");
+
+      if (container) {
+        container.textContent =
+          "Impossible de charger vos publications.";
+      }
     }
 
   } catch (error) {
@@ -506,4 +759,4 @@ async function initializeProfile() {
 }
 
 initializeProfile();
-                                     
+  
