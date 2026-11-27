@@ -15,22 +15,7 @@ export function initializeComments(context) {
   const loadingComments = new Set();
 
   /* =====================================
-     MESSAGES D'INFORMATION
-  ===================================== */
-
-  function showCommentMessage(container, message, type = "error") {
-    if (!container) return;
-
-    const notice = document.createElement("p");
-
-    notice.className = `comment-message ${type}`;
-    notice.textContent = message;
-
-    container.prepend(notice);
-  }
-
-  /* =====================================
-     AFFICHAGE D'UN COMMENTAIRE
+     AFFICHAGE DES COMMENTAIRES
   ===================================== */
 
   function createCommentElement(comment) {
@@ -68,6 +53,47 @@ export function initializeComments(context) {
     return element;
   }
 
+  function renderComments(container, comments) {
+    let list = container.querySelector(".comments-list");
+
+    if (!list) {
+      container.replaceChildren();
+
+      list = document.createElement("div");
+      list.className = "comments-list";
+
+      container.appendChild(list);
+    }
+
+    list.replaceChildren();
+
+    if (comments.length === 0) {
+      const empty = document.createElement("p");
+
+      empty.className = "comments-empty";
+      empty.textContent = "Aucun commentaire pour le moment.";
+
+      list.appendChild(empty);
+      return;
+    }
+
+    comments.forEach(comment => {
+      list.appendChild(createCommentElement(comment));
+    });
+  }
+
+  function showCommentMessage(container, message) {
+    let notice = container.querySelector(".comment-message");
+
+    if (!notice) {
+      notice = document.createElement("p");
+      notice.className = "comment-message";
+      container.prepend(notice);
+    }
+
+    notice.textContent = message;
+  }
+
   /* =====================================
      CHARGEMENT DES COMMENTAIRES
   ===================================== */
@@ -75,19 +101,22 @@ export function initializeComments(context) {
   async function loadComments(postId, container) {
     const id = String(postId);
 
-    if (!container || loadingComments.has(id)) return;
+    if (!container || loadingComments.has(id)) {
+      return false;
+    }
 
     if (loadedComments.has(id)) {
-      container.hidden = !container.hidden;
-      return;
+      return true;
     }
 
     loadingComments.add(id);
-    container.hidden = false;
 
-    container.innerHTML = `
-      <p class="comments-empty">Chargement des commentaires...</p>
-    `;
+    const loading = document.createElement("p");
+
+    loading.className = "comments-empty";
+    loading.textContent = "Chargement des commentaires...";
+
+    container.replaceChildren(loading);
 
     try {
       const data = await apiRequest(
@@ -98,34 +127,23 @@ export function initializeComments(context) {
         ? data.comments
         : [];
 
-      container.replaceChildren();
-
-      if (comments.length === 0) {
-        const empty = document.createElement("p");
-
-        empty.className = "comments-empty";
-        empty.textContent = "Aucun commentaire pour le moment.";
-
-        container.appendChild(empty);
-      } else {
-        comments.forEach(comment => {
-          container.appendChild(
-            createCommentElement(comment)
-          );
-        });
-      }
+      renderComments(container, comments);
 
       loadedComments.add(id);
+
+      return true;
 
     } catch (error) {
       console.error("Chargement des commentaires :", error);
 
-      container.innerHTML = "";
+      container.replaceChildren();
 
       showCommentMessage(
         container,
-        "Impossible de charger les commentaires."
+        "Impossible de charger les commentaires. Réessayez."
       );
+
+      return false;
 
     } finally {
       loadingComments.delete(id);
@@ -133,7 +151,7 @@ export function initializeComments(context) {
   }
 
   /* =====================================
-     MISE À JOUR DU NOMBRE DE COMMENTAIRES
+     MISE À JOUR DU COMPTEUR
   ===================================== */
 
   function updateCommentCount(postElement, count) {
@@ -152,7 +170,13 @@ export function initializeComments(context) {
      ENVOI D'UN COMMENTAIRE
   ===================================== */
 
-  async function submitComment(postId, postElement, input, button, container) {
+  async function submitComment(
+    postId,
+    postElement,
+    input,
+    button,
+    container
+  ) {
     const content = input.value.trim();
 
     if (!content) {
@@ -168,7 +192,7 @@ export function initializeComments(context) {
     button.textContent = "Envoi...";
 
     try {
-      const data = await apiRequest(
+      await apiRequest(
         `/posts/${encodeURIComponent(postId)}/comments`,
         {
           method: "POST",
@@ -176,47 +200,21 @@ export function initializeComments(context) {
         }
       );
 
-      input.value = "";
-
-      loadedComments.delete(String(postId));
-
-      const commentsData = await apiRequest(
+      const data = await apiRequest(
         `/posts/${encodeURIComponent(postId)}/comments`
       );
 
-      const comments = Array.isArray(commentsData.comments)
-        ? commentsData.comments
+      const comments = Array.isArray(data.comments)
+        ? data.comments
         : [];
 
-      container.replaceChildren();
-
-      if (comments.length === 0) {
-        const empty = document.createElement("p");
-
-        empty.className = "comments-empty";
-        empty.textContent = "Aucun commentaire pour le moment.";
-
-        container.appendChild(empty);
-      } else {
-        comments.forEach(comment => {
-          container.appendChild(
-            createCommentElement(comment)
-          );
-        });
-      }
+      renderComments(container, comments);
 
       loadedComments.add(String(postId));
 
-      const currentCount = Number(
-        data.comments_count
-      );
+      updateCommentCount(postElement, comments.length);
 
-      updateCommentCount(
-        postElement,
-        Number.isFinite(currentCount) && currentCount >= 0
-          ? currentCount
-          : comments.length
-      );
+      input.value = "";
 
     } catch (error) {
       console.error("Envoi du commentaire :", error);
@@ -233,76 +231,14 @@ export function initializeComments(context) {
   }
 
   /* =====================================
-     GESTION DES RÉACTIONS
+     FORMULAIRE DE COMMENTAIRE
   ===================================== */
 
-  async function sendReaction(button, postElement) {
-    if (button.disabled) return;
-
-    const postId = button.dataset.postId;
-    const reaction = button.dataset.reaction;
-
-    if (!postId || !reaction) return;
-
-    button.disabled = true;
-    button.classList.add("is-loading");
-
-    try {
-      await apiRequest(
-        `/posts/${encodeURIComponent(postId)}/reactions`,
-        {
-          method: "POST",
-          body: { reaction }
-        }
-      );
-
-      button.classList.add("sent");
-
-      const labels = {
-        like: "J'aime",
-        support: "Soutien envoyé",
-        courage: "Courage envoyé"
-      };
-
-      const originalLabel = {
-        like: "J'aime",
-        support: "Soutenir",
-        courage: "Courage"
-      };
-
-      button.textContent = labels[reaction] || "Envoyé";
-
-      window.setTimeout(() => {
-        button.classList.remove("sent");
-        button.textContent =
-          originalLabel[reaction] || "Réagir";
-      }, 1800);
-
-    } catch (error) {
-      console.error("Envoi de la réaction :", error);
-
-      button.textContent = "Réessayer";
-
-      window.setTimeout(() => {
-        button.textContent =
-          reaction === "like"
-            ? "J'aime"
-            : reaction === "support"
-              ? "Soutenir"
-              : "Courage";
-      }, 1800);
-
-    } finally {
-      button.disabled = false;
-      button.classList.remove("is-loading");
-    }
-  }
-
-  /* =====================================
-     OUVERTURE DU FORMULAIRE COMMENTAIRE
-  ===================================== */
-
-  function openCommentForm(postId, postElement, container) {
+  function openCommentForm(
+    postId,
+    postElement,
+    container
+  ) {
     if (!container) return;
 
     const existingForm = container.querySelector(
@@ -353,13 +289,70 @@ export function initializeComments(context) {
   }
 
   /* =====================================
-     ÉVÉNEMENTS DU FIL D'ACTUALITÉ
+     RÉACTIONS
   ===================================== */
 
-  document.addEventListener("click", event => {
-    const button = event.target.closest(
-      "[data-action]"
-    );
+  async function sendReaction(button) {
+    if (button.disabled) return;
+
+    const postId = button.dataset.postId;
+    const reaction = button.dataset.reaction;
+
+    if (!postId || !reaction) return;
+
+    const labels = {
+      like: "J'aime",
+      support: "Soutenir",
+      courage: "Courage"
+    };
+
+    const successLabels = {
+      like: "Envoyé",
+      support: "Soutien envoyé",
+      courage: "Courage envoyé"
+    };
+
+    button.disabled = true;
+    button.classList.add("is-loading");
+
+    try {
+      await apiRequest(
+        `/posts/${encodeURIComponent(postId)}/reactions`,
+        {
+          method: "POST",
+          body: { reaction }
+        }
+      );
+
+      button.classList.add("sent");
+      button.textContent = successLabels[reaction] || "Envoyé";
+
+      window.setTimeout(() => {
+        button.classList.remove("sent");
+        button.textContent = labels[reaction] || "Réagir";
+      }, 1800);
+
+    } catch (error) {
+      console.error("Envoi de la réaction :", error);
+
+      button.textContent = "Réessayer";
+
+      window.setTimeout(() => {
+        button.textContent = labels[reaction] || "Réagir";
+      }, 1800);
+
+    } finally {
+      button.disabled = false;
+      button.classList.remove("is-loading");
+    }
+  }
+
+  /* =====================================
+     GESTION DES CLICS
+  ===================================== */
+
+  document.addEventListener("click", async event => {
+    const button = event.target.closest("[data-action]");
 
     if (!button) return;
 
@@ -372,16 +365,18 @@ export function initializeComments(context) {
 
     if (!postElement) return;
 
-    const container = postElement.querySelector(
-      `[data-comments-container="${CSS.escape(String(postId))}"]`
-    );
-
     if (action === "reaction") {
-      sendReaction(button, postElement);
+      await sendReaction(button);
       return;
     }
 
     if (action === "comments") {
+      const container = Array.from(
+        postElement.querySelectorAll("[data-comments-container]")
+      ).find(element => {
+        return element.dataset.commentsContainer === String(postId);
+      });
+
       if (!container) return;
 
       const isExpanded =
@@ -396,13 +391,18 @@ export function initializeComments(context) {
       button.setAttribute("aria-expanded", "true");
       container.hidden = false;
 
-      loadComments(postId, container);
-      openCommentForm(postId, postElement, container);
+      await loadComments(postId, container);
+
+      openCommentForm(
+        postId,
+        postElement,
+        container
+      );
     }
   });
 
   return {
     loadComments
   };
-                  }
-       
+       }
+     
