@@ -1372,7 +1372,7 @@ if (request.method === "GET" && path === "/friend-suggestions") {
            JOIN members m ON m.id = p.member_id
            LEFT JOIN member_profiles mp ON mp.member_id = m.id
            WHERE ${conditions.join(" AND ")}
-           ORDER BY p.created_at DESC, p.id DESC
+           ORDER BY p.id DESC, p.id DESC
            LIMIT ?`
         ).bind(...bindings);
 
