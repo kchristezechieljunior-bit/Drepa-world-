@@ -628,6 +628,106 @@ if (
         });
       }
       
+      // FORMATIONS SCOLAIRES ET UNIVERSITAIRES
+      if (
+        (request.method === "GET" || request.method === "POST") &&
+        path === "/education"
+      ) {
+        const member = await getAuthenticatedMember(request, env);
+
+        if (!member) {
+          return respond({
+            success: false,
+            error: "Connectez-vous pour accéder à vos formations."
+          }, 401);
+        }
+
+        if (request.method === "POST") {
+          const body = await readBody(request);
+
+          if (!body || typeof body !== "object" || Array.isArray(body)) {
+            return respond({
+              success: false,
+              error: "Données invalides."
+            }, 400);
+          }
+
+          const fields = {
+            institution: 200,
+            education_level: 100,
+            field_of_study: 150,
+            location: 150,
+            description: 2000
+          };
+
+          const values = {};
+
+          for (const [field, maxLength] of Object.entries(fields)) {
+            const value = String(body[field] ?? "").trim();
+
+            if (value.length > maxLength) {
+              return respond({
+                success: false,
+                error: `Le champ ${field} est trop long.`
+              }, 400);
+            }
+
+            values[field] = value || null;
+          }
+
+          const startYear = body.start_year
+            ? Number(body.start_year)
+            : null;
+
+          const endYear = body.end_year
+            ? Number(body.end_year)
+            : null;
+
+          const validYear = year =>
+            year === null ||
+            (Number.isInteger(year) && year >= 1900 && year <= 2100);
+
+          if (!validYear(startYear) || !validYear(endYear)) {
+            return respond({
+              success: false,
+              error: "Année de formation invalide."
+            }, 400);
+          }
+
+          await env.DB.prepare(
+            `INSERT INTO education_records
+             (member_id, institution, education_level,
+              field_of_study, location, start_year,
+              end_year, description)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+          ).bind(
+            member.id,
+            values.institution,
+            values.education_level,
+            values.field_of_study,
+            values.location,
+            startYear,
+            endYear,
+            values.description
+          ).run();
+        }
+
+        const education = await env.DB.prepare(
+          `SELECT id, institution, education_level,
+                  field_of_study, location, start_year,
+                  end_year, description, created_at
+           FROM education_records
+           WHERE member_id = ?
+           ORDER BY start_year DESC, id DESC`
+        ).bind(member.id).all();
+
+        return respond({
+          success: true,
+          education: education.results || []
+        });
+            }
+      
+      
 
       // CRÉER UNE PUBLICATION
       if (request.method === "POST" && path === "/posts") {
